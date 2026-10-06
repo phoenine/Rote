@@ -1,4 +1,5 @@
 import { and, eq, inArray, isNull, sql } from 'drizzle-orm';
+import { attachmentHasNoArticleReference } from '../articles/attachmentReferences';
 import { HTTPException } from 'hono/http-exception';
 import type { z } from 'zod';
 import { articles, attachments, roteChanges, rotes, users, type Rote } from '../drizzle/schema';
@@ -255,7 +256,7 @@ export async function deleteUserNote(userId: string, id: string) {
     const attachmentRows = await transaction
       .select({ details: attachments.details })
       .from(attachments)
-      .where(eq(attachments.roteid, id))
+      .where(and(eq(attachments.roteid, id), attachmentHasNoArticleReference()))
       .for('update');
     const objectKeys = attachmentRows.flatMap(({ details }) =>
       collectOwnedAttachmentObjectKeys(details, userId)
@@ -275,7 +276,9 @@ export async function deleteUserNote(userId: string, id: string) {
       userid: userId,
       createdAt: sql`now()`,
     });
-    await transaction.delete(attachments).where(eq(attachments.roteid, id));
+    await transaction
+      .delete(attachments)
+      .where(and(eq(attachments.roteid, id), attachmentHasNoArticleReference()));
     const [removed] = await transaction
       .delete(rotes)
       .where(and(eq(rotes.id, id), eq(rotes.authorid, userId)))

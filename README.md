@@ -15,10 +15,7 @@
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/Rabithua/Rote.svg?style=social&label=Star)](https://github.com/Rabithua/Rote)
-[![GitHub forks](https://img.shields.io/github/forks/Rabithua/Rote.svg?style=social&label=Fork)](https://github.com/Rabithua/Rote/fork)
 
-**[Demo](https://demo.rote.ink/)** ｜ **[Website](https://rote.ink)** ｜ **[iOS APP](https://apps.apple.com/us/app/rote/id6755513897)** ｜ **[Explore](https://rote.ink/explore)** ｜ **[Rabithua](https://rote.ink/rabithua)**
 
 > Open API, more than one way to record 🤩, supports Self-Hosted, take control of your own data, come and go freely, no data hostage 🙅🏻
 
@@ -124,15 +121,6 @@ For more deployment options and configuration instructions, please check the doc
 
 - [Local deployment tutorial](https://www.bilibili.com/video/BV1vc6iBfE1F)
 - [Rote deployment via Dokploy](https://www.bilibili.com/video/BV1z96vBeEYr)
-
-### Community Projects
-
-- [Rote Web Clipper](https://github.com/Rabithua/rote-extension) - Browser extension for saving webpages, selected text and supported-site content to Rote, with image attachments, default tags and visibility settings.
-- [Raycast Extension](https://github.com/aBER0724/rote-raycast) - Raycast extension for Rote, developed by [@aBER0724](https://github.com/aBER0724)
-- [Rerote](https://github.com/Rabithua/Rerote) - Data conversion tool that transforms data from other platforms (currently Memos) into Rote format
-- [Rotefeeder](https://github.com/Rabithua/Rotefeeder) - Deno-based RSS/Atom feeder that periodically forwards feed items to Rote via OpenKey
-- [Rote Toolkit](https://github.com/Rabithua/rote-toolkit) - A TypeScript-based enhancement toolkit for Rote, featuring a powerful CLI and a Model Context Protocol (MCP) server for AI integration
-- [Rote Skill](https://github.com/Rabithua/rote-skill) - A reusable skill for AI agents to work with Rote through rote-toolkit
 
 ## Technology Stack
 

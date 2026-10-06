@@ -1,6 +1,5 @@
 import defaultCover from '@/assets/img/defaultCover.png';
 import { VerifiedIcon } from '@/components/icons/Verified';
-import UserSidebarLinks from '@/components/common/UserSidebarLinks';
 import NavBar from '@/components/layout/navBar';
 import LoadingPlaceholder from '@/components/others/LoadingPlaceholder';
 import PageRequestError from '@/components/others/PageRequestError';
@@ -13,13 +12,13 @@ import { viewerAwareCacheKey } from '@/features/user-blocks/viewerCacheScope';
 import ContainerWithSideBar from '@/layout/ContainerWithSideBar';
 import { profileAtom } from '@/state/profile';
 import type { ApiGetRotesParams, Profile, Rotes } from '@/types/main';
-import { API_URL, get } from '@/utils/api';
+import { get } from '@/utils/api';
 import { isNotFoundError } from '@/utils/error';
 import { useAPIGet, useAPIInfinite } from '@/utils/fetcher';
 import { getRotesV2 } from '@/utils/roteApi';
 import { Helmet } from '@dr.pogodin/react-helmet';
 import Linkify from 'linkify-react';
-import { Globe2, RefreshCw, Stars } from 'lucide-react';
+import { Globe2, RefreshCw } from 'lucide-react';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -125,25 +124,9 @@ function UserPage() {
       <Helmet>
         <title>{userInfo?.nickname || userInfo?.username || t('helmet.loading')}</title>
         <meta name="description" content={userInfo?.description || t('helmet.defaultDesc')} />
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title={`${userInfo?.nickname || userInfo?.username} RSS`}
-          href={`${API_URL}/rss/${username}`}
-        />
       </Helmet>
 
-      <ContainerWithSideBar
-        sidebar={<UserSidebarLinks username={username} appLabel={t('downloadApp')} />}
-        sidebarHeader={
-          <div className="flex items-center gap-2 p-3 text-lg font-semibold">
-            <div className="flex items-center gap-2">
-              <Stars className="size-5" />
-              {t('sideBarTitle')}
-            </div>
-          </div>
-        }
-      >
+      <ContainerWithSideBar hideSidebarToggleButton>
         <NavBar
           title={
             <>

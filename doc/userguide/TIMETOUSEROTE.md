@@ -30,31 +30,6 @@ This is to cope with the few scenarios where Markdown syntax is indeed needed. F
 
 _Supporting the Markdown article function with minimal disturbance_
 
-### As an Old-School RSS Enthusiast
-
-As you can see, there is an RSS button in the sidebar of my web homepage image. Clicking it jumps directly to the RSS page of my notes.
-
-![rabithua.png](https://r2.rote.ink/users/dbde41e2-6508-4028-9b5b-4cc15c891a47/compressed/87bdcd83-1631-44a0-9e8f-c855d63f5741.webp)
-
-In my opinion, RSS is a very good thing. I can easily subscribe to the content I care about. I think all information streams should support RSS. Although it is a bit idealistic, this is the original intention of the Internet being invented, rather than like now where many platforms trap users' public thoughts and content in one place.
-
-#### Besides the Explore page and each user's notes being RSS-able, there is also...
-
-![rssbot.png](https://r2.rote.ink/users/dbde41e2-6508-4028-9b5b-4cc15c891a47/compressed/8db88cbb-c1bb-45c8-888e-f99cec4a4fda.webp)
-
-This is simply a genius idea. The meaning of the Explore page is to explore content that others think is worth sharing.
-I also often look at the Rote Explore page to see what everyone is sharing, although most of it is still interesting content shared by myself. So if I connect the content of my usual RSS subscriptions to Rote, it would be a matter of course!
-
-One afternoon when inspiration struck, I completed the construction of the RoteFeeder repository.
-
-![rotefeeder.png](https://r2.rote.ink/users/dbde41e2-6508-4028-9b5b-4cc15c891a47/compressed/04c20e7a-508c-4183-854e-32baa2d84363.webp)
-
-**Paired with Rote's OpenKey, you can easily deploy a service to forward your RSS subscription content to Rote.**
-
-My approach is to create a new [account used to carry RSS content](https://rote.ink/RoteFeeder). Rote's multi-user design can naturally be used to distinguish content from different sources.
-
-Now you don't need to open your RSS software anymore. Use RoteFeeder. Just like Rote, its deployment process is as simple as drinking water. A single docker-compose.yml can get it done. For details, please see the [repository readme](https://github.com/Rabithua/RoteFeeder).
-
 ### It's Time to Migrate from usememos to Rote
 
 > If you agree with my thoughts and are using usememos to host your notes, I am happy to introduce a small tool to you.
@@ -67,14 +42,3 @@ Tool repository address: https://github.com/Rabithua/Rerote
 You can easily use the Rerote tool to convert data from other note-taking platforms to the structure required by Rote and download it. After downloading, import the data via the data import tool in Rote's experiment page.
 
 ![import.png](https://r2.rote.ink/users/dbde41e2-6508-4028-9b5b-4cc15c891a47/compressed/57fcbeaf-c442-4f98-9d14-3b237837c274.webp)
-
-### One More Thing
-
-If you have already started using Rote, don't forget to download Rote's iOS App!
-https://apps.apple.com/us/app/rote/id6755513897?l=en-US
-
-![ios.png](https://r2.rote.ink/users/dbde41e2-6508-4028-9b5b-4cc15c891a47/compressed/5fb2c8d1-4f98-44b0-ab2c-06699c259218.webp)
-
-**You can repeatedly click on the welcome text on the login page to trigger the custom API and use your own deployed service!**
-
-**[Demo](https://demo.rote.ink/)** ｜ **[Website](https://rote.ink)** ｜ **[iOS APP](https://apps.apple.com/us/app/rote/id6755513897)** ｜ **[Explore](https://rote.ink/explore)** ｜ **[Rabithua](https://rote.ink/rabithua)**

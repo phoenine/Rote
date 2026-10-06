@@ -1,3 +1,4 @@
+import { PostComments } from '@/features/post-comments/PostComments';
 import ArticleNavBarActions from '@/components/article/ArticleNavBarActions';
 import { ArticleDeleteConfirmDialog } from '@/components/article/ArticleDeleteConfirmDialog';
 import { VerifiedIcon } from '@/components/icons/Verified';
@@ -10,7 +11,7 @@ import { viewerAwareCacheKey } from '@/features/user-blocks/viewerCacheScope';
 import { useArticleActions } from '@/hooks/useArticleActions';
 import ContainerWithSideBar from '@/layout/ContainerWithSideBar';
 import { profileAtom } from '@/state/profile';
-import { API_URL, get } from '@/utils/api';
+import { get } from '@/utils/api';
 import { isNotFoundError } from '@/utils/error';
 import { useAPIGet } from '@/utils/fetcher';
 import { parseMarkdownMeta } from '@/utils/markdownParser';
@@ -22,13 +23,11 @@ import {
   Navigation,
   PenBox,
   RefreshCw,
-  Rss,
   Trash2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import ReactMarkdown from 'react-markdown';
+import { ArticleMarkdown } from '@/components/article/ArticleMarkdown';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import remarkGfm from 'remark-gfm';
 
 function ArticleDetailPage() {
   const { t } = useTranslation('translation', { keyPrefix: 'pages.article' });
@@ -128,23 +127,6 @@ function ArticleDetailPage() {
             </Link>
           </div>
         )}
-        <div className="grid grid-cols-3 divide-x border-b">
-          <a
-            href={`${API_URL}/rss/${article?.author?.username}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-foreground/3 flex cursor-pointer items-center justify-center gap-2 py-4"
-          >
-            <Rss className="size-5" />
-            <div className="text-xl">RSS</div>
-          </a>
-          <div className="flex items-center justify-center gap-2 py-4">
-            <div className="text-xl">☝️</div>
-          </div>
-          <div className="flex items-center justify-center gap-2 py-4">
-            <div className="text-xl">🤓</div>
-          </div>
-        </div>
       </div>
     );
 
@@ -212,7 +194,7 @@ function ArticleDetailPage() {
       </NavBar>
       <div className="divide-y">
         <div className="prose prose-sm dark:prose-invert max-w-full p-4">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{article.content}</ReactMarkdown>
+          <ArticleMarkdown content={article.content} />
         </div>
         {article.note && (
           <Link
@@ -224,6 +206,7 @@ function ArticleDetailPage() {
           </Link>
         )}
       </div>
+      <PostComments kind="article" id={article.id} owner={Boolean(isAuthor)} />
       <ArticleDeleteConfirmDialog
         open={isDeleteConfirmOpen}
         isDeleting={isDeleting}

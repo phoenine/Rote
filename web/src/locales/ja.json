@@ -1,161 +1,5 @@
 {
   "pages": {
-    "landing": {
-      "poem": "",
-      "headingBefore": "",
-      "headingAfter": " のようなノートリポジトリ 🤔",
-      "linksItems": ["ログイン", "", "GitHub"],
-      "dashboard": "ダッシュボード",
-      "star": "スター",
-      "fork": "フォーク",
-      "issues": "イシュー",
-      "watch": "ウォッチ",
-      "lastPushTime": "最終プッシュ時間：",
-      "coreFeatures": {
-        "title": "コア機能",
-        "subtitle": "より洗練されたノート体験と少ない精神的負担のために",
-        "tagline": "CORE FEATURES",
-        "features": {
-          "restraint": {
-            "title": "控えめに",
-            "description": "洗練されたノート体験のためのすべて"
-          },
-          "simple": {
-            "title": "シンプルでありながら強力",
-            "description": "すべての機能はWebに限定され、より良い体験のためにPWAを提供"
-          },
-          "openApi": {
-            "title": "オープンインターフェース",
-            "description": "オープンAPIインターフェース、あらゆるシナリオでデータの記録や取得をサポート"
-          },
-          "freedom": {
-            "title": "制約のない自由",
-            "description": "データを完全にコントロールし、自由にデータをエクスポート"
-          }
-        }
-      },
-      "aiMemory": {
-        "tagline": "メモリー",
-        "title": "ノートを会話できる AGENT に",
-        "subtitle": "記録した内容をベクトル化し、エージェント設計で自分のメモリーを扱えるようにします。",
-        "features": {
-          "semantic": {
-            "title": "断片から意味を見つける",
-            "description": "キーワードだけでなく、ノートや記事の意味にもとづいて関連する断片を探せます"
-          },
-          "sources": {
-            "title": "自己探索",
-            "description": "メモリーで自分のノートを探索し、自分でも気づかなかった小さな発見に出会えます"
-          },
-          "agent": {
-            "title": "関連ノート",
-            "description": "ベクトルにもとづく関連度マッチングで、興味深い関連ノートを見つけます"
-          },
-          "admin": {
-            "title": "制御された有効化",
-            "description": "AI、ベクトルストレージ、自動インデックスはデフォルトで無効で、管理者がプロバイダーを設定して明示的に有効化します"
-          }
-        },
-        "example": {
-          "user": "文章の行間から私の MBTI を測って",
-          "backToBottom": "一番下へ戻る",
-          "scope": {
-            "title": "範囲",
-            "items": [
-              "キーワード：性格、意思決定、社交、感情、内省",
-              "コンテンツ種別：ノート",
-              "アーカイブ範囲：すべて"
-            ]
-          },
-          "debug": {
-            "title": "検索プロセス",
-            "items": [
-              "ツール 1 回：rote_search_notes",
-              "ヒット数：20",
-              "終了理由：agent_search_tool"
-            ]
-          },
-          "thinking": {
-            "route": {
-              "title": "Rote を検索する必要があるか判断中",
-              "content": "リクエストには性格、意思決定、社交、感情、内省に関する手がかりが含まれているため、Rote を検索する必要があります。"
-            },
-            "evidence": {
-              "title": "追加の証拠が必要か判断中",
-              "content": "ユーザーは INFJ に近い可能性があります。以前 AI は ENFP と判断しましたが、本人の記録には内向的直観と深い内省を示す証拠がより多く含まれています。"
-            },
-            "expand": "思考を見る"
-          },
-          "sourceTitle": "引用元",
-          "sources": [
-            "メモリーはほぼ使えるようになったけれど、残念なお知らせがひとつ。AI は私を ENFP だと思っていて、それがとても不満 😡",
-            "この数日 iOS 17 対応をしていて、それが良い判断なのか考えている。作業量はかなり大きいし、奇妙なバグも多い。システム側の問題かもしれないし、iOS 17 の実機がなくてシミュレーターのバグかもしれない。さらにコードの負担も増えていくかもしれない。",
-            "MBTI 16 タイプ、結婚適齢期、INFJ が見たら一瞬で固まる",
-            "Tags: 生活, 自己調整",
-            "連休に実家へ帰り、知識労働者の環境から離れて、多くの普通の人、とくに中高年の人たちと会話した。1. 多くの会話は離散的で、主にキーワードによって引き起こされる。",
-            "INFJ ミーム",
-            "INFJ ミーム",
-            "INFJ ミーム"
-          ],
-          "answer": "あなたのノート内容をもとに分析すると、文章の行間からは明確な **INFJ の傾向**（主導的）が見えます。ただし、外向的に振る舞う場面と内向的な本質のあいだに矛盾感もあります。具体的な証拠は以下です。\n\n---\n\n### 🔍 中心的な証拠\n1. **「私は本質的には外E内Iの人間」** [9]\n   - 社交や仕事の場面では外向的に見える可能性がある一方で、エネルギー回復には一人の時間が必要だと示しています。これは INFJ の主導機能である内向的直観（Ni）にかなり近い特徴です。\n   - INFJ が外側には Fe（外向的感情）を見せ、内側では Ni に依存する構造ともよく一致します。\n\n2. **深い共感と関係性への洞察**\n   - 実家での会話パターンを分析したとき、「人は要求を直接出すのではなく状況を説明する」「文脈を補って要求を推測する必要がある」[5] と正確に見抜いています。これは対人関係の動きに対する鋭い感度を示します。\n   - 「導く恋人」への批判や、「寄生関係」「救世主コンプレックス」[12] への警戒は、感情的搾取への敏感さと、対等で深い関係を求める姿勢を表しています。\n\n3. **INFJ 関連コンテンツへの高い関心**\n   - INFJ ミームを複数保存しており [6][7][8]、「INFJ が見たら一瞬で固まる」[3] とも書いています。INFJ への強い同一化、または自己探索の関心が見えます。\n\n---\n\n### ⚖️ ENFP との違い\n- **ENFP 的な傾向**：ノートには、独立開発者として「面の皮を厚くする」「build in public」[20] など外向的な行動もあります。ただしこれは、ENFP のように外向性から自然にエネルギーを得るというより、仕事上必要な「戦略的な外向性」に見えます。\n- **重要な矛盾点**：\n  ENFP は外向的な Ne が主導します。一方で、あなたのノートは **内的秩序**（「脳と内的秩序が健康」[11]）や **深い内省**（「認知の反復更新」「自分に責任を持つ」[9]）を繰り返し強調しており、INFJ の Ni 主導のモードに近いです。\n\n---\n\n### 📌 結論\n**かなり高い確率で INFJ**（内向 + 直観 + 感情 + 判断）です。ただし「仕事場面での外向的な仮面」があります。\n- 独立開発者として能動的に社交する必要があるため、一時的に ENFP のように見えるかもしれません。しかし中核の思考パターン、深い内省、共感優先、内的秩序への志向は INFJ に近いです。\n- AI に ENFP と判断されたことへの「不満」[1] も、INFJ が「誤読されること」に敏感である点を示しています。INFJ は Fe のため外向型に見られることがありますが、本質は内向的です。\n\n> 💡 検証するなら、社交のあとに長い一人時間で回復する必要があるかを観察するとよいです。社交するほど元気になるなら ENFP 寄りですが、そうでなければ INFJ らしさが強まります。"
-        }
-      },
-      "construction": {
-        "title": "まだ構築中...",
-        "subtitle": "長期プロジェクトとして、Roteはまだ改善中です",
-        "tagline": "STILL UNDER CONSTRUCTION"
-      },
-      "exploreMore": {
-        "title": "さらに探索",
-        "subtitle": "ここには遊べるボタンがいくつかあります",
-        "tagline": "EXPlORE MORE"
-      },
-      "redirectingToSetup": {
-        "error": "バックエンドエラーが検出されました。セットアップページにリダイレクトしています",
-        "notInitialized": "システムが初期化されていません。セットアップページにリダイレクトしています"
-      },
-      "typewriterTexts": [
-        "個人ノートリポジトリ",
-        "思考ノートブック",
-        "プライベートTwitter",
-        "個人チャンネル",
-        "マイクロブログ"
-      ],
-      "subtitle": "オープンAPI、記録方法は複数🤩、Self-Hostedをサポート、自分のデータをコントロールし、自由に出入り、データの人質化なし🙅🏻",
-      "iosAppTooltip": {
-        "title": "iOS ベータ版に参加しませんか？",
-        "earlyAccess": "早期アクセス"
-      },
-      "andMore": {
-        "tagline": "AND MORE",
-        "title": "これらに加えて、さらに...",
-        "subtitle": "洗練されたアーキテクチャ設計、デプロイメントオプション、優れたクライアント体験",
-        "features": {
-          "selfHosted": {
-            "title": "セルフホスティングデプロイメント",
-            "description": "Docker または Dokploy でワンクリックデプロイメント"
-          },
-          "tools": {
-            "title": "小さなツール",
-            "description": "ランダムレビュー、タグクラウド、OAuth、RSS、EveDayOneCat..."
-          },
-          "architecture": {
-            "title": "分離アーキテクチャ",
-            "description": "フロントエンドとバックエンドが分離され、必要なものだけをデプロイ"
-          },
-          "iosClient": {
-            "title": "iOS クライアント",
-            "description": "より洗練されたアプリクライアント"
-          }
-        }
-      },
-      "quickLinks": {
-        "selfHosted": "セルフホスティングガイド",
-        "github": "Github",
-        "explore": "Rote を探索",
-        "rabithua": "Rabithua"
-      }
-    },
     "mine": {
       "leftNavBar": {
         "home": "ホーム",
@@ -240,8 +84,7 @@
         "loginWithApple": "Apple でサインイン"
       },
       "nav": {
-        "explore": "探索",
-        "home": "ホーム"
+        "explore": "探索"
       },
       "error": {
         "backendIssue": "バックエンドサービスの問題",
@@ -547,9 +390,7 @@
       "noDescription": "この人は怠け者で、まだ説明を残していません...",
       "registerTime": "登録時間：",
       "publicNotes": "公開ノート",
-      "rssSubscribe": "RSS フィード",
       "sideBarTitle": "さらに... 他にも",
-      "downloadApp": "App Store でダウンロード",
       "helmet": {
         "loading": "読み込み中...",
         "defaultDesc": "rote.ink"
@@ -821,50 +662,8 @@
     "explore": {
       "title": "探索",
       "sideBarTitle": "探索✨",
-      "star": "スター",
-      "fork": "フォーク",
-      "issues": "イシュー",
-      "watch": "ウォッチ",
-      "githubOpenSource": "Rote は Github でオープンソースです。スターをお願いします！",
-      "lastPushTime": "最終プッシュ時間：",
-      "supportAndDocs": {
-        "title": "サポートとドキュメント",
-        "subtitle": "ヘルプと設定へのクイックリンク",
-        "selfHosted": "セルフホスト",
-        "githubIssues": "Issues",
-        "tryDemo": "Try demo",
-        "iosApp": "iOS app"
-      },
-      "communityProjects": {
-        "title": "コミュニティ プロジェクト",
-        "subtitle": "Rote を拡張するツールと統合",
-        "items": {
-          "roteWebClipper": {
-            "title": "Rote Web Clipper",
-            "description": "ウェブページ、選択したテキスト、画像を Rote に保存"
-          },
-          "raycast": {
-            "title": "Raycast Extension",
-            "description": "Rote 用 Raycast 拡張（by @aBER0724）"
-          },
-          "rerote": {
-            "title": "Rerote",
-            "description": "他プラットフォームのデータを Rote 形式へ変換するツール"
-          },
-          "rotefeeder": {
-            "title": "Rotefeeder",
-            "description": "RSS/Atom を OpenKey 経由で Rote に転送するフィーダー"
-          },
-          "roteToolkit": {
-            "title": "Rote Toolkit",
-            "description": "TypeScript ツールキット（CLI と AI 統合向け MCP サーバー）"
-          },
-          "roteSkill": {
-            "title": "Rote Skill",
-            "description": "rote-toolkit 上で動く再利用可能な AI Agent Skill"
-          }
-        }
-      }
+      "lastPushTime": "最終プッシュ時間："
+
     },
     "experiment": {
       "title": "実験",
@@ -1193,7 +992,7 @@
         "adminNickname": "管理者ニックネームを入力"
       },
       "descriptions": {
-        "frontendUrl": "フロントエンドURLは、フロントエンドアクセスアドレスを識別するために使用され、RSSフィードでリンクを生成するために使用されます。完全なURL（例：https://your-domain.com）を入力してください。",
+        "frontendUrl": "フロントエンドURLはサイトリンクと認証元に使用されます。完全なURL（例：https://your-domain.com）を入力してください。",
         "storageType": "Cloudflare R2、Tencent COS、またはカスタム S3 互換ストレージ（Garage、MinIO、AWS S3 など）を選択",
         "endpoint": "S3 API エンドポイント URL（例：Garage の http://localhost:3900）",
         "cosEndpoint": "COS API エンドポイント URL（例：https://cos.ap-shanghai.myqcloud.com、バケット名は不要）",
@@ -1315,7 +1114,7 @@
         "name": "サイト名",
         "descriptionLabel": "サイト説明",
         "frontendUrl": "フロントエンドURL",
-        "frontendUrlDescription": "フロントエンドアクセスURL、RSSフィードでノートリンクを生成するために使用",
+        "frontendUrlDescription": "共有リンク、認証元、サイト内ナビゲーションに使用するフロントエンドURL",
         "icpRecord": "ICP記録番号",
         "icpRecordDescription": "ウェブサイトICP記録番号、例：京ICP备12345678号",
         "customHeadScripts": {
@@ -1884,6 +1683,11 @@
     }
   },
   "components": {
+    "eveDayOneCat": {
+      "title": "EveDayOneCat",
+      "source": "出典：{{url}}",
+      "hint": "画像をクリックすると別の猫が表示されます。"
+    },
     "reactions": {
       "limitExceeded": "カスタムリアクションは24文字を超えることはできません",
       "placeholder": "カスタム..."
@@ -2097,6 +1901,31 @@
       "createFailed": "共有リンクを作成できませんでした。もう一度お試しください。",
       "stopFailed": "共有を停止できませんでした。もう一度お試しください。",
       "stopped": "共有を停止しました"
+    },
+    "postComments": {
+      "title": "AI コメント",
+      "private": "自分だけに表示 · 画像ではなく本文のみを分析",
+      "generate": "コメントを生成",
+      "generating": "生成中…",
+      "loading": "コメントを読み込み中…",
+      "retryLoad": "再読み込み",
+      "empty": "AI コメントはまだありません。",
+      "aiLabel": "AI 生成",
+      "delete": "削除",
+      "stale": "以前の本文に基づくコメント",
+      "running": "生成中です。更新して結果を確認してください。完了しない場合は削除して再生成できます。",
+      "failed": "生成が完了しませんでした。削除して再生成してください。",
+      "refresh": "状態を更新",
+      "errors": {
+        "failed": "操作に失敗しました。後でもう一度お試しください。",
+        "post_comment_text_required": "コメントする本文を追加してください。",
+        "post_comment_content_too_long": "20,000 文字を超える本文には対応していません。",
+        "post_comment_running": "コメントを生成中です。後で更新してください。",
+        "post_comment_ai_unavailable": "サイトの AI が未設定または無効です。",
+        "post_comment_source_changed": "本文が変更されました。再生成してください。",
+        "post_comment_cancelled": "コメントはキャンセルまたは削除されました。",
+        "post_comment_permission_required": "AI を使用する権限がありません。"
+      }
     }
   },
   "article": {
@@ -2140,7 +1969,9 @@
       "syntaxCodeBlock": "言語名",
       "syntaxFullGuide": "詳細な構文ガイド",
       "wordsCount": "{{count}} 文字",
-      "download": "Markdownをダウンロード"
+      "download": "Markdownをダウンロード",
+      "insertImages": "画像を挿入",
+      "imagesUploading": "画像をアップロード中です。完了後に保存してください。"
     },
     "actions": {
       "copyLink": "リンクをコピー",

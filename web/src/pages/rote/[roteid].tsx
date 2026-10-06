@@ -1,3 +1,4 @@
+import { PostComments } from '@/features/post-comments/PostComments';
 import { VerifiedIcon } from '@/components/icons/Verified';
 import { RelatedNotesBlock } from '@/components/ai/RelatedNotesBlock';
 import { viewerAwareCacheKey } from '@/features/user-blocks/viewerCacheScope';
@@ -12,11 +13,11 @@ import { useSiteStatus } from '@/hooks/useSiteStatus';
 import { profileAtom } from '@/state/profile';
 
 import type { Rote } from '@/types/main';
-import { API_URL, get } from '@/utils/api';
+import { get } from '@/utils/api';
 import { isNotFoundError } from '@/utils/error';
 import { useAPIGet } from '@/utils/fetcher';
 import { useAtomValue } from 'jotai';
-import { Navigation, RefreshCw, Rss } from 'lucide-react';
+import { Navigation, RefreshCw } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -120,23 +121,7 @@ function SingleRotePage() {
             </Link>
           </div>
         )}
-        <div className="grid grid-cols-3 divide-x border-b">
-          <a
-            href={`${API_URL}/rss/${rote?.author?.username}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-foreground/3 flex cursor-pointer items-center justify-center gap-2 py-4"
-          >
-            <Rss className="size-5" />
-            <div className="text-xl">RSS</div>
-          </a>
-          <div className="flex items-center justify-center gap-2 py-4">
-            <div className="text-xl">☝️</div>
-          </div>
-          <div className="flex items-center justify-center gap-2 py-4">
-            <div className="text-xl">🤓</div>
-          </div>
-        </div>
+
         <RelatedNotesBlock roteId={rote?.id} enabled={isOwner && canUseAi} />
       </div>
     );
@@ -166,6 +151,7 @@ function SingleRotePage() {
         mutateSingle={mutate}
         enableContentCollapse={false}
       />
+      <PostComments kind="rote" id={rote.id} owner={isOwner} />
     </ContainerWithSideBar>
   ) : null;
 }

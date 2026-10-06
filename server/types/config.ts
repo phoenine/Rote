@@ -4,7 +4,7 @@ export type ConfigGroup = 'site' | 'storage' | 'security' | 'notification' | 'ui
 // 配置项类型定义
 export interface SiteConfig {
   name: string;
-  frontendUrl: string; // 前端 URL，用于生成 RSS Feed 链接等
+  frontendUrl: string; // 前端 URL，用于分享链接、认证来源和站点导航
   customHeadScripts?: string;
   description?: string;
   defaultLanguage?: string;

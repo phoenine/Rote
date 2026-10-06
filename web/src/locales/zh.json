@@ -1,147 +1,5 @@
 {
   "pages": {
-    "landing": {
-      "poem": "采菊东篱下，悠然见南山",
-      "headingBefore": "一个看起来不太一样的",
-      "headingAfter": " 🤔",
-      "linksItems": ["登录", "", "GitHub"],
-      "dashboard": "仪表盘",
-      "star": "Stars",
-      "fork": "Forks",
-      "issues": "Issues",
-      "watch": "Watch",
-      "lastPushTime": "上次推送时间：",
-      "coreFeatures": {
-        "title": "核心特性",
-        "subtitle": "为了更优雅的笔记体验和更少的心智负担",
-        "tagline": "Core features",
-        "features": {
-          "restraint": {
-            "title": "保持克制",
-            "description": "一切为了优雅的笔记体验，和克制的互动体验"
-          },
-          "simple": {
-            "title": "低心智负担",
-            "description": "更少的压力和更简单直观的记录体验乃至部署体验"
-          },
-          "openApi": {
-            "title": "开放接口",
-            "description": "开放 API 接口，支持在任意的场景记录或者获取数据"
-          },
-          "freedom": {
-            "title": "无拘无束",
-            "description": "完全掌控你的数据，自由导出数据"
-          }
-        }
-      },
-      "aiMemory": {
-        "tagline": "记忆",
-        "title": "让笔记成为可对话的 AGENT",
-        "subtitle": "所有记录的内容向量化保存，加上智能体架构设计",
-        "features": {
-          "semantic": {
-            "title": "从碎片里找含义",
-            "description": "不只按关键词匹配，也能按语义在笔记和文章中寻找相关片段"
-          },
-          "sources": {
-            "title": "自我探索",
-            "description": "使用记忆探索你的笔记，发现你自己都没意识到的小惊喜"
-          },
-          "agent": {
-            "title": "相关笔记",
-            "description": "基于向量的相关性匹配，发现有趣的相关笔记"
-          },
-          "admin": {
-            "title": "可控开启",
-            "description": "AI、向量存储、自动索引默认关闭，由管理员配置供应商并显式启用"
-          }
-        },
-        "example": {
-          "user": "测测我字里行间的 MBTI",
-          "backToBottom": "回到底部",
-          "scope": {
-            "title": "范围",
-            "items": ["关键词：性格、决策、社交、情绪、反思", "内容类型：笔记", "归档范围：全部"]
-          },
-          "debug": {
-            "title": "检索过程",
-            "items": ["工具 1 次：rote_search_notes", "命中数：20", "结束原因：agent_search_tool"]
-          },
-          "thinking": {
-            "route": {
-              "title": "正在判断是否需要查询 Rote",
-              "content": "需要查询 Rote，因为 query 已经包含了性格、决策、社交、情绪、反思等线索。"
-            },
-            "evidence": {
-              "title": "正在判断是否需要补查",
-              "content": "用户可能更接近 INFJ，虽然 AI 之前判断为 ENFP，但用户自己的记录里有更多内向直觉和深度反思证据。"
-            },
-            "expand": "查看思考"
-          },
-          "sourceTitle": "引用来源",
-          "sources": [
-            "记忆已经基本用了，但是有一个不幸的消息，他认为我是 ENFP，这个让我很不满意 😡",
-            "这两天在适配iOS17，在思考是否是个好主意，因为工程量确实挺大的，还有很多奇怪bug，目前怀疑可能是系统层面的问题，也可能是因为我没有iOS17的真机测试，模拟器的bug？以及还会导致代码包袱越来越重。",
-            "mbti 16型人格，适婚年龄，INFJ 看完嘎巴一下就 4 了",
-            "Tags: 生活, 自我调节",
-            "十一回老家，脱离了知识工作者的环境，与大量的普通人，特别是中老年人发生了对话: 1. 大部分人的对话是离散的，且主要被关键词触发。",
-            "INFJ 梗图",
-            "INFJ 梗图",
-            "INFJ 梗图"
-          ],
-          "answer": "根据你的笔记内容分析，字里行间透露出明显的 **INFJ 特质**（占主导），但存在外向表现与内向本质的矛盾感，具体证据如下：\n\n---\n\n### 🔍 核心证据\n1. **「我本质是一个外E内I的人」** [9]\n   - 直接表明社交中可能表现外向（如工作场景需主动沟通），但能量恢复依赖独处（典型INFJ的「内向直觉Ni」主导功能）。\n   - 与INFJ「对外展现Fe（外向情感），内在依赖Ni」的特征高度吻合。\n\n2. **深度共情与关系洞察**\n   - 分析老家对话模式时，精准指出「人们描述处境而非提出需求」「需补充上下文推理需求」[5]，体现INFJ对人际动态的敏锐观察（Fe辅助功能）。\n   - 对「引导型恋人」的批判（「寄生关系」「救世主情结」）[12]，反映INFJ对情感剥削的警惕和对平等深度连接的追求。\n\n3. **INFJ内容高频关注**\n   - 主动收藏多张INFJ梗图 [6][7][8]，并提及「INFJ看完嘎巴一下就4了」[3]，显示对INFJ身份的强烈认同或自我探索。\n\n---\n\n### ⚖️ 与ENFP的差异点\n- **ENFP倾向**：笔记中确有外向表现（如独立开发者需「脸皮变厚」「build in public」[20]），但这类行为更像职业需求驱动的「策略性外向」，而非ENFP天生的外向能量获取方式。\n- **关键矛盾**：\n  ENFP是「外向主导（Ne）」，而你的笔记反复强调**内在秩序**（「大脑和内在秩序健康」[11]）和**深度反思**（「认知迭代」「为自己负责」[9]），更符合INFJ的「内向直觉（Ni）」主导。\n\n---\n\n### 📌 结论\n**大概率是 INFJ**（内向+直觉+情感+判断），但存在「职场场景下的外向伪装」。\n- 你可能因职业需要（如独立开发者需主动社交）暂时呈现ENFP表象，但核心思维模式（深度反思、共情优先、内在秩序）更贴近INFJ。\n- 你对AI判定ENFP的「不满意」[1]，恰恰印证了INFJ对「被误读」的敏感——INFJ常因Fe功能被误认为外向型，但本质是内向的。\n\n> 💡 建议：若想验证，可观察自己是否在社交后需要长时间独处恢复能量（INFJ典型特征），而非像ENFP越社交越兴奋。"
-        }
-      },
-      "construction": {
-        "title": "持续施工中...",
-        "subtitle": "作为一个长期项目，Rote 仍在不断完善中",
-        "tagline": "STILL UNDER CONSTRUCTION"
-      },
-      "exploreMore": {
-        "title": "探索更多",
-        "subtitle": "这里有几个按钮以供玩耍",
-        "tagline": "EXPlORE MORE"
-      },
-      "redirectingToSetup": {
-        "error": "检测到后端错误，正在跳转到设置页面",
-        "notInitialized": "系统未初始化，正在跳转到设置页面"
-      },
-      "typewriterTexts": ["个人笔记库", "碎碎念本子", "私人朋友圈", "个人频道", "微型博客"],
-      "subtitle": "开放API，记录的姿势不止一种🤩，支持Self-Hosted，对自己的数据掌握主动权，来去自由，没有数据绑架🙅🏻",
-      "iosAppTooltip": {
-        "title": "想要加入 iOS 测试版吗？",
-        "earlyAccess": "抢先测试"
-      },
-      "andMore": {
-        "tagline": "And More",
-        "title": "除了这些，还有...",
-        "subtitle": "优雅的架构设计，部署姿势和很棒的客户端体验",
-        "features": {
-          "selfHosted": {
-            "title": "自托管部署",
-            "description": "使用 Docker 或者 Dokploy 一键部署"
-          },
-          "tools": {
-            "title": "小工具们",
-            "description": "随机回顾，标签云，oauth，RSS，EveDayOneCat..."
-          },
-          "architecture": {
-            "title": "分离架构",
-            "description": "前后端采用分离的架构设计，按需部署你需要的服务"
-          },
-          "iosClient": {
-            "title": "iOS 客户端",
-            "description": "更优雅的 App 客户端"
-          }
-        }
-      },
-      "quickLinks": {
-        "selfHosted": "自托管部署指南",
-        "github": "Github",
-        "explore": "Explore Rote",
-        "rabithua": "Rabithua"
-      }
-    },
     "mine": {
       "leftNavBar": {
         "home": "首页",
@@ -226,8 +84,7 @@
         "loginWithApple": "使用 Apple 登录"
       },
       "nav": {
-        "explore": "探索",
-        "home": "首页"
+        "explore": "探索"
       },
       "error": {
         "backendIssue": "后端服务出现问题",
@@ -533,9 +390,7 @@
       "noDescription": "这个人很懒，还没留下任何简介...",
       "registerTime": "注册时间：",
       "publicNotes": "已公开的笔记 / Public Note",
-      "rssSubscribe": "RSS 订阅",
       "sideBarTitle": "除了这些...还有",
-      "downloadApp": "在 App Store 下载",
       "helmet": {
         "loading": "加载中...",
         "defaultDesc": "rote.ink"
@@ -807,50 +662,8 @@
     "explore": {
       "title": "探索 / Explore",
       "sideBarTitle": "探索✨",
-      "star": "Stars",
-      "fork": "Forks",
-      "issues": "Issues",
-      "watch": "Watch",
-      "githubOpenSource": "Rote 已在 Github 开源，欢迎 Star!",
-      "lastPushTime": "上次推送时间：",
-      "supportAndDocs": {
-        "title": "支持与文档",
-        "subtitle": "快速入口：帮助与配置",
-        "selfHosted": "自部署",
-        "githubIssues": "Issues",
-        "tryDemo": "Demo",
-        "iosApp": "iOS App"
-      },
-      "communityProjects": {
-        "title": "社区项目",
-        "subtitle": "围绕 Rote 的工具与集成",
-        "items": {
-          "roteWebClipper": {
-            "title": "Rote 网页收藏助手",
-            "description": "将网页、文字摘录和图片保存到 Rote"
-          },
-          "raycast": {
-            "title": "Raycast 插件",
-            "description": "Rote 的 Raycast Extension（by @aBER0724）"
-          },
-          "rerote": {
-            "title": "Rerote",
-            "description": "数据转换工具，可将其他平台数据转换为 Rote 格式"
-          },
-          "rotefeeder": {
-            "title": "Rotefeeder",
-            "description": "RSS/Atom 订阅转发工具，通过 OpenKey 定期推送到 Rote"
-          },
-          "roteToolkit": {
-            "title": "Rote Toolkit",
-            "description": "TypeScript 工具箱：包含 CLI 与用于 AI 集成的 MCP Server"
-          },
-          "roteSkill": {
-            "title": "Rote Skill",
-            "description": "基于 rote-toolkit 的可复用 AI Agent Skill"
-          }
-        }
-      }
+      "lastPushTime": "上次推送时间："
+
     },
     "experiment": {
       "title": "实验室 / Experiment",
@@ -1179,7 +992,7 @@
         "adminNickname": "请输入管理员昵称"
       },
       "descriptions": {
-        "frontendUrl": "前端URL用于标识您的前端访问地址，将用于生成RSS Feed中的链接。建议填写完整的URL（如：https://your-domain.com）。",
+        "frontendUrl": "前端 URL 用于站点链接和认证来源。建议填写完整的 URL（如：https://your-domain.com）。",
         "storageType": "选择 Cloudflare R2、腾讯云 COS 或自定义 S3 兼容存储（Garage、MinIO、AWS S3 等）",
         "endpoint": "S3 API 端点地址（例如 Garage 的 http://localhost:3900）",
         "cosEndpoint": "COS API 端点地址（例如 https://cos.ap-shanghai.myqcloud.com，不要包含桶名）",
@@ -1301,7 +1114,7 @@
         "name": "网站名称",
         "descriptionLabel": "网站描述",
         "frontendUrl": "前端 URL",
-        "frontendUrlDescription": "前端访问地址，用于生成 RSS Feed 中的笔记链接",
+        "frontendUrlDescription": "前端访问地址，用于分享链接、认证来源和站点导航",
         "icpRecord": "ICP 备案号",
         "icpRecordDescription": "网站备案号，如：京ICP备12345678号",
         "customHeadScripts": {
@@ -1870,6 +1683,11 @@
     }
   },
   "components": {
+    "eveDayOneCat": {
+      "title": "EveDayOneCat",
+      "source": "来源：{{url}}",
+      "hint": "点击图片，随机换一只猫。"
+    },
     "reactions": {
       "limitExceeded": "自定义 Reaction 不能超过 24 个字符",
       "placeholder": "自定义..."
@@ -2083,6 +1901,31 @@
       "createFailed": "创建分享链接失败，请重试。",
       "stopFailed": "停止分享失败，请重试。",
       "stopped": "已停止分享"
+    },
+    "postComments": {
+      "title": "AI 点评",
+      "private": "仅你可见 · 仅点评文字，不分析图片",
+      "generate": "生成点评",
+      "generating": "正在生成…",
+      "loading": "正在加载点评…",
+      "retryLoad": "重新加载点评",
+      "empty": "还没有 AI 点评。",
+      "aiLabel": "AI 生成",
+      "delete": "删除",
+      "stale": "基于旧版本正文生成",
+      "running": "正在生成，可刷新查看结果；长时间未完成可删除后重新生成。",
+      "failed": "生成未完成，请删除后重新生成。",
+      "refresh": "刷新状态",
+      "errors": {
+        "failed": "操作失败，请稍后重试。",
+        "post_comment_text_required": "请先添加可点评的文字。",
+        "post_comment_content_too_long": "正文超过 20,000 字符，暂不支持点评。",
+        "post_comment_running": "已有点评正在生成，请稍后刷新。",
+        "post_comment_ai_unavailable": "站点 AI 尚未配置或未启用。",
+        "post_comment_source_changed": "正文已改变，请重新生成点评。",
+        "post_comment_cancelled": "点评已取消或删除。",
+        "post_comment_permission_required": "当前账号没有 AI 使用权限。"
+      }
     }
   },
   "article": {
@@ -2126,7 +1969,9 @@
       "syntaxCodeBlock": "语言名",
       "syntaxFullGuide": "完整语法指南",
       "wordsCount": "{{count}} 字",
-      "download": "下载 Markdown"
+      "download": "下载 Markdown",
+      "insertImages": "插入图片",
+      "imagesUploading": "图片上传中，请等待上传完成后保存。"
     },
     "actions": {
       "copyLink": "复制链接",

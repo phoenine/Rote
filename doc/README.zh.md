@@ -15,10 +15,7 @@
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/Rabithua/Rote.svg?style=social&label=Star)](https://github.com/Rabithua/Rote)
-[![GitHub forks](https://img.shields.io/github/forks/Rabithua/Rote.svg?style=social&label=Fork)](https://github.com/Rabithua/Rote/fork)
 
-**[Demo](https://demo.rote.ink/)** ｜ **[Website](https://rote.ink)** ｜ **[iOS APP](https://apps.apple.com/us/app/rote/id6755513897)** ｜ **[Explore](https://rote.ink/explore)** ｜ **[Rabithua](https://rote.ink/rabithua)**
 
 > 开放 API，记录的姿势不止一种 🤩，支持 Self-Hosted，对自己的数据掌握主动权，来去自由，没有数据绑架 🙅🏻
 
@@ -124,15 +121,6 @@ iOS App 支持连接到你自部署的后端。
 
 - [本地部署教程](https://www.bilibili.com/video/BV1vc6iBfE1F)
 - [使用 Dokploy 部署 Rote](https://www.bilibili.com/video/BV1z96vBeEYr)
-
-### 社区项目
-
-- [Rote 网页收藏助手](https://github.com/Rabithua/rote-extension) - 将网页、选中文字和支持站点的内容保存到 Rote，支持图片附件、默认标签和可见性设置。
-- [Raycast 插件](https://github.com/aBER0724/rote-raycast) - Rote 的 Raycast 插件，由 [@aBER0724](https://github.com/aBER0724) 开发
-- [Rerote](https://github.com/Rabithua/Rerote) - 将其他平台（当前支持 Memos）的数据转换为 Rote 格式的数据转换工具
-- [Rotefeeder](https://github.com/Rabithua/Rotefeeder) - 基于 Deno 的 RSS/Atom 订阅转发服务，通过 OpenKey 定时将内容发送到 Rote
-- [Rote Toolkit](https://github.com/Rabithua/rote-toolkit) - 基于 TypeScript 的 Rote 增强工具包，提供强大的 CLI 工具和用于 AI 集成的 MCP 服务
-- [Rote Skill](https://github.com/Rabithua/rote-skill) - 用于 AI Agent 通过 rote-toolkit 与 Rote 交互的可复用技能
 
 ## 技术栈
 

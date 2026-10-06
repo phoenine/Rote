@@ -6,6 +6,7 @@ import {
   releaseStorageObjectReferences,
 } from '../resources/service';
 import { DatabaseError } from '../utils/dbMethods/common';
+import { attachmentHasNoArticleReference } from '../articles/attachmentReferences';
 
 export type ProfileMediaUpdateInput = {
   avatar?: string | null;
@@ -154,6 +155,7 @@ export async function releaseReplacedProfileAttachments(
       and(
         eq(attachments.userid, userId),
         isNull(attachments.roteid),
+        attachmentHasNoArticleReference(),
         or(inArray(attachments.url, replacedUrls), inArray(attachments.compressUrl, replacedUrls))
       )
     )

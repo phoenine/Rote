@@ -253,6 +253,20 @@
       "when": 1788698004166,
       "tag": "0035_anonymous_note_sharing",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1791260735116,
+      "tag": "0036_post_images_ai_comments",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1791275011627,
+      "tag": "0037_private_post_tables",
+      "breakpoints": true
     }
   ]
 }

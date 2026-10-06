@@ -1,4 +1,5 @@
 import NavBar from '@/components/layout/navBar';
+import EveDayOneCat from '@/components/others/EveDayOneCat';
 import {
   parseResourcePreviewScenario,
   RESOURCE_PREVIEW_STATES,
@@ -18,7 +19,7 @@ import { get, post } from '@/utils/api';
 import { useAPIGet } from '@/utils/fetcher';
 import { isHeicFile } from '@/utils/uploadHelpers';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { ScanFace, Stars } from 'lucide-react';
+import { ScanFace } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import type { Area } from 'react-easy-crop';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +30,6 @@ import AvatarCropDialog from './components/AvatarCropDialog';
 import EditProfileDialog from './components/EditProfileDialog';
 import OpenKeySection from './components/OpenKeySection';
 import ProfileHeader from './components/ProfileHeader';
-import ProfileSidebar from './components/ProfileSidebar';
 import { getUploadErrorMessage } from '@/utils/directUpload';
 import {
   createCroppedImage,
@@ -356,17 +356,7 @@ function ProfilePage() {
   }
 
   return (
-    <ContainerWithSideBar
-      sidebar={<ProfileSidebar />}
-      sidebarHeader={
-        <div className="flex items-center gap-2 p-3 text-lg font-semibold">
-          <div className="flex items-center gap-2">
-            <Stars className="size-5" />
-            {t('sideBarTitle')}
-          </div>
-        </div>
-      }
-    >
+    <ContainerWithSideBar sidebar={<EveDayOneCat />}>
       <div className="flex flex-col divide-y pb-20">
         <NavBar title={t('title')} icon={<ScanFace className="size-5" />} />
         <ProfileHeader

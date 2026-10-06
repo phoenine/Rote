@@ -1,8 +1,9 @@
+import type { Ref } from 'react';
 import TextareaAutosize, { type TextareaAutosizeProps } from 'react-textarea-autosize';
 
 import { cn } from '@/utils/cn';
 
-function Textarea({ className, ...props }: TextareaAutosizeProps) {
+function Textarea({ className, ...props }: TextareaAutosizeProps & { ref?: Ref<HTMLTextAreaElement> }) {
   return (
     <TextareaAutosize
       data-slot="textarea"

@@ -34,7 +34,6 @@ import {
   Github,
   Loader,
   Settings2,
-  Stars,
   Trash2,
   KeyRound,
   RefreshCw,
@@ -48,7 +47,6 @@ import { toast } from 'sonner';
 import { Link, useSearchParams } from 'react-router-dom';
 import DeleteAccountDialog from '../components/DeleteAccountDialog';
 import MergeAccountDialog from '../components/MergeAccountDialog';
-import ProfileSidebar from '../components/ProfileSidebar';
 import { useOAuthBinding } from '../hooks/useOAuthBinding';
 import { usePasskey } from '@/hooks/usePasskey';
 import {
@@ -197,18 +195,7 @@ export default function SettingsPage() {
   const enabledOAuthProviders = siteStatus?.oauth?.providers || {};
 
   return (
-    <ContainerWithSideBar
-      sidebar={<ProfileSidebar />}
-      sidebarHeader={
-        <div className="flex items-center gap-2 p-3 text-lg font-semibold">
-          <div className="flex items-center gap-2">
-            <Stars className="size-5" />
-            {t('sideBarTitle')}
-          </div>
-        </div>
-      }
-      className="divide-y"
-    >
+    <ContainerWithSideBar hideSidebarToggleButton className="divide-y">
       <NavBar title={t('settings.title')} icon={<Settings2 className="size-5" />}>
         {(isLoadingPasskeys || isRegistering) && (
           <RefreshCw className="text-primary ml-auto size-4 animate-spin duration-300" />

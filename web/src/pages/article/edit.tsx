@@ -9,24 +9,24 @@ import { useSiteStatus } from '@/hooks/useSiteStatus';
 import ContainerWithSideBar from '@/layout/ContainerWithSideBar';
 import { profileAtom } from '@/state/profile';
 import { createArticle, getArticleFull, updateArticle } from '@/utils/articleApi';
-import {
-  finalize,
-  cancelUploadReservation,
-  finalizeReservedUpload,
-  getUploadErrorMessage,
-  presign,
-  presignBrowserUpload,
-  uploadToSignedUrl,
-} from '@/utils/directUpload';
+import { useArticleImages } from './hooks/useArticleImages';
 import { parseMarkdownMeta } from '@/utils/markdownParser';
-import { maybeCompressToWebp } from '@/utils/uploadHelpers';
-import { ArrowUpRight, Edit3, Eye, Heading1, Save, Signature, Trash2, X } from 'lucide-react';
-import { useEffect, useMemo, useState, useTransition } from 'react';
+import {
+  ArrowUpRight,
+  Edit3,
+  Eye,
+  Heading1,
+  ImagePlus,
+  Save,
+  Signature,
+  Trash2,
+  X,
+} from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
-import ReactMarkdown from 'react-markdown';
+import { ArticleMarkdown } from '@/components/article/ArticleMarkdown';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import remarkGfm from 'remark-gfm';
 import { toast } from 'sonner';
 import { ARTICLE_CREATION_CONTEXT_KEY } from '@/components/editor/RoteEditor';
 
@@ -63,6 +63,19 @@ export default function ArticleEditPage() {
   }, []);
 
   const isEditMode = !!articleid;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { uploading, uploadAndInsert } = useArticleImages(setContent, supportsBrowserDirectUpload);
+
+  useEffect(() => {
+    if (!isEditMode && !uploading && !isInitialLoading) {
+      try {
+        localStorage.setItem(CREATE_CACHE_KEY, content);
+      } catch {
+        // Draft caching is best effort; article submission remains available.
+      }
+    }
+  }, [content, isEditMode, uploading, isInitialLoading]);
 
   const handleTogglePreview = () => {
     if (!isPreview) {
@@ -121,6 +134,10 @@ export default function ArticleEditPage() {
   };
 
   const onSubmit = async () => {
+    if (uploading) {
+      toast.error(t('imagesUploading'));
+      return;
+    }
     if (!content.trim()) {
       toast.error(t('emptyContent'));
       return;
@@ -176,94 +193,6 @@ export default function ArticleEditPage() {
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
     setContent(val);
-    if (!isEditMode) {
-      try {
-        localStorage.setItem(CREATE_CACHE_KEY, val);
-      } catch {}
-    }
-  };
-
-  const uploadAndInsert = async (files: FileList | File[], textarea: HTMLTextAreaElement) => {
-    const fileArray = Array.from(files).filter((f) => f.type.startsWith('image/'));
-    if (fileArray.length === 0) return;
-
-    const uploads = fileArray.map((file) => {
-      const id = crypto.randomUUID();
-      const placeholder = `![${t('uploadingPlaceholder', { name: file.name })}](${id})`;
-      return { file, id, placeholder };
-    });
-
-    const placeholdersText = uploads.map((u) => u.placeholder).join('\n');
-    const startPos = textarea.selectionStart;
-    const endPos = textarea.selectionEnd;
-
-    setContent((prev) => {
-      const pre = prev.substring(0, startPos);
-      const suf = prev.substring(endPos);
-      return pre + placeholdersText + suf;
-    });
-
-    for (const { file, placeholder } of uploads) {
-      let activeReservationId: string | null = null;
-      try {
-        const compressed = await maybeCompressToWebp(file);
-        const presignFiles = [
-          {
-            filename: file.name,
-            contentType: file.type,
-            size: file.size,
-            ...(compressed && supportsBrowserDirectUpload
-              ? {
-                  compressed: {
-                    contentType: compressed.type as 'image/jpeg' | 'image/webp',
-                    size: compressed.size,
-                  },
-                }
-              : {}),
-          },
-        ];
-        const directPresign = supportsBrowserDirectUpload
-          ? await presignBrowserUpload(presignFiles)
-          : null;
-        activeReservationId = directPresign?.reservationId ?? null;
-        const item = directPresign ? directPresign.items[0] : (await presign(presignFiles))[0];
-
-        await uploadToSignedUrl(item.original.putUrl, file);
-        if (compressed && item.compressed) {
-          await uploadToSignedUrl(item.compressed.putUrl, compressed);
-        }
-
-        const finalizePayload = {
-          uuid: item.uuid,
-          originalKey: item.original.key,
-          compressedKey: compressed && item.compressed ? item.compressed.key : undefined,
-          size: file.size,
-          mimetype: file.type,
-        };
-
-        const [finalized] = directPresign
-          ? await finalizeReservedUpload([finalizePayload], directPresign.reservationId)
-          : await finalize([finalizePayload]);
-        activeReservationId = null;
-        const finalUrl = finalized.compressUrl || finalized.url;
-        const finalMarkdown = `![${file.name}](${finalUrl})`;
-
-        setContent((prev) => prev.replace(placeholder, finalMarkdown));
-      } catch (_err) {
-        if (activeReservationId) {
-          try {
-            await cancelUploadReservation(activeReservationId);
-          } catch (cancellationError) {
-            // eslint-disable-next-line no-console
-            console.error('Failed to cancel article upload reservation:', cancellationError);
-          }
-        }
-        toast.error(`${t('uploadFailed', { name: file.name })}: ${getUploadErrorMessage(_err)}`);
-        setContent((prev) =>
-          prev.replace(placeholder, `![${t('uploadFailedPlaceholder', { name: file.name })}]()`)
-        );
-      }
-    }
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -302,11 +231,22 @@ export default function ArticleEditPage() {
       }
       floatButtons={
         <>
+          {!isPreview && (
+            <Button
+              size="icon"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading || uploading}
+              title={t('insertImages')}
+              aria-label={t('insertImages')}
+            >
+              <ImagePlus className="size-4" />
+            </Button>
+          )}
           <Button
             size="icon"
             className="rounded-md shadow-md"
             onClick={() => navigate(-1)}
-            disabled={loading || isDeleting}
+            disabled={loading || isDeleting || uploading}
             title={t('cancel')}
           >
             <X className="size-4" />
@@ -316,7 +256,7 @@ export default function ArticleEditPage() {
               size="icon"
               className="rounded-md shadow-md"
               onClick={handleDelete}
-              disabled={loading || isDeleting}
+              disabled={loading || isDeleting || uploading}
               title={isDeleting ? tActions('deleting') : tActions('delete')}
             >
               <Trash2 className="size-4" />
@@ -334,7 +274,7 @@ export default function ArticleEditPage() {
             size="icon"
             className="rounded-md shadow-md"
             onClick={onSubmit}
-            disabled={loading || isDeleting}
+            disabled={loading || isDeleting || uploading}
             title={isEditMode ? t('update') : t('save')}
           >
             <Save className="size-4" />
@@ -357,8 +297,27 @@ export default function ArticleEditPage() {
         />
       </NavBar>
 
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        hidden
+        onChange={(event) => {
+          if (event.target.files && textareaRef.current) {
+            void uploadAndInsert(event.target.files, textareaRef.current);
+          }
+          event.target.value = '';
+        }}
+      />
+      {uploading && (
+        <p role="status" className="text-muted-foreground px-4 text-sm">
+          {t('imagesUploading')}
+        </p>
+      )}
       {!isPreview ? (
         <Textarea
+          ref={textareaRef}
           className="resize-none rounded-none border-none p-4 font-mono text-sm shadow-none focus-visible:ring-0"
           value={content}
           onChange={handleContentChange}
@@ -378,7 +337,7 @@ export default function ArticleEditPage() {
           )}
           {content ? (
             <div className="prose prose-sm dark:prose-invert max-w-none">
-              {showMarkdown && <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>}
+              {showMarkdown && <ArticleMarkdown content={content} />}
             </div>
           ) : (
             <div className="text-muted-foreground flex h-full items-center justify-center text-sm">

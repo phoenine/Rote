@@ -6,6 +6,7 @@ import {
   releaseStorageObjectReferences,
 } from '../resources/service';
 import db from '../utils/drizzle';
+import { attachmentHasNoArticleReference } from '../articles/attachmentReferences';
 
 export const UNBOUND_ATTACHMENT_RETENTION_MS = 7 * 24 * 60 * 60 * 1000;
 export const UNBOUND_ATTACHMENT_CLEANUP_BATCH_SIZE = 100;
@@ -53,7 +54,8 @@ function eligibleUnboundAttachment(cutoff: Date) {
     isNull(attachments.roteid),
     isNotNull(attachments.userid),
     lte(attachments.updatedAt, cutoff),
-    isNotReferencedByProfile()
+    isNotReferencedByProfile(),
+    attachmentHasNoArticleReference()
   );
 }
 

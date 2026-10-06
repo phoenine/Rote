@@ -401,7 +401,7 @@ export const aiTokenUsageLogs = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     userid: uuid('userid').notNull(),
     model: varchar('model', { length: 255 }).notNull(),
-    type: varchar('type', { length: 20 }).notNull(), // 'chat' | 'embedding'
+    type: varchar('type', { length: 20 }).notNull(), // 'chat' | 'embedding' | 'comment'
     promptTokens: integer('promptTokens').notNull().default(0),
     completionTokens: integer('completionTokens').notNull().default(0),
     totalTokens: integer('totalTokens').notNull().default(0),
@@ -701,6 +701,53 @@ export const attachments = pgTable(
       .onUpdate('cascade'),
   })
 );
+
+export const articleAttachments = pgTable(
+  'article_attachments',
+  {
+    articleId: uuid('article_id')
+      .notNull()
+      .references(() => articles.id, { onDelete: 'cascade' }),
+    attachmentId: uuid('attachment_id')
+      .notNull()
+      .references(() => attachments.id, { onDelete: 'restrict' }),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.articleId, table.attachmentId] }),
+    attachmentIdx: index('article_attachments_attachment_idx').on(table.attachmentId),
+  })
+).enableRLS();
+
+export const postAiComments = pgTable(
+  'post_ai_comments',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    roteId: uuid('rote_id').references(() => rotes.id, { onDelete: 'cascade' }),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade' }),
+    requestId: uuid('request_id').notNull(),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    status: varchar('status', { length: 20 }).notNull(),
+    content: text('content').notNull().default(''),
+    model: text('model').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    targetCheck: check(
+      'post_ai_comments_target_check',
+      sql`num_nonnulls(${table.roteId}, ${table.articleId}) = 1`
+    ),
+    statusCheck: check(
+      'post_ai_comments_status_check',
+      sql`${table.status} IN ('running', 'completed', 'failed')`
+    ),
+    requestIdx: uniqueIndex('post_ai_comments_request_idx').on(table.ownerId, table.requestId),
+    roteIdx: index('post_ai_comments_rote_idx').on(table.roteId),
+    articleIdx: index('post_ai_comments_article_idx').on(table.articleId),
+  })
+).enableRLS();
 
 // External import identity for idempotent, owner-scoped imports.
 // The source key is scoped to the destination owner so the same export can be

@@ -20,10 +20,6 @@ vi.mock('@/features/user-blocks/cache', async (importOriginal) => {
   };
 });
 
-vi.mock('../components/ProfileSidebar', () => ({
-  default: () => <div>profile-sidebar</div>,
-}));
-
 function renderPage() {
   return render(
     <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>

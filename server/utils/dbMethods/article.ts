@@ -4,6 +4,8 @@ import db from '../drizzle';
 import { parseMarkdownMeta } from '../markdown';
 import { createRoteChange } from './change';
 import { DatabaseError } from './common';
+import { syncArticleAttachments } from '../../articles/attachmentReferences';
+import { lockDatabaseOwner } from '../../database/ownerLock';
 import { subjectIsVisibleToViewer } from './userBlock';
 
 export interface ArticleMeta {
@@ -84,14 +86,19 @@ export async function createArticle(data: {
   authorId: string;
 }): Promise<ArticleWithMeta> {
   try {
-    const [article] = await db
-      .insert(articles)
-      .values({
-        ...data,
-        createdAt: sql`now()`,
-        updatedAt: sql`now()`,
-      })
-      .returning();
+    const article = await db.transaction(async (transaction) => {
+      await lockDatabaseOwner(transaction, data.authorId);
+      const [created] = await transaction
+        .insert(articles)
+        .values({
+          ...data,
+          createdAt: sql`now()`,
+          updatedAt: sql`now()`,
+        })
+        .returning();
+      if (created) await syncArticleAttachments(transaction, created);
+      return created;
+    });
 
     if (!article) {
       throw new Error('Failed to insert article: no data returned');
@@ -113,14 +120,16 @@ export async function updateArticle(data: {
 }): Promise<ArticleWithMeta | null> {
   try {
     const { id, authorId, ...rest } = data;
-    const [article] = await db
-      .update(articles)
-      .set({
-        ...rest,
-        updatedAt: new Date(),
-      })
-      .where(and(eq(articles.id, id), eq(articles.authorId, authorId)))
-      .returning();
+    const article = await db.transaction(async (transaction) => {
+      await lockDatabaseOwner(transaction, authorId);
+      const [updated] = await transaction
+        .update(articles)
+        .set({ ...rest, updatedAt: new Date() })
+        .where(and(eq(articles.id, id), eq(articles.authorId, authorId)))
+        .returning();
+      if (updated) await syncArticleAttachments(transaction, updated);
+      return updated;
+    });
 
     if (!article) return null;
 
@@ -161,10 +170,14 @@ export async function deleteArticle(data: {
       .from(rotes)
       .where(eq(rotes.articleId, data.id));
 
-    const [article] = await db
-      .delete(articles)
-      .where(and(eq(articles.id, data.id), eq(articles.authorId, data.authorId)))
-      .returning();
+    const article = await db.transaction(async (transaction) => {
+      await lockDatabaseOwner(transaction, data.authorId);
+      const [removed] = await transaction
+        .delete(articles)
+        .where(and(eq(articles.id, data.id), eq(articles.authorId, data.authorId)))
+        .returning();
+      return removed;
+    });
 
     if (!article) return null;
 

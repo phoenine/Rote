@@ -12,7 +12,7 @@ import {
 import { registerWithPasskey } from '@/utils/passkey';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { IosAuthorizePanel } from './components/IosAuthorizePanel';
 import { StandardLoginPanel } from './components/StandardLoginPanel';
@@ -77,16 +77,6 @@ function Login() {
     email: '',
     nickname: '',
   });
-
-  // 检测域名并自动填充演示账号
-  useEffect(() => {
-    if (window.location.hostname === 'demo.rote.ink') {
-      setLoginData({
-        username: 'guang',
-        password: 'password',
-      });
-    }
-  }, []);
 
   const passkeyEnabled = siteStatus?.passkey?.enabled !== false;
   const LoginDataZod = createLoginDataSchema(t);
@@ -348,6 +338,10 @@ function Login() {
     // 使用完整的 API URL
     const oauthUrl = `${getApiUrl()}/auth/oauth/${provider}?type=${iosLogin ? 'ioslogin' : 'web'}&redirect=${encodeURIComponent(redirectUrl)}`;
     window.location.href = oauthUrl;
+  }
+
+  if (backendStatusOk?.isInitialized === false) {
+    return <Navigate replace to="/setup" />;
   }
 
   return (

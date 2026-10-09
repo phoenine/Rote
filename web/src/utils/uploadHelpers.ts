@@ -47,12 +47,16 @@ export async function maybeCompressToWebp(
 
   const { maxWidthOrHeight = 2560, initialQuality = qualityForSize(file.size) } = opts || {};
 
-  return imageCompression(file, {
+  const compressed = await imageCompression(file, {
     maxWidthOrHeight,
     initialQuality,
     fileType: 'image/webp',
     useWebWorker: true,
   });
+
+  // Canvas may return PNG when WebP encoding is unsupported. Omit that preview
+  // so its actual Content-Type cannot disagree with the signed WebP upload.
+  return compressed.type === 'image/webp' ? compressed : null;
 }
 
 // 任务执行结果

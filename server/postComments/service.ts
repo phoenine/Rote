@@ -1,3 +1,5 @@
+import { enqueuePersonaMemory } from '../personaMemory/repository';
+import { selectPersonaMemory } from './memoryContext';
 import { trackBackgroundTask } from '../utils/backgroundTask';
 import { and, desc, eq, isNotNull, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
@@ -154,11 +156,12 @@ export async function generatePostComment(
       stale: started.comment.sourceHash !== postContentHash(started.source),
     };
   try {
-    const memory = options.conversation
+    const retrieved = options.conversation
       ? await (options.memory
           ? options.memory(started.source)
           : retrieveReplyMemory(kind, id, ownerId, started.source))
       : { message: '', sources: [] };
+    const memory = selectPersonaMemory(retrieved, started.comment.personaId || 'shared');
     const response = await createChatCompletion(
       config.chat,
       [
@@ -181,13 +184,15 @@ export async function generatePostComment(
       if (postContentHash(current.content) !== started.comment.sourceHash) {
         throw new HTTPException(409, { message: 'post_comment_source_changed' });
       }
-      await assertReplyMemoryCurrent(memory, ownerId, transaction);
+      await assertReplyMemoryCurrent(memory, ownerId, transaction, { kind, id });
       const [saved] = await transaction
         .update(postAiComments)
         .set({ content, status: 'completed' })
         .where(and(eq(postAiComments.id, started.comment.id), eq(postAiComments.status, 'running')))
         .returning();
       if (!saved) throw new HTTPException(409, { message: 'post_comment_cancelled' });
+      if (saved.isConversation)
+        await enqueuePersonaMemory(transaction, kind, id, ownerId, started.source);
       return { ...saved, stale: false };
     });
     if (response.usage)

@@ -1,3 +1,4 @@
+import { startPersonaMemoryWorker } from './personaMemory/worker';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { runAutomaticHeicBrowserCoverBackfill } from './attachments/heicBrowserCoverBackfillWorker';
@@ -151,6 +152,7 @@ subscribeConfigChange('site', (_group, newConfig) => {
     await StartupMigration.checkStartupStatus();
     await StartupMigration.showConfigStatus();
     startEmbeddingWorker();
+    startPersonaMemoryWorker();
     await startResourceMaintenanceWorker();
     if (isPushNotificationsEnabled()) {
       await startPushWorkerRuntime();

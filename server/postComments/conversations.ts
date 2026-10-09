@@ -1,3 +1,5 @@
+import { enqueuePersonaMemory } from '../personaMemory/repository';
+import { selectPersonaMemory } from './memoryContext';
 import { and, asc, desc, eq, inArray, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { lockDatabaseOwner } from '../database/ownerLock';
@@ -207,13 +209,14 @@ async function finishTurn(
       )
       .orderBy(desc(postReplyTurns.createdAt), desc(postReplyTurns.id))
       .limit(8);
-    const memory = await retrieveReplyMemory(
+    const retrieved = await retrieveReplyMemory(
       kind,
       id,
       ownerId,
       started.source,
       started.turn.userContent
     );
+    const memory = selectPersonaMemory(retrieved, started.thread.personaId!);
     const messages: ChatMessage[] = [
       { role: 'system', content: replySystemPrompt(started.thread.personaId!) },
       ...(memory.message ? [{ role: 'user' as const, content: memory.message }] : []),
@@ -246,13 +249,19 @@ async function finishTurn(
       const post = await ownedPost(kind, id, ownerId, transaction, true);
       if (postContentHash(post.content) !== started.turn.sourceHash)
         throw new HTTPException(409, { message: 'post_comment_source_changed' });
-      await assertReplyMemoryCurrent(memory, ownerId, transaction);
+      await assertReplyMemoryCurrent(memory, ownerId, transaction, { kind, id });
       const [saved] = await transaction
         .update(postReplyTurns)
         .set({ replyContent, status: 'completed' })
         .where(and(eq(postReplyTurns.id, started.turn.id), eq(postReplyTurns.status, 'running')))
         .returning();
       if (!saved) throw new HTTPException(409, { message: 'post_comment_cancelled' });
+      await enqueuePersonaMemory(transaction, kind, id, ownerId, started.turn.userContent, {
+        id: saved.id,
+        createdAt: saved.createdAt,
+        threadId: started.thread.id,
+        personaId: started.thread.personaId!,
+      });
       return saved;
     });
     if (response.usage) {

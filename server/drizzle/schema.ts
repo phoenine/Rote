@@ -788,6 +788,89 @@ export const postReplyTurns = pgTable(
   })
 ).enableRLS();
 
+export const personaMemories = pgTable(
+  'persona_memories',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    personaId: varchar('persona_id', { length: 30 }).notNull().default('shared'),
+    key: varchar('key', { length: 120 }).notNull(),
+    content: text('content').notNull(),
+    evidence: text('evidence').notNull(),
+    roteId: uuid('rote_id').references(() => rotes.id, { onDelete: 'cascade' }),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade' }),
+    threadId: uuid('thread_id').references(() => postAiComments.id, { onDelete: 'cascade' }),
+    turnId: uuid('turn_id').references(() => postReplyTurns.id, { onDelete: 'cascade' }),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    publicSource: boolean('public_source').notNull(),
+    embedding: jsonb('embedding').$type<number[]>(),
+    generationId: uuid('generation_id'),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    keyIdx: uniqueIndex('persona_memories_key_idx').on(table.ownerId, table.personaId, table.key),
+    ownerIdx: index('persona_memories_owner_idx').on(table.ownerId, table.personaId),
+    targetCheck: check(
+      'persona_memories_target_check',
+      sql`num_nonnulls(${table.roteId}, ${table.articleId}) = 1`
+    ),
+  })
+).enableRLS();
+
+export const personaMemoryJobs = pgTable(
+  'persona_memory_jobs',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    personaId: varchar('persona_id', { length: 30 }).notNull().default('shared'),
+    roteId: uuid('rote_id').references(() => rotes.id, { onDelete: 'cascade' }),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade' }),
+    threadId: uuid('thread_id').references(() => postAiComments.id, { onDelete: 'cascade' }),
+    turnId: uuid('turn_id').references(() => postReplyTurns.id, { onDelete: 'cascade' }),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    dedupeKey: text('dedupe_key').notNull(),
+    status: varchar('status', { length: 20 }).notNull().default('pending'),
+    leaseToken: uuid('lease_token'),
+    startedAt: timestamp('started_at', { withTimezone: true }),
+    errorCode: text('error_code'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    dedupeIdx: uniqueIndex('persona_memory_jobs_dedupe_idx').on(table.ownerId, table.dedupeKey),
+    pendingIdx: index('persona_memory_jobs_pending_idx').on(table.status, table.createdAt),
+    targetCheck: check(
+      'persona_memory_jobs_target_check',
+      sql`num_nonnulls(${table.roteId}, ${table.articleId}) = 1`
+    ),
+    statusCheck: check(
+      'persona_memory_jobs_status_check',
+      sql`${table.status} IN ('pending', 'running', 'completed', 'failed', 'cancelled')`
+    ),
+  })
+).enableRLS();
+
+export const personaMemorySuppressions = pgTable(
+  'persona_memory_suppressions',
+  {
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    personaId: varchar('persona_id', { length: 30 }).notNull(),
+    key: varchar('key', { length: 120 }).notNull(),
+    forgottenBefore: timestamp('forgotten_before', { withTimezone: true }).notNull(),
+    sourceIds: jsonb('source_ids').$type<string[]>().notNull().default([]),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.ownerId, table.personaId, table.key] }),
+  })
+).enableRLS();
+
 // External import identity for idempotent, owner-scoped imports.
 // The source key is scoped to the destination owner so the same export can be
 // imported safely by different Rote users.

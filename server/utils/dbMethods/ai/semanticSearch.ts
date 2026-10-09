@@ -24,6 +24,7 @@ export async function semanticSearch(params: {
   query: string;
   publicSourcesOnly?: boolean;
   embeddingTimeoutMs?: number;
+  onQueryEmbedding?: (vector: number[], generationId: string) => void;
   ownerId?: string;
   viewerId?: string;
   scope?: 'mine' | 'public';
@@ -56,6 +57,7 @@ export async function semanticSearch(params: {
     queryText || 'all notes',
     { timeoutMs: params.embeddingTimeoutMs }
   );
+  params.onQueryEmbedding?.(queryEmbedding, state.generationId!);
   if (usage && params.ownerId) {
     await logAiTokenUsage({
       userid: params.ownerId,

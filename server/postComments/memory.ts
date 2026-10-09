@@ -1,3 +1,9 @@
+import {
+  retrievePersonaCandidates,
+  assertPersonaMemoryCurrent,
+  memorySuppressions,
+} from '../personaMemory/retrieval';
+import { readMemorySource } from '../personaMemory/source';
 import { and, eq } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { articles, rotes } from '../drizzle/schema';
@@ -90,8 +96,12 @@ export async function retrieveReplyMemory(
       600
     );
     if (!query) return packReplyMemory([]);
+    let queryEmbedding: { vector: number[]; generationId: string } | undefined;
     const results = await semanticSearch({
       query,
+      onQueryEmbedding: (vector, generationId) => {
+        queryEmbedding = { vector, generationId };
+      },
       ownerId,
       viewerId: ownerId,
       publicSourcesOnly: true,
@@ -113,7 +123,30 @@ export async function retrieveReplyMemory(
         date: current.createdAt.toISOString().slice(0, 10),
       });
     }
-    return packReplyMemory(candidates);
+    const target = {
+      roteId: kind === 'rote' ? id : null,
+      articleId: kind === 'article' ? id : null,
+    };
+    const destination = await readMemorySource({
+      ownerId,
+      ...target,
+      threadId: null,
+      turnId: null,
+    });
+    const learned = queryEmbedding
+      ? await retrievePersonaCandidates(
+          ownerId,
+          queryEmbedding.vector,
+          queryEmbedding.generationId,
+          target
+        )
+      : [];
+    return {
+      ...packReplyMemory(candidates),
+      candidates: [...learned, ...candidates],
+      suppressions: await memorySuppressions(ownerId),
+      publicReply: destination?.isPublic !== false,
+    };
   } catch (error) {
     process.emitWarning(error instanceof Error ? error : new Error(String(error)), {
       code: 'post_reply_memory_unavailable',
@@ -126,9 +159,34 @@ export async function retrieveReplyMemory(
 export async function assertReplyMemoryCurrent(
   memory: ReplyMemory,
   ownerId: string,
-  executor: Executor
+  executor: Executor,
+  target?: { kind: PostKind; id: string }
 ) {
+  const destination = target
+    ? await readMemorySource(
+        {
+          ownerId,
+          roteId: target.kind === 'rote' ? target.id : null,
+          articleId: target.kind === 'article' ? target.id : null,
+          threadId: null,
+          turnId: null,
+        },
+        executor,
+        true
+      )
+    : null;
+  const publicReply = destination ? destination.isPublic : memory.publicReply !== false;
   for (const reference of memory.sources) {
+    if (reference.kind === 'memory') {
+      await assertPersonaMemoryCurrent(
+        reference.id,
+        reference.hash,
+        ownerId,
+        publicReply,
+        executor
+      );
+      continue;
+    }
     const current = await publicSource(reference.kind, reference.id, ownerId, executor, true);
     if (
       !current ||

@@ -1942,6 +1942,7 @@
       "invite": "Invite a friend",
       "legacyName": "Earlier reply",
       "legacyPrivate": "An earlier private reply, visible only to you.",
+      "privateContext": "Only you can see this exchange, even if you publish the post.",
       "author": "Author",
       "replyTo": "Reply to {{name}}",
       "send": "Send",

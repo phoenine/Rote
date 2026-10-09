@@ -1942,6 +1942,7 @@
       "invite": "邀请一位朋友",
       "legacyName": "此前的回复",
       "legacyPrivate": "此前保存的私有回复，仅你可见。",
+      "privateContext": "此段交流仅你可见，公开帖子不会公开此段交流。",
       "author": "作者",
       "replyTo": "回复 {{name}}",
       "send": "发送",

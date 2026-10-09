@@ -1942,6 +1942,7 @@
       "invite": "友だちを招待",
       "legacyName": "以前の返信",
       "legacyPrivate": "以前の非公開返信です。あなたにのみ表示されます。",
+      "privateContext": "この会話は、投稿を公開してもあなたにのみ表示されます。",
       "author": "投稿者",
       "replyTo": "{{name}} に返信",
       "send": "送信",

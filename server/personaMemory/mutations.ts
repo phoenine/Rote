@@ -1,4 +1,4 @@
-import { and, eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray, lte, sql } from 'drizzle-orm';
 import { personaMemories, personaMemoryJobs, personaMemorySuppressions } from '../drizzle/schema';
 import db from '../utils/drizzle';
 import { lockDatabaseOwner } from '../database/ownerLock';
@@ -40,10 +40,12 @@ export async function applyMemoryOperations(job: MemoryJob, operations: MemoryOp
         eq(personaMemories.personaId, personaId)
       );
       if (op.action !== 'remember') {
-        const rows = await tx
-          .select()
-          .from(personaMemories)
-          .where(op.action === 'forget' ? and(scope, eq(personaMemories.id, op.id)) : scope);
+        const forgotten = and(
+          scope,
+          lte(personaMemories.createdAt, job.createdAt),
+          op.action === 'forget' ? eq(personaMemories.id, op.id) : undefined
+        );
+        const rows = await tx.select().from(personaMemories).where(forgotten);
         for (const memory of rows) {
           const sourceIds = [
             memory.roteId ? `rote:${memory.roteId}` : `article:${memory.articleId}`,
@@ -63,7 +65,10 @@ export async function applyMemoryOperations(job: MemoryJob, operations: MemoryOp
                 personaMemorySuppressions.personaId,
                 personaMemorySuppressions.key,
               ],
-              set: { forgottenBefore: job.createdAt, sourceIds },
+              set: {
+                forgottenBefore: sql`greatest(${personaMemorySuppressions.forgottenBefore}, excluded.forgotten_before)`,
+                sourceIds: sql`(SELECT jsonb_agg(DISTINCT value) FROM jsonb_array_elements(${personaMemorySuppressions.sourceIds} || excluded.source_ids))`,
+              },
             });
         }
         if (op.action === 'forget_all')
@@ -76,11 +81,11 @@ export async function applyMemoryOperations(job: MemoryJob, operations: MemoryOp
                 personaMemorySuppressions.personaId,
                 personaMemorySuppressions.key,
               ],
-              set: { forgottenBefore: job.createdAt },
+              set: {
+                forgottenBefore: sql`greatest(${personaMemorySuppressions.forgottenBefore}, excluded.forgotten_before)`,
+              },
             });
-        await tx
-          .delete(personaMemories)
-          .where(op.action === 'forget' ? and(scope, eq(personaMemories.id, op.id)) : scope);
+        await tx.delete(personaMemories).where(forgotten);
         continue;
       }
       let key = op.key.normalize('NFKC').trim().toLowerCase();
@@ -142,6 +147,7 @@ export async function applyMemoryOperations(job: MemoryJob, operations: MemoryOp
         expiresAt: op.ttlDays ? new Date(job.createdAt.getTime() + op.ttlDays * 86400000) : null,
         embedding: null,
         generationId: null,
+        indexAttemptedAt: null,
         updatedAt: new Date(),
       };
       await tx

@@ -4,6 +4,7 @@ import db from '../utils/drizzle';
 import { postContentHash, type PostKind } from '../postComments/content';
 import { lockDatabaseOwner } from '../database/ownerLock';
 import { readMemorySource, type MemorySource } from './source';
+import { readMemorySources } from './sourceBatch';
 
 type Transaction = Parameters<Parameters<typeof db.transaction>[0]>[0];
 export type MemoryJob = typeof personaMemoryJobs.$inferSelect;
@@ -122,12 +123,18 @@ export async function availableMemories(ownerId: string, personaId: string) {
     )
     .orderBy(sql`${personaMemories.updatedAt} DESC`)
     .limit(100);
-  const valid = [];
-  for (const row of rows) {
-    const current = await currentMemory(row.id, ownerId);
-    if (current) valid.push(current.memory);
-  }
-  return valid;
+  const sources = await readMemorySources(ownerId, rows);
+  const now = new Date();
+  return rows.flatMap((memory, index) => {
+    const source = sources[index];
+    if (
+      !source ||
+      source.hash !== memory.sourceHash ||
+      (memory.expiresAt && memory.expiresAt <= now)
+    )
+      return [];
+    return [{ memory, isPublic: memory.publicSource && source.isPublic }];
+  });
 }
 
 export function memoryVersion(memory: typeof personaMemories.$inferSelect) {

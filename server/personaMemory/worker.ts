@@ -29,11 +29,9 @@ export async function processMemoryJobs(limit = 5) {
         await applyMemoryOperations(job, []);
         continue;
       }
-      const existing = [];
-      for (const memory of await availableMemories(job.ownerId, job.personaId)) {
-        const current = await currentMemory(memory.id, job.ownerId);
-        if (current && (!source.isPublic || current.isPublic)) existing.push(memory);
-      }
+      const existing = (await availableMemories(job.ownerId, job.personaId))
+        .filter((current) => !source.isPublic || current.isPublic)
+        .map((current) => current.memory);
       const result = await extractMemories(
         config,
         source.text,
@@ -80,40 +78,55 @@ export async function indexPersonaMemories(limit = 5) {
         sql`${personaMemories.generationId} IS DISTINCT FROM ${state.generationId}`
       )
     )
-    .orderBy(personaMemories.updatedAt)
+    .orderBy(
+      sql`${personaMemories.indexAttemptedAt} ASC NULLS FIRST`,
+      personaMemories.updatedAt,
+      personaMemories.id
+    )
     .limit(limit);
   for (const row of rows) {
-    const current = await currentMemory(row.id, row.ownerId);
-    if (!current) {
+    try {
+      // Rotate skipped or failed records behind memories that have not been tried.
       await db
-        .delete(personaMemories)
+        .update(personaMemories)
+        .set({ indexAttemptedAt: new Date() })
         .where(and(eq(personaMemories.id, row.id), eq(personaMemories.updatedAt, row.updatedAt)));
-      continue;
-    }
-    if (await getAiAccessError({ id: row.ownerId })) continue;
-    const result = await createQueryEmbedding(
-      config,
-      state.generationId!,
-      state.dimensions!,
-      row.content,
-      { timeoutMs: 10000 }
-    );
-    await db
-      .update(personaMemories)
-      .set({ embedding: result.embedding, generationId: state.generationId })
-      .where(and(eq(personaMemories.id, row.id), eq(personaMemories.updatedAt, row.updatedAt)));
-    if (result.usage)
-      trackBackgroundTask(
-        logAiTokenUsage({
-          userid: row.ownerId,
-          model: config.embedding.model,
-          type: 'embedding',
-          promptTokens: result.usage.prompt_tokens,
-          completionTokens: 0,
-          totalTokens: result.usage.total_tokens,
-        }),
-        'persona_memory_usage_failed'
+      const current = await currentMemory(row.id, row.ownerId);
+      if (!current) {
+        await db
+          .delete(personaMemories)
+          .where(and(eq(personaMemories.id, row.id), eq(personaMemories.updatedAt, row.updatedAt)));
+        continue;
+      }
+      if (await getAiAccessError({ id: row.ownerId })) continue;
+      const result = await createQueryEmbedding(
+        config,
+        state.generationId!,
+        state.dimensions!,
+        row.content,
+        { timeoutMs: 10000 }
       );
+      await db
+        .update(personaMemories)
+        .set({ embedding: result.embedding, generationId: state.generationId })
+        .where(and(eq(personaMemories.id, row.id), eq(personaMemories.updatedAt, row.updatedAt)));
+      if (result.usage)
+        trackBackgroundTask(
+          logAiTokenUsage({
+            userid: row.ownerId,
+            model: config.embedding.model,
+            type: 'embedding',
+            promptTokens: result.usage.prompt_tokens,
+            completionTokens: 0,
+            totalTokens: result.usage.total_tokens,
+          }),
+          'persona_memory_usage_failed'
+        );
+    } catch (error) {
+      process.emitWarning(error instanceof Error ? error : new Error(String(error)), {
+        code: 'persona_memory_index_failed',
+      });
+    }
   }
 }
 

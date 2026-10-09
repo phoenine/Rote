@@ -1,7 +1,7 @@
-import xiaorou from './avatars/xiaorou.png';
-import momo from './avatars/momo.png';
-import xiaoqing from './avatars/xiaoqing.png';
-import sunLingting from './avatars/sun-lingting.png';
+import xiaorou from './avatars/xiaorou.webp';
+import momo from './avatars/momo.webp';
+import xiaoqing from './avatars/xiaoqing.webp';
+import sunLingting from './avatars/sun-lingting.webp';
 
 const personaAvatars = new Map([
   ['neighbor', xiaorou],

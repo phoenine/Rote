@@ -367,4 +367,67 @@ describe.skipIf(!url)('AI comment persistence and version boundaries', () => {
     await service.deletePostComment('article', articleId, ownerId, thread.id);
     expect(await listPostReplies('article', articleId, ownerId)).toHaveLength(0);
   });
+
+  it('does not publish private conversations or private history when a post becomes public', async () => {
+    const { listPostReplies, continuePostReply } = await import('./conversations');
+    const privateId = crypto.randomUUID();
+    nextAnswer = async () => 'Private context from another record.';
+    await database
+      .insert(rotes)
+      .values({ id: privateId, authorid: ownerId, content: 'A post', state: 'private' });
+    const privateThread = await service.generatePostComment(
+      'rote',
+      privateId,
+      ownerId,
+      crypto.randomUUID(),
+      { conversation: true }
+    );
+    expect(privateThread.publicSafe).toBe(false);
+    await database.update(rotes).set({ state: 'public' }).where(eq(rotes.id, privateId));
+    expect(await listPostReplies('rote', privateId)).toHaveLength(0);
+    expect(await listPostReplies('rote', privateId, ownerId)).toHaveLength(1);
+
+    nextAnswer = async () => 'A public answer.';
+    const publicThread = await service.generatePostComment(
+      'rote',
+      privateId,
+      ownerId,
+      crypto.randomUUID(),
+      { conversation: true }
+    );
+    expect(publicThread.publicSafe).toBe(true);
+    await database.update(rotes).set({ state: 'private' }).where(eq(rotes.id, privateId));
+    const privateTurn = await continuePostReply(
+      'rote',
+      privateId,
+      ownerId,
+      publicThread.id,
+      crypto.randomUUID(),
+      'Private author message'
+    );
+    expect(privateTurn.publicSafe).toBe(false);
+    await database.update(rotes).set({ state: 'public' }).where(eq(rotes.id, privateId));
+    const inherited = await continuePostReply(
+      'rote',
+      privateId,
+      ownerId,
+      publicThread.id,
+      crypto.randomUUID(),
+      'Continue this conversation'
+    );
+    expect(inherited.publicSafe).toBe(false);
+    const visible = await listPostReplies('rote', privateId);
+    expect(visible).toHaveLength(1);
+    expect(visible[0].turns).toHaveLength(0);
+    expect(
+      (await listPostReplies('rote', privateId, ownerId)).find(
+        (thread) => thread.id === publicThread.id
+      )?.turns
+    ).toHaveLength(2);
+    await database
+      .update(postAiComments)
+      .set({ publicSafe: false })
+      .where(eq(postAiComments.id, publicThread.id));
+    expect(await listPostReplies('rote', privateId)).toHaveLength(0);
+  });
 });

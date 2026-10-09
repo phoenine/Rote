@@ -7,6 +7,7 @@ export type PostReplyTurn = {
   replyContent: string;
   status: 'running' | 'completed' | 'failed';
   requestId?: string;
+  publicSafe?: boolean;
   stale: boolean;
 };
 
@@ -16,6 +17,7 @@ export type PostComment = {
   status: 'running' | 'completed' | 'failed';
   personaId: string | null;
   legacy: boolean;
+  publicSafe?: boolean;
   turns: PostReplyTurn[];
   createdAt: string;
   stale: boolean;

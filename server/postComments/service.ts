@@ -1,4 +1,5 @@
 import { enqueuePersonaMemory } from '../personaMemory/repository';
+import { readMemorySource } from '../personaMemory/source';
 import { selectPersonaMemory } from './memoryContext';
 import { trackBackgroundTask } from '../utils/backgroundTask';
 import { and, desc, eq, isNotNull, sql } from 'drizzle-orm';
@@ -185,9 +186,14 @@ export async function generatePostComment(
         throw new HTTPException(409, { message: 'post_comment_source_changed' });
       }
       await assertReplyMemoryCurrent(memory, ownerId, transaction, { kind, id });
+      const destination = await readMemorySource(
+        { ...started.comment, threadId: null, turnId: null },
+        transaction,
+        true
+      );
       const [saved] = await transaction
         .update(postAiComments)
-        .set({ content, status: 'completed' })
+        .set({ content, status: 'completed', publicSafe: destination?.isPublic === true })
         .where(and(eq(postAiComments.id, started.comment.id), eq(postAiComments.status, 'running')))
         .returning();
       if (!saved) throw new HTTPException(409, { message: 'post_comment_cancelled' });

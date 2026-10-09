@@ -71,6 +71,23 @@ describe('post reply conversations', () => {
     expect(screen.getByRole('button', { name: 'invite' })).toBeDisabled();
   });
 
+  it('tells the owner which conversations remain private after publishing', async () => {
+    api.list.mockResolvedValue([
+      {
+        id: 'private',
+        personaId: 'friend',
+        legacy: false,
+        publicSafe: false,
+        content: 'Private exchange',
+        status: 'completed',
+        turns: [],
+      },
+    ]);
+    show();
+    await screen.findByText('Private exchange');
+    expect(screen.getByText('privateContext')).toBeInTheDocument();
+  });
+
   it('sends a comment to the same role', async () => {
     api.list.mockResolvedValue([
       {

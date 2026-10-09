@@ -68,7 +68,7 @@ export async function readMemorySource(
     return {
       text: row.turn.userContent,
       hash: postContentHash(row.turn.userContent),
-      isPublic,
+      isPublic: isPublic && row.thread.publicSafe && row.turn.publicSafe,
       personaId: row.thread.personaId,
     };
   }

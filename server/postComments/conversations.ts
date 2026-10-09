@@ -1,4 +1,5 @@
 import { enqueuePersonaMemory } from '../personaMemory/repository';
+import { readMemorySource } from '../personaMemory/source';
 import { selectPersonaMemory } from './memoryContext';
 import { and, asc, desc, eq, inArray, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
@@ -40,7 +41,9 @@ export async function listPostReplies(kind: PostKind, id: string, viewerId?: str
     .where(
       and(
         targetFilter(kind, id, post.ownerId),
-        owner ? undefined : eq(postAiComments.isConversation, true)
+        owner
+          ? undefined
+          : and(eq(postAiComments.isConversation, true), eq(postAiComments.publicSafe, true))
       )
     )
     .orderBy(asc(postAiComments.createdAt), asc(postAiComments.id));
@@ -72,9 +75,13 @@ export async function listPostReplies(kind: PostKind, id: string, viewerId?: str
         .select()
         .from(postReplyTurns)
         .where(
-          inArray(
-            postReplyTurns.threadId,
-            threads.map((thread) => thread.id)
+          and(
+            inArray(
+              postReplyTurns.threadId,
+              threads.map((thread) => thread.id)
+            ),
+            // Private author messages stay private even after the post is published.
+            owner ? undefined : eq(postReplyTurns.publicSafe, true)
           )
         )
         .orderBy(asc(postReplyTurns.createdAt), asc(postReplyTurns.id))
@@ -84,6 +91,7 @@ export async function listPostReplies(kind: PostKind, id: string, viewerId?: str
     id: thread.id,
     personaId: thread.personaId,
     legacy: !thread.isConversation,
+    publicSafe: thread.publicSafe,
     content: thread.content,
     status:
       owner && thread.status === 'running' && Date.now() - thread.createdAt.getTime() > 120000
@@ -97,6 +105,7 @@ export async function listPostReplies(kind: PostKind, id: string, viewerId?: str
         id: turn.id,
         userContent: turn.userContent,
         replyContent: turn.replyContent,
+        publicSafe: turn.publicSafe,
         status: turn.status,
         requestId: owner ? turn.requestId : undefined,
         createdAt: turn.createdAt,
@@ -250,9 +259,18 @@ async function finishTurn(
       if (postContentHash(post.content) !== started.turn.sourceHash)
         throw new HTTPException(409, { message: 'post_comment_source_changed' });
       await assertReplyMemoryCurrent(memory, ownerId, transaction, { kind, id });
+      const destination = await readMemorySource(
+        { ...started.thread, threadId: null, turnId: null },
+        transaction,
+        true
+      );
+      const publicSafe =
+        destination?.isPublic === true &&
+        started.thread.publicSafe &&
+        retained.every((turn) => turn.publicSafe);
       const [saved] = await transaction
         .update(postReplyTurns)
-        .set({ replyContent, status: 'completed' })
+        .set({ replyContent, status: 'completed', publicSafe })
         .where(and(eq(postReplyTurns.id, started.turn.id), eq(postReplyTurns.status, 'running')))
         .returning();
       if (!saved) throw new HTTPException(409, { message: 'post_comment_cancelled' });

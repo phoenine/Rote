@@ -86,6 +86,9 @@ export function ReplyThread({
           {thread.status === 'completed' ? thread.content : t(thread.status)}
         </button>
         {thread.legacy && <p className="text-muted-foreground text-xs">{t('legacyPrivate')}</p>}
+        {owner && !thread.legacy && thread.publicSafe === false && (
+          <p className="text-muted-foreground text-xs">{t('privateContext')}</p>
+        )}
         {thread.stale && <p className="text-muted-foreground text-xs">{t('stale')}</p>}
         {replyCount > 0 && (
           <button
@@ -101,6 +104,9 @@ export function ReplyThread({
         {expanded &&
           thread.turns?.map((turn) => (
             <div key={turn.id} className="space-y-3 border-l pt-2 pl-3">
+              {owner && turn.publicSafe === false && (
+                <p className="text-muted-foreground text-xs">{t('privateContext')}</p>
+              )}
               <div className="flex gap-2">
                 <UserAvatar avatar={author.avatar} className="size-7 shrink-0 rounded-md" />
                 <div className="min-w-0">

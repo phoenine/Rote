@@ -1160,6 +1160,7 @@
         "cosRegionPlaceholder": "ap-shanghai",
         "cosRegionDescription": "COS region (required, e.g., ap-shanghai)",
         "urlPrefix": "URL Prefix",
+        "urlPrefixInvalid": "Enter an absolute HTTP(S) URL without credentials, query parameters or fragments.",
         "urlPrefixPlaceholder": "https://your-cdn-domain.com",
         "urlPrefixDescription": "Public URL prefix for accessing uploaded files (required), this is the domain name used to access the actually stored resources.",
         "testConnection": "Test Connection",

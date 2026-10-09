@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { profileAtom } from '@/state/profile';
 import { useAPIGet } from '@/utils/fetcher';
 import { listPostComments } from './api';
+import UserAvatar from '@/components/others/UserAvatar';
+import { getPersonaAvatar } from './personaAvatars';
 
 export function PostCommentsPreview({
   postId,
@@ -51,15 +53,21 @@ export function PostCommentsPreview({
         <Link
           key={thread.id}
           to={`/rote/${postId}`}
-          className="bg-muted/40 hover:bg-muted block rounded-md px-3 py-2 text-sm"
+          className="bg-muted/40 hover:bg-muted flex gap-2 rounded-md px-3 py-2 text-sm"
         >
-          <span className="font-medium">
-            {thread.personaId ? t(`personas.${thread.personaId}`) : t('legacyName')}:{' '}
-          </span>
-          <span className="text-muted-foreground line-clamp-2">
-            {[...(thread.turns || [])].reverse().find((turn) => turn.status === 'completed')
-              ?.replyContent || thread.content}
-          </span>
+          <UserAvatar
+            avatar={getPersonaAvatar(thread.personaId)}
+            className="size-7 shrink-0 rounded-md"
+          />
+          <div className="min-w-0 flex-1">
+            <span className="font-medium">
+              {thread.personaId ? t(`personas.${thread.personaId}`) : t('legacyName')}:{' '}
+            </span>
+            <span className="text-muted-foreground line-clamp-2">
+              {[...(thread.turns || [])].reverse().find((turn) => turn.status === 'completed')
+                ?.replyContent || thread.content}
+            </span>
+          </div>
         </Link>
       ))}
     </div>

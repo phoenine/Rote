@@ -1160,6 +1160,7 @@
         "cosRegionPlaceholder": "ap-shanghai",
         "cosRegionDescription": "COS リージョン（必須、例：ap-shanghai）",
         "urlPrefix": "URLプレフィックス",
+        "urlPrefixInvalid": "認証情報、クエリ、フラグメントを含まない完全な HTTP(S) URL を入力してください。",
         "urlPrefixPlaceholder": "https://your-cdn-domain.com",
         "urlPrefixDescription": "アップロードされたファイルにアクセスするための公開URLプレフィックス（必須）、これは実際に保存されたリソースにアクセスするために使用されるドメイン名です",
         "testConnection": "接続テスト",

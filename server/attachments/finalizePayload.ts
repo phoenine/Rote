@@ -1,3 +1,4 @@
+import { normalizeStorageUrlPrefix } from './publicUrl';
 import { RESOURCE_ERROR_CODES, ResourcePolicyError } from '../resources/errors';
 import type { UploadReservationManifestItem } from '../resources/service';
 import type { UploadResult } from '../types/main';
@@ -91,6 +92,7 @@ export function normalizeFinalizeAttachmentsFromManifest(
 }
 
 export function toUploadResult(urlPrefix: string, item: FinalizeAttachmentInput): UploadResult {
+  urlPrefix = normalizeStorageUrlPrefix(urlPrefix);
   const mediaKind = inferAttachmentMediaKind({
     mediaKind: item.mediaKind,
     mimetype: item.mimetype || null,

@@ -4,6 +4,7 @@ import UserAvatar from '@/components/others/UserAvatar';
 import { Button } from '@/components/ui/button';
 import { formatTimeAgo } from '@/utils/main';
 import { type PostComment, type PostReplyTurn } from './api';
+import { getPersonaAvatar } from './personaAvatars';
 
 type Author = { name: string; avatar?: string | null };
 type Props = {
@@ -42,7 +43,10 @@ export function ReplyThread({
   );
   return (
     <article className="flex gap-3 py-4">
-      <UserAvatar className="size-9 shrink-0 rounded-md" />
+      <UserAvatar
+        avatar={getPersonaAvatar(thread.personaId)}
+        className="size-9 shrink-0 rounded-md"
+      />
       <div className="min-w-0 flex-1 space-y-1.5">
         <div className="flex items-center justify-between gap-2">
           <button
@@ -110,7 +114,10 @@ export function ReplyThread({
                 </div>
               </div>
               <div className="flex gap-2">
-                <UserAvatar className="size-7 shrink-0 rounded-md" />
+                <UserAvatar
+                  avatar={getPersonaAvatar(thread.personaId)}
+                  className="size-7 shrink-0 rounded-md"
+                />
                 <div className="min-w-0 flex-1">
                   <button
                     type="button"

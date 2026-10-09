@@ -1,3 +1,4 @@
+import { normalizeStorageUrlPrefix } from '../attachments/publicUrl';
 import {
   AbortMultipartUploadCommand,
   CompleteMultipartUploadCommand,
@@ -41,10 +42,6 @@ function extractCosRegion(endpoint: string): string | null {
   return match ? match[1] : null;
 }
 
-function normalizeUrlPrefix(prefix: string | undefined): string {
-  return (prefix || '').trim().replace(/\/+$/, '');
-}
-
 /**
  * 判断是否需要使用路径风格访问
  * 路径风格是 S3 API 的标准格式，所有 S3 兼容服务都支持：
@@ -62,6 +59,7 @@ function shouldUsePathStyle(_endpoint: string): boolean {
 }
 
 export function createStorageClient(config: StorageConfig): StorageClientConfig {
+  const urlPrefix = normalizeStorageUrlPrefix(config.urlPrefix);
   const endpoint = normalizeEndpoint(config.endpoint);
   const bucketName = config.bucket;
   const cosRegion = extractCosRegion(endpoint);
@@ -109,7 +107,7 @@ export function createStorageClient(config: StorageConfig): StorageClientConfig 
   return {
     s3,
     bucketName,
-    urlPrefix: normalizeUrlPrefix(config.urlPrefix),
+    urlPrefix,
   };
 }
 

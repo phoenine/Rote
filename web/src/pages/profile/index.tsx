@@ -62,6 +62,7 @@ function ProfilePage() {
   const isMountedRef = useRef(true);
   const profileEditorSessionRef = useRef(0);
   const avatarUploadGenerationRef = useRef(0);
+  const avatarSaveImmediatelyRef = useRef(true);
   const coverUploadGenerationRef = useRef(0);
   const pendingAvatarAttachmentRef = useRef<Attachment | null>(null);
 
@@ -215,6 +216,8 @@ function ProfilePage() {
       return;
     }
 
+    avatarSaveImmediatelyRef.current = !isModalOpen;
+    event.target.value = '';
     setAvatarFile(selectedFile);
     setIsAvatarModalOpen(true);
   }
@@ -226,6 +229,7 @@ function ProfilePage() {
     }
 
     try {
+      const saveImmediately = avatarSaveImmediatelyRef.current;
       const session = profileEditorSessionRef.current;
       const generation = ++avatarUploadGenerationRef.current;
       setAvatarUploading(true);
@@ -233,16 +237,35 @@ function ProfilePage() {
       const attachment = await uploadAvatar(croppedImage, {
         browserDirectUpload: siteStatus?.ui?.attachmentDirectBrowserUpload === true,
       });
-      const accepted = await acceptPendingAvatarAttachment(attachment, session, generation);
-      if (!accepted) {
-        setAvatarUploading(false);
-        return;
+      if (saveImmediately) {
+        if (
+          !isMountedRef.current ||
+          session !== profileEditorSessionRef.current ||
+          generation !== avatarUploadGenerationRef.current
+        ) {
+          await deletePendingAttachmentQuietly(attachment.id);
+          if (isMountedRef.current && generation === avatarUploadGenerationRef.current)
+            setAvatarUploading(false);
+          return;
+        }
+        try {
+          await patchProfile({
+            avatar: profileAttachmentUrl(attachment),
+            avatarAttachmentId: attachment.id,
+          });
+        } catch (error) {
+          await deletePendingAttachmentQuietly(attachment.id);
+          throw error;
+        }
+      } else {
+        const accepted = await acceptPendingAvatarAttachment(attachment, session, generation);
+        if (!accepted) {
+          setAvatarUploading(false);
+          return;
+        }
+        setEditProfile((current) => ({ ...current, avatar: profileAttachmentUrl(attachment) }));
       }
-
-      setEditProfile((current) => ({
-        ...current,
-        avatar: profileAttachmentUrl(attachment),
-      }));
+      if (!isMountedRef.current) return;
       setAvatarUploading(false);
       setIsAvatarModalOpen(false);
       setAvatarFile(null);

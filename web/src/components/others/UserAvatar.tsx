@@ -13,13 +13,10 @@ interface UserAvatarProps extends ComponentProps<typeof Avatar> {
 function UserAvatar({ avatar, fallbackClassName, className, ...props }: UserAvatarProps) {
   return (
     <Avatar className={className} {...props}>
-      {avatar ? (
-        <AvatarImage src={avatar} />
-      ) : (
-        <AvatarFallback className={fallbackClassName}>
-          <img src="/DefaultAvatar.svg" alt="" className="size-full object-cover" />
-        </AvatarFallback>
-      )}
+      {avatar && <AvatarImage src={avatar} />}
+      <AvatarFallback className={fallbackClassName}>
+        <img src="/DefaultAvatar.svg" alt="" className="size-full object-cover" />
+      </AvatarFallback>
     </Avatar>
   );
 }

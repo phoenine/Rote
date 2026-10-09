@@ -1160,6 +1160,7 @@
         "cosRegionPlaceholder": "ap-shanghai",
         "cosRegionDescription": "COS 区域（必填，例如 ap-shanghai）",
         "urlPrefix": "URL 前缀",
+        "urlPrefixInvalid": "请输入完整的 http:// 或 https:// 地址，不包含账号密码、查询参数或片段。",
         "urlPrefixPlaceholder": "https://your-cdn-domain.com",
         "urlPrefixDescription": "用于访问上传文件的公共 URL 前缀（必填），这个是实际上储存资源访问的域名",
         "testConnection": "测试连接",

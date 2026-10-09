@@ -8,6 +8,7 @@ import { logAiTokenUsage } from '../utils/dbMethods/aiToken';
 import { findArticleById, findRoteById, getNoteByArticleId } from '../utils/dbMethods';
 import db from '../utils/drizzle';
 import { postContentHash, requireCommentableText, type PostKind } from './content';
+import { assertReplyMemoryCurrent, retrieveReplyMemory } from './memory';
 import { replySystemPrompt } from './personas';
 import { ownedPost, targetFilter } from './service';
 
@@ -206,8 +207,16 @@ async function finishTurn(
       )
       .orderBy(desc(postReplyTurns.createdAt), desc(postReplyTurns.id))
       .limit(8);
+    const memory = await retrieveReplyMemory(
+      kind,
+      id,
+      ownerId,
+      started.source,
+      started.turn.userContent
+    );
     const messages: ChatMessage[] = [
       { role: 'system', content: replySystemPrompt(started.thread.personaId!) },
+      ...(memory.message ? [{ role: 'user' as const, content: memory.message }] : []),
       { role: 'user', content: started.source || '[The author shared an image-only post.]' },
       { role: 'assistant', content: started.thread.content },
     ];
@@ -237,6 +246,7 @@ async function finishTurn(
       const post = await ownedPost(kind, id, ownerId, transaction, true);
       if (postContentHash(post.content) !== started.turn.sourceHash)
         throw new HTTPException(409, { message: 'post_comment_source_changed' });
+      await assertReplyMemoryCurrent(memory, ownerId, transaction);
       const [saved] = await transaction
         .update(postReplyTurns)
         .set({ replyContent, status: 'completed' })

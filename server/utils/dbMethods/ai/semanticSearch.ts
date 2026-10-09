@@ -22,6 +22,8 @@ import type {
 
 export async function semanticSearch(params: {
   query: string;
+  publicSourcesOnly?: boolean;
+  embeddingTimeoutMs?: number;
   ownerId?: string;
   viewerId?: string;
   scope?: 'mine' | 'public';
@@ -51,7 +53,8 @@ export async function semanticSearch(params: {
     config,
     state.generationId!,
     dimensions,
-    queryText || 'all notes'
+    queryText || 'all notes',
+    { timeoutMs: params.embeddingTimeoutMs }
   );
   if (usage && params.ownerId) {
     await logAiTokenUsage({
@@ -167,6 +170,16 @@ export async function semanticSearch(params: {
         )
       `;
 
+  const publicSourcesSql = params.publicSourcesOnly
+    ? sql`AND (
+    (de."sourceType" = 'rote' AND r."state" = 'public' AND r."archived" = false)
+    OR (de."sourceType" = 'article' AND EXISTS (
+      SELECT 1 FROM rotes published WHERE published."articleId" = a.id
+      AND published.authorid = a."authorId" AND published.state = 'public' AND published.archived = false
+    ))
+  )`
+    : sql``;
+
   const rows = (await db.execute(sql`
     SELECT
       de."id",
@@ -201,6 +214,7 @@ export async function semanticSearch(params: {
       AND de."embeddingDimensions" = ${dimensions}
       ${liveSourceSql}
       ${permissionSql}
+      ${publicSourcesSql}
       ${sourceTypeSql}
       ${excludeSql}
       ${excludeIdsSql}

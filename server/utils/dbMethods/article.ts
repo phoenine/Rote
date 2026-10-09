@@ -7,6 +7,7 @@ import { DatabaseError } from './common';
 import { syncArticleAttachments } from '../../articles/attachmentReferences';
 import { lockDatabaseOwner } from '../../database/ownerLock';
 import { subjectIsVisibleToViewer } from './userBlock';
+import { scheduleAutomaticReply } from '../../postComments/automatic';
 
 export interface ArticleMeta {
   title: string;
@@ -106,6 +107,7 @@ export async function createArticle(data: {
 
     // 补充计算字段
     const meta = parseMarkdownMeta(article.content);
+    scheduleAutomaticReply('article', article.id, article.authorId);
     return { ...article, ...meta };
   } catch (error: any) {
     throw new DatabaseError('Failed to create article', error);

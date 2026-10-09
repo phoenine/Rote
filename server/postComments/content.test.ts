@@ -2,11 +2,11 @@ import { describe, expect, it } from 'bun:test';
 import { commentMatchesTarget, postContentHash, requireCommentableText } from './content';
 
 describe('post comment input boundaries', () => {
-  it('does not claim to comment on image-only content', () => {
-    expect(() => requireCommentableText('  ![photo](https://example.com/photo.jpg)  ')).toThrow(
-      'post_comment_text_required'
-    );
-    expect(() => requireCommentableText('')).toThrow('post_comment_text_required');
+  it('allows conversation on image-only posts without requiring recognition', () => {
+    expect(() =>
+      requireCommentableText('  ![photo](https://example.com/photo.jpg)  ')
+    ).not.toThrow();
+    expect(() => requireCommentableText('')).not.toThrow();
     expect(() =>
       requireCommentableText('A useful observation\n![photo](https://example.com/photo.jpg)')
     ).not.toThrow();

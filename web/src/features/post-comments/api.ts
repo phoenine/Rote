@@ -1,17 +1,28 @@
 import { del, get, post } from '@/utils/api';
 
 export type PostKind = 'rote' | 'article';
+export type PostReplyTurn = {
+  id: string;
+  userContent: string;
+  replyContent: string;
+  status: 'running' | 'completed' | 'failed';
+  requestId?: string;
+  stale: boolean;
+};
+
 export type PostComment = {
   id: string;
   content: string;
   status: 'running' | 'completed' | 'failed';
-  model: string;
+  personaId: string | null;
+  legacy: boolean;
+  turns: PostReplyTurn[];
   createdAt: string;
   stale: boolean;
 };
 
 function commentPath(kind: PostKind, id: string) {
-  return `/post-comments/${kind}/${id}`;
+  return `/post-replies/${kind}/${id}`;
 }
 
 export async function listPostComments(kind: PostKind, id: string): Promise<PostComment[]> {
@@ -42,6 +53,20 @@ export function postCommentErrorKey(error: unknown): string {
     'post_comment_source_changed',
     'post_comment_cancelled',
     'post_comment_permission_required',
+    'post_reply_role_limit',
+    'post_reply_invalid_content',
+    'post_reply_thread_unavailable',
   ]);
   return message && known.has(message) ? `errors.${message}` : 'errors.failed';
+}
+
+export async function replyToThread(
+  kind: PostKind,
+  id: string,
+  threadId: string,
+  content: string,
+  requestId: string,
+  retry = false
+): Promise<PostReplyTurn> {
+  return (await post(commentPath(kind, id), { threadId, content, requestId, retry })).data;
 }

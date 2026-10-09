@@ -10,6 +10,7 @@ import {
 } from '../resources/service';
 import { notifyPublicNoteCreated } from '../utils/adminHooks';
 import { trackBackgroundTask } from '../utils/backgroundTask';
+import { scheduleAutomaticReply } from '../postComments/automatic';
 import { deleteRoteLinkPreviewsByRoteId, findRoteById } from '../utils/dbMethods';
 import db from '../utils/drizzle';
 import { validateRoteAttachmentDetails } from '../utils/fileValidation';
@@ -70,6 +71,7 @@ async function assertOwnedArticle(
 }
 
 function scheduleCreatedEffects(note: Rote) {
+  scheduleAutomaticReply('rote', note.id, note.authorid);
   if (!note.articleId) {
     trackBackgroundTask(
       parseAndStoreRoteLinkPreviews(note.id, note.content),

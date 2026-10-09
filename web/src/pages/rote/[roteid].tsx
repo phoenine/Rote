@@ -151,7 +151,15 @@ function SingleRotePage() {
         mutateSingle={mutate}
         enableContentCollapse={false}
       />
-      <PostComments kind="rote" id={rote.id} owner={isOwner} />
+      <PostComments
+        kind="rote"
+        id={rote.id}
+        owner={isOwner}
+        author={{
+          name: rote.author?.nickname || rote.author?.username || '',
+          avatar: rote.author?.avatar,
+        }}
+      />
     </ContainerWithSideBar>
   ) : null;
 }

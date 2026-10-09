@@ -267,6 +267,27 @@
       "when": 1791275011627,
       "tag": "0037_private_post_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1791508977506,
+      "tag": "0038_post_reply_conversations",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1791509198277,
+      "tag": "0039_post_reply_role_slots",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1791509388635,
+      "tag": "0040_reply_turn_start_time",
+      "breakpoints": true
     }
   ]
 }

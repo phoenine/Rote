@@ -206,7 +206,15 @@ function ArticleDetailPage() {
           </Link>
         )}
       </div>
-      <PostComments kind="article" id={article.id} owner={Boolean(isAuthor)} />
+      <PostComments
+        kind="article"
+        id={article.id}
+        owner={Boolean(isAuthor)}
+        author={{
+          name: article.author?.nickname || article.author?.username || '',
+          avatar: article.author?.avatar,
+        }}
+      />
       <ArticleDeleteConfirmDialog
         open={isDeleteConfirmOpen}
         isDeleting={isDeleting}

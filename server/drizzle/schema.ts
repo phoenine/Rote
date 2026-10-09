@@ -732,6 +732,10 @@ export const postAiComments = pgTable(
     status: varchar('status', { length: 20 }).notNull(),
     content: text('content').notNull().default(''),
     model: text('model').notNull(),
+    personaId: varchar('persona_id', { length: 30 }),
+    isConversation: boolean('is_conversation').notNull().default(false),
+    automatic: boolean('automatic').notNull().default(false),
+    automaticSlot: integer('automatic_slot'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => ({
@@ -746,6 +750,41 @@ export const postAiComments = pgTable(
     requestIdx: uniqueIndex('post_ai_comments_request_idx').on(table.ownerId, table.requestId),
     roteIdx: index('post_ai_comments_rote_idx').on(table.roteId),
     articleIdx: index('post_ai_comments_article_idx').on(table.articleId),
+    automaticRoteIdx: uniqueIndex('post_replies_automatic_rote_idx')
+      .on(table.roteId, table.automaticSlot)
+      .where(sql`${table.automatic} = true AND ${table.roteId} IS NOT NULL`),
+    automaticArticleIdx: uniqueIndex('post_replies_automatic_article_idx')
+      .on(table.articleId, table.automaticSlot)
+      .where(sql`${table.automatic} = true AND ${table.articleId} IS NOT NULL`),
+  })
+).enableRLS();
+
+export const postReplyTurns = pgTable(
+  'post_reply_turns',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    threadId: uuid('thread_id')
+      .notNull()
+      .references(() => postAiComments.id, { onDelete: 'cascade' }),
+    requestId: uuid('request_id').notNull(),
+    userContent: text('user_content').notNull(),
+    replyContent: text('reply_content').notNull().default(''),
+    status: varchar('status', { length: 20 }).notNull(),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    model: text('model').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    requestIdx: uniqueIndex('post_reply_turns_request_idx').on(table.threadId, table.requestId),
+    threadIdx: index('post_reply_turns_thread_idx').on(table.threadId, table.createdAt),
+    runningIdx: uniqueIndex('post_reply_turns_running_idx')
+      .on(table.threadId)
+      .where(sql`${table.status} = 'running'`),
+    statusCheck: check(
+      'post_reply_turns_status_check',
+      sql`${table.status} IN ('running', 'completed', 'failed')`
+    ),
   })
 ).enableRLS();
 

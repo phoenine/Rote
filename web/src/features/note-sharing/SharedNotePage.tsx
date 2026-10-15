@@ -2,8 +2,7 @@ import { Helmet } from '@dr.pogodin/react-helmet';
 import Linkify from 'linkify-react';
 import { RefreshCw, Share } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { ArticleMarkdown } from '@/components/article/ArticleMarkdown';
 import { Link, useParams } from 'react-router-dom';
 import AttachmentsGrid from '@/components/rote/AttachmentsGrid';
 import { LinkPreviewCard } from '@/components/rote/LinkPreviewCard';
@@ -100,9 +99,7 @@ function SharedNoteReader({ token }: { token: string }) {
               aria-label={t('article')}
               className="prose prose-sm dark:prose-invert max-w-full border-t pt-4 wrap-break-word"
             >
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {state.note.article.content}
-              </ReactMarkdown>
+              <ArticleMarkdown content={state.note.article.content} />
             </section>
           )}
           {state.note.attachments.length > 0 && (

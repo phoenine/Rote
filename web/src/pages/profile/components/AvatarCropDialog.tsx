@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Loader } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { Area } from 'react-easy-crop';
 import Cropper from 'react-easy-crop';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,14 @@ export default function AvatarCropDialog({
   isUploading,
 }: AvatarCropDialogProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'pages.profile' });
+  const [preview, setPreview] = useState<{ file: File; url: string } | null>(null);
+  useEffect(() => {
+    if (!isOpen || !imageFile) return;
+    const url = URL.createObjectURL(imageFile);
+    setPreview({ file: imageFile, url });
+    return () => URL.revokeObjectURL(url);
+  }, [imageFile, isOpen]);
+
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
@@ -44,9 +52,9 @@ export default function AvatarCropDialog({
           <DialogTitle>{t('cropAvatar')}</DialogTitle>
         </DialogHeader>
         <div className="relative h-[300px] w-full">
-          {imageFile && (
+          {preview?.file === imageFile && preview && (
             <Cropper
-              image={URL.createObjectURL(imageFile) || undefined}
+              image={preview.url}
               crop={crop}
               zoom={zoom}
               aspect={1}

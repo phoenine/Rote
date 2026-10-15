@@ -2049,49 +2049,7 @@
       "id": "b19bc6f3-4fd3-4f80-ba28-aca6a9f4a4b5",
       "description": "Site information and configuration endpoints."
     },
-    {
-      "name": "RSS",
-      "item": [
-        {
-          "name": "Get Public RSS Feed",
-          "id": "63e35dfa-99c7-4b60-b4e2-c4907ce0bd33",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/v2/api/rss/public",
-              "host": ["{{base_url}}"],
-              "path": ["v2", "api", "rss", "public"]
-            },
-            "description": "Get RSS feed of all public notes."
-          },
-          "response": []
-        },
-        {
-          "name": "Get User RSS Feed",
-          "id": "17caf61e-bb12-44d3-bf5a-8313b2547fcd",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/v2/api/rss/:username",
-              "host": ["{{base_url}}"],
-              "path": ["v2", "api", "rss", ":username"],
-              "variable": [
-                {
-                  "key": "username",
-                  "value": "testuser"
-                }
-              ]
-            },
-            "description": "Get RSS feed of a user's public notes."
-          },
-          "response": []
-        }
-      ],
-      "id": "4049b8b7-4e1b-4057-9aa7-4497ec9a8a82",
-      "description": "RSS feed endpoints."
-    },
+
     {
       "name": "Admin",
       "item": [

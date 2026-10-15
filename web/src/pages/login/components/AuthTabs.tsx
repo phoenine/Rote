@@ -256,10 +256,6 @@ export function AuthTabs({
             <Link to="/explore">
               <div className="duration-300 hover:opacity-60">{t('nav.explore')}</div>
             </Link>
-            <span className="px-2">/</span>
-            <Link to="/landing">
-              <div className="duration-300 hover:opacity-60">{t('nav.home')}</div>
-            </Link>
           </div>
         </div>
       </TabsContents>

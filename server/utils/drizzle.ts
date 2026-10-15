@@ -2,6 +2,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import postgres from 'postgres';
+import { databaseConnectionOptions, migrationDatabaseUrl } from '../database/connection';
 import * as oauthMcpSchema from '../drizzle/oauthMcpSchema';
 import * as baseSchema from '../drizzle/schema';
 
@@ -15,11 +16,7 @@ if (!connectionString) {
 }
 
 // 创建 postgres 客户端（用于查询）
-const queryClient = postgres(connectionString, {
-  max: 10, // 连接池大小
-  idle_timeout: 20,
-  connect_timeout: 10,
-});
+const queryClient = postgres(connectionString, databaseConnectionOptions(process.env));
 
 // 创建 Drizzle 实例（同时支持 SQL-like API 和 Relational Query API）
 export const db = drizzle(queryClient, { schema });
@@ -122,7 +119,15 @@ export async function runMigrations(): Promise<void> {
 
     console.log('✅ Migration files found, proceeding with migration...');
 
-    await migrate(db, { migrationsFolder });
+    const migrationClient = postgres(
+      migrationDatabaseUrl(process.env),
+      databaseConnectionOptions(process.env, true)
+    );
+    try {
+      await migrate(drizzle(migrationClient), { migrationsFolder });
+    } finally {
+      await migrationClient.end();
+    }
     console.log('✅ Database migrations completed successfully!');
   } catch (error: any) {
     console.error('❌ Migration failed:', error);

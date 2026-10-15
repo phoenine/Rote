@@ -317,7 +317,7 @@ export default function SetupWizard() {
 
       if (response) {
         toast.success(response.message || t('pages.setupWizard.toasts.initSuccess'));
-        navigate('/landing', { replace: true });
+        navigate('/login', { replace: true });
       } else {
         toast.error(t('pages.setupWizard.toasts.initFailed'));
       }

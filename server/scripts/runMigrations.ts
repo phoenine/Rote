@@ -5,12 +5,13 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
+import { databaseConnectionOptions, migrationDatabaseUrl } from '../database/connection';
 import * as oauthMcpSchema from '../drizzle/oauthMcpSchema';
 import * as baseSchema from '../drizzle/schema';
 
 const schema = { ...baseSchema, ...oauthMcpSchema };
 
-const connectionString = process.env.POSTGRESQL_URL || '';
+const connectionString = migrationDatabaseUrl(process.env);
 
 if (!connectionString) {
   console.error('❌ POSTGRESQL_URL environment variable is not set');
@@ -20,14 +21,9 @@ if (!connectionString) {
 async function runMigrations() {
   try {
     console.log('🔄 Starting database migrations...');
-    console.log(`📝 Database URL: ${connectionString.replace(/:[^:@]+@/, ':****@')}`);
 
     // 创建 postgres 客户端
-    const queryClient = postgres(connectionString, {
-      max: 1, // 迁移时只需要一个连接
-      idle_timeout: 20,
-      connect_timeout: 10,
-    });
+    const queryClient = postgres(connectionString, databaseConnectionOptions(process.env, true));
 
     // 创建 Drizzle 实例
     const db = drizzle(queryClient, { schema });

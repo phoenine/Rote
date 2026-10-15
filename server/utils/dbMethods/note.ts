@@ -1,5 +1,5 @@
 import { and, count, desc, eq, sql } from 'drizzle-orm';
-import { rotes, users } from '../../drizzle/schema';
+import { rotes } from '../../drizzle/schema';
 import type { SecurityConfig } from '../../types/config';
 import { getGlobalConfig } from '../config';
 import db from '../drizzle';
@@ -838,66 +838,6 @@ export async function searchUserPublicRotes(
     return rotesList;
   } catch (error) {
     throw new DatabaseError('Failed to search user public rotes', error);
-  }
-}
-
-export async function getRssData(
-  username: string,
-  limit = 20
-): Promise<{ user: any; notes: any[] }> {
-  try {
-    // 先查找用户信息
-    const [user] = await db
-      .select({
-        id: users.id,
-        username: users.username,
-        nickname: users.nickname,
-        email: users.email,
-        avatar: users.avatar,
-        description: users.description,
-      })
-      .from(users)
-      .where(eq(users.username, username))
-      .limit(1);
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    // 查找该用户的公开笔记
-    const notes = await db.query.rotes.findMany({
-      where: (rotes, { eq, and }) =>
-        and(eq(rotes.authorid, user.id), eq(rotes.state, 'public'), eq(rotes.archived, false)),
-      orderBy: (rotes, { desc }) => [desc(rotes.updatedAt)],
-      limit: limit,
-      with: {
-        author: AUTHOR_QUERY,
-        attachments: true,
-      },
-    });
-
-    return { user, notes };
-  } catch (error) {
-    throw new DatabaseError('获取RSS数据失败', error);
-  }
-}
-
-export async function getAllPublicRssData(limit = 20): Promise<{ notes: any[] }> {
-  try {
-    // 查找所有公开笔记
-    const notes = await db.query.rotes.findMany({
-      where: (rotes, { eq, and }) => and(eq(rotes.state, 'public'), eq(rotes.archived, false)),
-      orderBy: (rotes, { desc }) => [desc(rotes.updatedAt)],
-      limit: limit,
-      with: {
-        author: AUTHOR_QUERY,
-        attachments: true,
-      },
-    });
-
-    return { notes };
-  } catch (error) {
-    throw new DatabaseError('获取所有公开笔记RSS数据失败', error);
   }
 }
 

@@ -32,4 +32,40 @@ describe('sanitizeStoredEditorDraft', () => {
 
     expect(sanitizeStoredEditorDraft(legacyDraft).attachments).toEqual([]);
   });
+
+  it('restores legacy home drafts as new notes while preserving their content', () => {
+    const draft = {
+      ...emptyRote,
+      id: 'stale-note-id',
+      content: 'unsent text',
+      tags: ['draft'],
+      articleId: 'article-id',
+      attachments: [uploadedAttachment],
+    };
+
+    expect(sanitizeStoredEditorDraft(draft)).toEqual({
+      ...draft,
+      id: '',
+      createId: undefined,
+    });
+    expect(draft.id).toBe('stale-note-id');
+  });
+
+  it('clears mismatched identities instead of updating an unrelated note', () => {
+    const draft = { ...emptyRote, id: 'stale-note-id', createId: 'create-id' };
+
+    expect(sanitizeStoredEditorDraft(draft)).toMatchObject({ id: '', createId: undefined });
+  });
+
+  it('preserves the saved identity for a resumed submission', () => {
+    const draft = { ...emptyRote, id: 'create-id', createId: 'create-id' };
+
+    expect(sanitizeStoredEditorDraft(draft)).toEqual(draft);
+  });
+
+  it('preserves the idempotency key when the create response was lost', () => {
+    const draft = { ...emptyRote, createId: 'create-id' };
+
+    expect(sanitizeStoredEditorDraft(draft)).toEqual(draft);
+  });
 });

@@ -401,7 +401,7 @@ export const aiTokenUsageLogs = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     userid: uuid('userid').notNull(),
     model: varchar('model', { length: 255 }).notNull(),
-    type: varchar('type', { length: 20 }).notNull(), // 'chat' | 'embedding'
+    type: varchar('type', { length: 20 }).notNull(), // 'chat' | 'embedding' | 'comment'
     promptTokens: integer('promptTokens').notNull().default(0),
     completionTokens: integer('completionTokens').notNull().default(0),
     totalTokens: integer('totalTokens').notNull().default(0),
@@ -701,6 +701,178 @@ export const attachments = pgTable(
       .onUpdate('cascade'),
   })
 );
+
+export const articleAttachments = pgTable(
+  'article_attachments',
+  {
+    articleId: uuid('article_id')
+      .notNull()
+      .references(() => articles.id, { onDelete: 'cascade' }),
+    attachmentId: uuid('attachment_id')
+      .notNull()
+      .references(() => attachments.id, { onDelete: 'restrict' }),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.articleId, table.attachmentId] }),
+    attachmentIdx: index('article_attachments_attachment_idx').on(table.attachmentId),
+  })
+).enableRLS();
+
+export const postAiComments = pgTable(
+  'post_ai_comments',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    roteId: uuid('rote_id').references(() => rotes.id, { onDelete: 'cascade' }),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade' }),
+    requestId: uuid('request_id').notNull(),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    status: varchar('status', { length: 20 }).notNull(),
+    content: text('content').notNull().default(''),
+    model: text('model').notNull(),
+    personaId: varchar('persona_id', { length: 30 }),
+    isConversation: boolean('is_conversation').notNull().default(false),
+    publicSafe: boolean('public_safe').notNull().default(false),
+    automatic: boolean('automatic').notNull().default(false),
+    automaticSlot: integer('automatic_slot'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    targetCheck: check(
+      'post_ai_comments_target_check',
+      sql`num_nonnulls(${table.roteId}, ${table.articleId}) = 1`
+    ),
+    statusCheck: check(
+      'post_ai_comments_status_check',
+      sql`${table.status} IN ('running', 'completed', 'failed')`
+    ),
+    requestIdx: uniqueIndex('post_ai_comments_request_idx').on(table.ownerId, table.requestId),
+    roteIdx: index('post_ai_comments_rote_idx').on(table.roteId),
+    articleIdx: index('post_ai_comments_article_idx').on(table.articleId),
+    automaticRoteIdx: uniqueIndex('post_replies_automatic_rote_idx')
+      .on(table.roteId, table.automaticSlot)
+      .where(sql`${table.automatic} = true AND ${table.roteId} IS NOT NULL`),
+    automaticArticleIdx: uniqueIndex('post_replies_automatic_article_idx')
+      .on(table.articleId, table.automaticSlot)
+      .where(sql`${table.automatic} = true AND ${table.articleId} IS NOT NULL`),
+  })
+).enableRLS();
+
+export const postReplyTurns = pgTable(
+  'post_reply_turns',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    threadId: uuid('thread_id')
+      .notNull()
+      .references(() => postAiComments.id, { onDelete: 'cascade' }),
+    requestId: uuid('request_id').notNull(),
+    userContent: text('user_content').notNull(),
+    replyContent: text('reply_content').notNull().default(''),
+    publicSafe: boolean('public_safe').notNull().default(false),
+    status: varchar('status', { length: 20 }).notNull(),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    model: text('model').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    requestIdx: uniqueIndex('post_reply_turns_request_idx').on(table.threadId, table.requestId),
+    threadIdx: index('post_reply_turns_thread_idx').on(table.threadId, table.createdAt),
+    runningIdx: uniqueIndex('post_reply_turns_running_idx')
+      .on(table.threadId)
+      .where(sql`${table.status} = 'running'`),
+    statusCheck: check(
+      'post_reply_turns_status_check',
+      sql`${table.status} IN ('running', 'completed', 'failed')`
+    ),
+  })
+).enableRLS();
+
+export const personaMemories = pgTable(
+  'persona_memories',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    personaId: varchar('persona_id', { length: 30 }).notNull().default('shared'),
+    key: varchar('key', { length: 120 }).notNull(),
+    content: text('content').notNull(),
+    evidence: text('evidence').notNull(),
+    roteId: uuid('rote_id').references(() => rotes.id, { onDelete: 'cascade' }),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade' }),
+    threadId: uuid('thread_id').references(() => postAiComments.id, { onDelete: 'cascade' }),
+    turnId: uuid('turn_id').references(() => postReplyTurns.id, { onDelete: 'cascade' }),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    publicSource: boolean('public_source').notNull(),
+    embedding: jsonb('embedding').$type<number[]>(),
+    generationId: uuid('generation_id'),
+    indexAttemptedAt: timestamp('index_attempted_at', { withTimezone: true }),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    keyIdx: uniqueIndex('persona_memories_key_idx').on(table.ownerId, table.personaId, table.key),
+    ownerIdx: index('persona_memories_owner_idx').on(table.ownerId, table.personaId),
+    targetCheck: check(
+      'persona_memories_target_check',
+      sql`num_nonnulls(${table.roteId}, ${table.articleId}) = 1`
+    ),
+  })
+).enableRLS();
+
+export const personaMemoryJobs = pgTable(
+  'persona_memory_jobs',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    personaId: varchar('persona_id', { length: 30 }).notNull().default('shared'),
+    roteId: uuid('rote_id').references(() => rotes.id, { onDelete: 'cascade' }),
+    articleId: uuid('article_id').references(() => articles.id, { onDelete: 'cascade' }),
+    threadId: uuid('thread_id').references(() => postAiComments.id, { onDelete: 'cascade' }),
+    turnId: uuid('turn_id').references(() => postReplyTurns.id, { onDelete: 'cascade' }),
+    sourceHash: varchar('source_hash', { length: 64 }).notNull(),
+    dedupeKey: text('dedupe_key').notNull(),
+    status: varchar('status', { length: 20 }).notNull().default('pending'),
+    leaseToken: uuid('lease_token'),
+    startedAt: timestamp('started_at', { withTimezone: true }),
+    errorCode: text('error_code'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    dedupeIdx: uniqueIndex('persona_memory_jobs_dedupe_idx').on(table.ownerId, table.dedupeKey),
+    pendingIdx: index('persona_memory_jobs_pending_idx').on(table.status, table.createdAt),
+    targetCheck: check(
+      'persona_memory_jobs_target_check',
+      sql`num_nonnulls(${table.roteId}, ${table.articleId}) = 1`
+    ),
+    statusCheck: check(
+      'persona_memory_jobs_status_check',
+      sql`${table.status} IN ('pending', 'running', 'completed', 'failed', 'cancelled')`
+    ),
+  })
+).enableRLS();
+
+export const personaMemorySuppressions = pgTable(
+  'persona_memory_suppressions',
+  {
+    ownerId: uuid('owner_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    personaId: varchar('persona_id', { length: 30 }).notNull(),
+    key: varchar('key', { length: 120 }).notNull(),
+    forgottenBefore: timestamp('forgotten_before', { withTimezone: true }).notNull(),
+    sourceIds: jsonb('source_ids').$type<string[]>().notNull().default([]),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.ownerId, table.personaId, table.key] }),
+  })
+).enableRLS();
 
 // External import identity for idempotent, owner-scoped imports.
 // The source key is scoped to the destination owner so the same export can be

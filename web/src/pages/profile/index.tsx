@@ -1,4 +1,5 @@
 import NavBar from '@/components/layout/navBar';
+import EveDayOneCat from '@/components/others/EveDayOneCat';
 import {
   parseResourcePreviewScenario,
   RESOURCE_PREVIEW_STATES,
@@ -18,7 +19,7 @@ import { get, post } from '@/utils/api';
 import { useAPIGet } from '@/utils/fetcher';
 import { isHeicFile } from '@/utils/uploadHelpers';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { ScanFace, Stars } from 'lucide-react';
+import { ScanFace } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import type { Area } from 'react-easy-crop';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +30,6 @@ import AvatarCropDialog from './components/AvatarCropDialog';
 import EditProfileDialog from './components/EditProfileDialog';
 import OpenKeySection from './components/OpenKeySection';
 import ProfileHeader from './components/ProfileHeader';
-import ProfileSidebar from './components/ProfileSidebar';
 import { getUploadErrorMessage } from '@/utils/directUpload';
 import {
   createCroppedImage,
@@ -62,6 +62,7 @@ function ProfilePage() {
   const isMountedRef = useRef(true);
   const profileEditorSessionRef = useRef(0);
   const avatarUploadGenerationRef = useRef(0);
+  const avatarSaveImmediatelyRef = useRef(true);
   const coverUploadGenerationRef = useRef(0);
   const pendingAvatarAttachmentRef = useRef<Attachment | null>(null);
 
@@ -215,6 +216,8 @@ function ProfilePage() {
       return;
     }
 
+    avatarSaveImmediatelyRef.current = !isModalOpen;
+    event.target.value = '';
     setAvatarFile(selectedFile);
     setIsAvatarModalOpen(true);
   }
@@ -226,6 +229,7 @@ function ProfilePage() {
     }
 
     try {
+      const saveImmediately = avatarSaveImmediatelyRef.current;
       const session = profileEditorSessionRef.current;
       const generation = ++avatarUploadGenerationRef.current;
       setAvatarUploading(true);
@@ -233,16 +237,35 @@ function ProfilePage() {
       const attachment = await uploadAvatar(croppedImage, {
         browserDirectUpload: siteStatus?.ui?.attachmentDirectBrowserUpload === true,
       });
-      const accepted = await acceptPendingAvatarAttachment(attachment, session, generation);
-      if (!accepted) {
-        setAvatarUploading(false);
-        return;
+      if (saveImmediately) {
+        if (
+          !isMountedRef.current ||
+          session !== profileEditorSessionRef.current ||
+          generation !== avatarUploadGenerationRef.current
+        ) {
+          await deletePendingAttachmentQuietly(attachment.id);
+          if (isMountedRef.current && generation === avatarUploadGenerationRef.current)
+            setAvatarUploading(false);
+          return;
+        }
+        try {
+          await patchProfile({
+            avatar: profileAttachmentUrl(attachment),
+            avatarAttachmentId: attachment.id,
+          });
+        } catch (error) {
+          await deletePendingAttachmentQuietly(attachment.id);
+          throw error;
+        }
+      } else {
+        const accepted = await acceptPendingAvatarAttachment(attachment, session, generation);
+        if (!accepted) {
+          setAvatarUploading(false);
+          return;
+        }
+        setEditProfile((current) => ({ ...current, avatar: profileAttachmentUrl(attachment) }));
       }
-
-      setEditProfile((current) => ({
-        ...current,
-        avatar: profileAttachmentUrl(attachment),
-      }));
+      if (!isMountedRef.current) return;
       setAvatarUploading(false);
       setIsAvatarModalOpen(false);
       setAvatarFile(null);
@@ -356,17 +379,7 @@ function ProfilePage() {
   }
 
   return (
-    <ContainerWithSideBar
-      sidebar={<ProfileSidebar />}
-      sidebarHeader={
-        <div className="flex items-center gap-2 p-3 text-lg font-semibold">
-          <div className="flex items-center gap-2">
-            <Stars className="size-5" />
-            {t('sideBarTitle')}
-          </div>
-        </div>
-      }
-    >
+    <ContainerWithSideBar sidebar={<EveDayOneCat />}>
       <div className="flex flex-col divide-y pb-20">
         <NavBar title={t('title')} icon={<ScanFace className="size-5" />} />
         <ProfileHeader

@@ -21,7 +21,6 @@ import RouteErrorPage from '@/pages/error';
 import ExplorePage from '@/pages/explore';
 import MineFilter from '@/pages/filter';
 import HomePage from '@/pages/home';
-import Landing from '@/pages/landing';
 import Login from '@/pages/login';
 import OAuthAuthorizePage from '@/pages/oauth/authorize';
 import ProfilePage from '@/pages/profile';
@@ -59,16 +58,6 @@ function LoginRouteEntry() {
   );
 }
 
-function RootRedirectEntry() {
-  const { tokenValid, isAuthPending } = useAuthState();
-
-  if (isAuthPending) {
-    return <LoadingPlaceholder className="h-dvh w-full" size={6} />;
-  }
-
-  return tokenValid ? <Navigate to="/home" /> : <Navigate to="/landing" />;
-}
-
 export default function GlobalRouterProvider() {
   const developmentRoutes = import.meta.env.DEV
     ? [
@@ -93,7 +82,7 @@ export default function GlobalRouterProvider() {
         },
         {
           path: 'landing',
-          element: <Landing />,
+          element: <Navigate replace to="/login" />,
         },
         {
           path: 'login',
@@ -140,7 +129,7 @@ export default function GlobalRouterProvider() {
         },
         {
           path: '',
-          element: <RootRedirectEntry />,
+          element: <Navigate replace to="/login" />,
         },
         {
           path: '/',

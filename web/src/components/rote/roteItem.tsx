@@ -13,7 +13,8 @@ import {
 import moment from 'moment';
 import { memo, useCallback, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { PostCommentsPreview } from '@/features/post-comments/PostCommentsPreview';
 import { toast } from 'sonner';
 
 import { ArticleCard } from '@/components/article/ArticleCard';
@@ -62,6 +63,7 @@ function RoteItem({
     keyPrefix: 'components.roteItem',
   });
   const { ref, inView } = useInView();
+  const navigate = useNavigate();
   const [, setRote] = useAtom(useEditor().editor_editRoteAtom);
   const [modalType, setModalType] = useState<null | 'edit' | 'share' | 'notice'>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -127,7 +129,7 @@ function RoteItem({
             <span>·</span>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span>
+                <Link to={`/rote/${rote.id}`} className="hover:underline">
                   <span
                     className={
                       new Date().getTime() - new Date(rote.createdAt).getTime() > 60 * 1000
@@ -137,7 +139,7 @@ function RoteItem({
                   >
                     {formatTimeAgo(rote.createdAt)}
                   </span>
-                </span>
+                </Link>
               </TooltipTrigger>
               <TooltipContent sideOffset={4}>
                 {moment(rote.createdAt).local().format('YYYY/MM/DD HH:mm:ss')}
@@ -216,7 +218,21 @@ function RoteItem({
         </div>
 
         {/* Content */}
-        <div className="font-zhengwen relative wrap-break-word whitespace-pre-line">
+        <div
+          className={`font-zhengwen relative wrap-break-word whitespace-pre-line ${enableContentCollapse ? 'cursor-pointer' : ''}`}
+          onClick={
+            enableContentCollapse
+              ? (event) => {
+                  if (
+                    (event.target as Element).closest('a, button, [role="button"]') ||
+                    window.getSelection()?.toString()
+                  )
+                    return;
+                  navigate(`/rote/${rote.id}`);
+                }
+              : undefined
+          }
+        >
           <div className="font-semibold">{rote.title}</div>
           <div className="aTagStyle">
             {enableContentCollapse && rote.content.length > roteContentExpandedLetter ? (
@@ -237,7 +253,10 @@ function RoteItem({
               <SoftBottom>
                 <div
                   className="pointer-events-auto flex cursor-pointer items-center justify-center gap-1"
-                  onClick={() => setIsExpanded(true)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setIsExpanded(true);
+                  }}
                 >
                   <ArrowDownLeft className="size-4" /> {t('expand')}
                 </div>
@@ -293,6 +312,10 @@ function RoteItem({
               </Link>
             ))}
           </div>
+        )}
+
+        {enableContentCollapse && (
+          <PostCommentsPreview postId={rote.id} active={inView} createdAt={rote.createdAt} />
         )}
 
         {/* Reactions */}

@@ -1,0 +1,1 @@
+ALTER TABLE "post_reply_turns" ADD COLUMN "started_at" timestamp with time zone DEFAULT now() NOT NULL;

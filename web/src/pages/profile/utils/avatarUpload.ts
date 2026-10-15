@@ -17,49 +17,42 @@ export function profileAttachmentUrl(attachment: Attachment): string {
 
 // 生成裁剪后的图片
 export async function createCroppedImage(imageSrc: File | Blob, pixelCrop: Area): Promise<Blob> {
-  const image = new Image();
-  image.src = URL.createObjectURL(imageSrc);
-
   return new Promise((resolve, reject) => {
+    const image = new Image();
+    const url = URL.createObjectURL(imageSrc);
     image.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-
-      if (!ctx) {
-        reject(new Error('Could not get canvas context'));
-        return;
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('Could not get canvas context');
+        canvas.width = pixelCrop.width;
+        canvas.height = pixelCrop.height;
+        ctx.drawImage(
+          image,
+          pixelCrop.x,
+          pixelCrop.y,
+          pixelCrop.width,
+          pixelCrop.height,
+          0,
+          0,
+          pixelCrop.width,
+          pixelCrop.height
+        );
+        canvas.toBlob(
+          (blob) => (blob ? resolve(blob) : reject(new Error('Canvas is empty'))),
+          'image/png'
+        );
+      } catch (error) {
+        reject(error);
+      } finally {
+        URL.revokeObjectURL(url);
       }
-
-      // 设置画布尺寸为裁剪区域的尺寸
-      canvas.width = pixelCrop.width;
-      canvas.height = pixelCrop.height;
-
-      // 在画布上绘制裁剪后的图像
-      ctx.drawImage(
-        image,
-        pixelCrop.x,
-        pixelCrop.y,
-        pixelCrop.width,
-        pixelCrop.height,
-        0,
-        0,
-        pixelCrop.width,
-        pixelCrop.height
-      );
-
-      // 将画布转换为Blob
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error('Canvas is empty'));
-        }
-      }, 'image/png');
     };
-
     image.onerror = () => {
+      URL.revokeObjectURL(url);
       reject(new Error('Could not load image'));
     };
+    image.src = url;
   });
 }
 

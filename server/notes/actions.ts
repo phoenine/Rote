@@ -1,4 +1,5 @@
 import { and, eq, inArray, isNull, sql } from 'drizzle-orm';
+import { attachmentHasNoArticleReference } from '../articles/attachmentReferences';
 import { HTTPException } from 'hono/http-exception';
 import type { z } from 'zod';
 import { articles, attachments, roteChanges, rotes, users, type Rote } from '../drizzle/schema';
@@ -9,6 +10,7 @@ import {
 } from '../resources/service';
 import { notifyPublicNoteCreated } from '../utils/adminHooks';
 import { trackBackgroundTask } from '../utils/backgroundTask';
+import { scheduleAutomaticReply } from '../postComments/automatic';
 import { deleteRoteLinkPreviewsByRoteId, findRoteById } from '../utils/dbMethods';
 import db from '../utils/drizzle';
 import { validateRoteAttachmentDetails } from '../utils/fileValidation';
@@ -69,6 +71,7 @@ async function assertOwnedArticle(
 }
 
 function scheduleCreatedEffects(note: Rote) {
+  scheduleAutomaticReply('rote', note.id, note.authorid);
   if (!note.articleId) {
     trackBackgroundTask(
       parseAndStoreRoteLinkPreviews(note.id, note.content),
@@ -255,7 +258,7 @@ export async function deleteUserNote(userId: string, id: string) {
     const attachmentRows = await transaction
       .select({ details: attachments.details })
       .from(attachments)
-      .where(eq(attachments.roteid, id))
+      .where(and(eq(attachments.roteid, id), attachmentHasNoArticleReference()))
       .for('update');
     const objectKeys = attachmentRows.flatMap(({ details }) =>
       collectOwnedAttachmentObjectKeys(details, userId)
@@ -275,7 +278,9 @@ export async function deleteUserNote(userId: string, id: string) {
       userid: userId,
       createdAt: sql`now()`,
     });
-    await transaction.delete(attachments).where(eq(attachments.roteid, id));
+    await transaction
+      .delete(attachments)
+      .where(and(eq(attachments.roteid, id), attachmentHasNoArticleReference()));
     const [removed] = await transaction
       .delete(rotes)
       .where(and(eq(rotes.id, id), eq(rotes.authorid, userId)))

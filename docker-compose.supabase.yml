@@ -1,0 +1,25 @@
+# Standalone hosted-Postgres deployment: do not merge with docker-compose.yml.
+# Keep the backend on a direct or Session pooler connection (session locks are used).
+services:
+  rote-backend:
+    build: ./server
+    image: rote-local-backend:${IMAGE_TAG:-develop}
+    environment:
+      POSTGRESQL_URL: ${POSTGRESQL_URL:?Set the Supabase direct or Session pooler URL}
+      POSTGRESQL_MIGRATION_URL: ${POSTGRESQL_MIGRATION_URL:-}
+      POSTGRESQL_SSL: "true"
+      POSTGRESQL_POOL_MAX: ${POSTGRESQL_POOL_MAX:-5}
+    ports:
+      - "18000:3000"
+    restart: unless-stopped
+    command: ["sh", "-c", "bun run dist/scripts/runMigrations.js && bun run dist/server.js"]
+  rote-frontend:
+    build: ./web
+    image: rote-local-frontend:${IMAGE_TAG:-develop}
+    environment:
+      VITE_API_BASE: ${VITE_API_BASE:?Set the public backend URL}
+    ports:
+      - "18001:80"
+    depends_on:
+      - rote-backend
+    restart: unless-stopped

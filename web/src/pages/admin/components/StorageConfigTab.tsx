@@ -37,7 +37,25 @@ export default function StorageConfigTab({
     if (!storageConfig?.bucket) newErrors.bucket = t('required');
     if (!storageConfig?.accessKeyId) newErrors.accessKeyId = t('required');
     if (!storageConfig?.secretAccessKey) newErrors.secretAccessKey = t('required');
-    if (!storageConfig?.urlPrefix) newErrors.urlPrefix = t('required');
+    if (!storageConfig?.urlPrefix?.trim()) {
+      newErrors.urlPrefix = t('required');
+    } else {
+      try {
+        const prefix = storageConfig.urlPrefix.trim();
+        const url = new URL(prefix);
+        if (
+          !/^https?:\/\//i.test(prefix) ||
+          url.username ||
+          url.password ||
+          url.search ||
+          url.hash
+        ) {
+          newErrors.urlPrefix = t('urlPrefixInvalid');
+        }
+      } catch {
+        newErrors.urlPrefix = t('urlPrefixInvalid');
+      }
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

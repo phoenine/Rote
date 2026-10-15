@@ -9,7 +9,7 @@ function normalizeTokenCount(value: unknown): number {
 export async function logAiTokenUsage(params: {
   userid: string;
   model: string;
-  type: 'chat' | 'embedding';
+  type: 'chat' | 'embedding' | 'comment';
   promptTokens: number;
   completionTokens: number;
   totalTokens: number;

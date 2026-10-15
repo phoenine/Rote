@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Attachment, Rote } from '@/types/main';
-import { emptyRote } from '@/state/editor';
+import { emptyRote, sanitizeStoredEditorDraft } from '@/state/editor';
 import { get, post, put } from '@/utils/api';
 import { cancelUploadReservation, uploadToSignedUrl } from '@/utils/directUpload';
 import { NoteSubmission } from './noteSubmission';
@@ -248,6 +248,19 @@ describe('note-first attachment submission', () => {
   it('creates a text-only note without attachment requests', async () => {
     await submit(new NoteSubmission(), draft());
     expect(events).toEqual(['/notes']);
+  });
+
+  it('creates a restored legacy home draft instead of updating its stale note ID', async () => {
+    vi.mocked(put).mockRejectedValue(new Error('HTTP 404: Note not found'));
+    const legacy = { ...draft(), id: 'stale-note-id' };
+    await expect(submit(new NoteSubmission(), legacy)).rejects.toThrow('Note not found');
+    vi.mocked(put).mockClear();
+    const restored = sanitizeStoredEditorDraft(legacy);
+
+    await submit(new NoteSubmission(), restored);
+
+    expect(events).toEqual(['/notes']);
+    expect(put).not.toHaveBeenCalled();
   });
 
   it('uses explicit non-managed finalization on self-hosted storage', async () => {

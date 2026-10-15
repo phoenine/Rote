@@ -35,8 +35,13 @@ function isStoredAttachment(value: unknown): value is Attachment {
 }
 
 export function sanitizeStoredEditorDraft(value: EditorDraft): EditorDraft {
+  // This storage belongs to the home composer, not the existing-note editor.
+  // Only note IDs saved by its idempotent create request are resumable.
+  const hasUntrackedIdentity = Boolean(value.id && value.id !== value.createId);
   return {
     ...value,
+    id: hasUntrackedIdentity ? '' : value.id,
+    createId: hasUntrackedIdentity ? undefined : value.createId,
     // Browser File objects cannot be restored from JSON. Keep them in the
     // current editor session only instead of persisting broken `{}` entries.
     attachments: Array.isArray(value.attachments)

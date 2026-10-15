@@ -1,5 +1,6 @@
 import { and, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm';
 import { attachments, rotes, users } from '../../drizzle/schema';
+import { attachmentHasNoArticleReference } from '../../articles/attachmentReferences';
 import { profileReferencesAttachment } from '../../profile/mediaLifecycle';
 import { releaseStorageObjectReferences } from '../../resources/service';
 import { UploadResult } from '../../types/main';
@@ -313,10 +314,26 @@ export async function deleteRoteAttachmentsByRoteId(roteid: string, userid: stri
   try {
     const deleted = await db.transaction(async (tx) => {
       await tx.select({ id: users.id }).from(users).where(eq(users.id, userid)).for('update');
+      await tx
+        .update(attachments)
+        .set({ roteid: null, updatedAt: new Date() })
+        .where(
+          and(
+            eq(attachments.roteid, roteid),
+            eq(attachments.userid, userid),
+            sql`NOT (${attachmentHasNoArticleReference()})`
+          )
+        );
       const attachmentsList = await tx
         .select({ details: attachments.details })
         .from(attachments)
-        .where(and(eq(attachments.roteid, roteid), eq(attachments.userid, userid)))
+        .where(
+          and(
+            eq(attachments.roteid, roteid),
+            eq(attachments.userid, userid),
+            attachmentHasNoArticleReference()
+          )
+        )
         .for('update');
       if (attachmentsList.length === 0) return { count: 0, details: [], tracked: [], rote: null };
       const [rote] = await tx
@@ -328,7 +345,13 @@ export async function deleteRoteAttachmentsByRoteId(roteid: string, userid: stri
       const tracked = await releaseStorageObjectReferences(userid, keys, tx);
       const result = await tx
         .delete(attachments)
-        .where(and(eq(attachments.roteid, roteid), eq(attachments.userid, userid)))
+        .where(
+          and(
+            eq(attachments.roteid, roteid),
+            eq(attachments.userid, userid),
+            attachmentHasNoArticleReference()
+          )
+        )
         .returning();
       if (rote) await tx.update(rotes).set({ updatedAt: new Date() }).where(eq(rotes.id, roteid));
       return { count: result.length, details: attachmentsList, tracked, rote };
@@ -466,11 +489,47 @@ export async function deleteAttachments(
       if (dbAttachments.length !== attachmentsData.length) {
         throw new DatabaseError('Some attachments not found or unauthorized');
       }
+      const unreferenced = await tx
+        .select({ id: attachments.id })
+        .from(attachments)
+        .where(
+          and(
+            inArray(
+              attachments.id,
+              dbAttachments.map(({ id }) => id)
+            ),
+            attachmentHasNoArticleReference()
+          )
+        );
+      const removableIds = new Set(unreferenced.map(({ id }) => id));
+      const sharedIds = dbAttachments.filter(({ id }) => !removableIds.has(id)).map(({ id }) => id);
+      if (sharedIds.length)
+        await tx
+          .update(attachments)
+          .set({ roteid: null, updatedAt: new Date() })
+          .where(and(inArray(attachments.id, sharedIds), eq(attachments.userid, userid)));
+      const eligibleAttachments = dbAttachments.filter(({ id }) => removableIds.has(id));
       const removableAttachments = profile
-        ? dbAttachments.filter((attachment) => !profileReferencesAttachment(profile, attachment))
-        : dbAttachments;
+        ? eligibleAttachments.filter(
+            (attachment) => !profileReferencesAttachment(profile, attachment)
+          )
+        : eligibleAttachments;
+      const roteIds = [
+        ...new Set(
+          dbAttachments
+            .filter(
+              ({ id }) =>
+                sharedIds.includes(id) || removableAttachments.some((item) => item.id === id)
+            )
+            .map((item) => item.roteid)
+            .filter((id): id is string => id !== null)
+        ),
+      ];
+      for (const roteid of roteIds) {
+        await tx.update(rotes).set({ updatedAt: new Date() }).where(eq(rotes.id, roteid));
+      }
       if (removableAttachments.length === 0) {
-        return { dbAttachments: [], result: [], roteIds: [], tracked: [] };
+        return { dbAttachments: [], result: [], roteIds, tracked: [] };
       }
       const tracked = await releaseStorageObjectReferences(
         userid,
@@ -489,14 +548,6 @@ export async function deleteAttachments(
           )
         )
         .returning();
-      const roteIds = [
-        ...new Set(
-          removableAttachments.map((a) => a.roteid).filter((id): id is string => id !== null)
-        ),
-      ];
-      for (const roteid of roteIds) {
-        await tx.update(rotes).set({ updatedAt: new Date() }).where(eq(rotes.id, roteid));
-      }
       return { dbAttachments: removableAttachments, result, roteIds, tracked };
     });
 
@@ -577,6 +628,19 @@ export async function deleteAttachment(id: string, userid: string): Promise<any>
         .limit(1)
         .for('update');
       if (!record) return { record: null, result: [], tracked: [] };
+      const [articleReference] = await tx
+        .select({ id: attachments.id })
+        .from(attachments)
+        .where(and(eq(attachments.id, id), attachmentHasNoArticleReference()));
+      if (!articleReference) {
+        await tx
+          .update(attachments)
+          .set({ roteid: null, updatedAt: new Date() })
+          .where(and(eq(attachments.id, id), eq(attachments.userid, userid)));
+        if (record.roteid)
+          await tx.update(rotes).set({ updatedAt: new Date() }).where(eq(rotes.id, record.roteid));
+        return { record, result: [], tracked: [] };
+      }
       if (profile && profileReferencesAttachment(profile, record)) {
         return { record: null, result: [], tracked: [] };
       }
@@ -630,7 +694,7 @@ export async function deleteAttachment(id: string, userid: string): Promise<any>
     }
 
     const tracked = new Set(deleted.tracked);
-    collectAttachmentObjectKeys(record?.details)
+    collectAttachmentObjectKeys(result.length ? record?.details : null)
       .filter((key) => !tracked.has(key))
       .forEach((key) => deleteAttachmentObjects({ key }));
 

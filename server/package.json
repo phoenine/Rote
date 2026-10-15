@@ -47,7 +47,6 @@
     "@octokit/rest": "^22.0.1",
     "@simplewebauthn/server": "^13.3.0",
     "drizzle-orm": "^0.45.1",
-    "feed": "^5.1.0",
     "heic-decode": "^2.1.0",
     "hono": "^4.10.8",
     "jose": "^6.1.3",

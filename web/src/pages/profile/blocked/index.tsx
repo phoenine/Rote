@@ -5,12 +5,11 @@ import UserAvatar from '@/components/others/UserAvatar';
 import { VerifiedIcon } from '@/components/icons/Verified';
 import { viewerAwareCacheKey } from '@/features/user-blocks/viewerCacheScope';
 import ContainerWithSideBar from '@/layout/ContainerWithSideBar';
-import ProfileSidebar from '../components/ProfileSidebar';
 import BlockUserButton from '@/features/user-blocks/BlockUserButton';
 import { listBlockedUsers } from '@/features/user-blocks/api';
 import type { BlockedUserSummary } from '@/types/main';
 import { useAPIGet } from '@/utils/fetcher';
-import { ShieldX, Stars } from 'lucide-react';
+import { ShieldX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { profileAtom } from '@/state/profile';
@@ -25,15 +24,7 @@ export default function BlockedUsersPage() {
   );
 
   return (
-    <ContainerWithSideBar
-      sidebar={<ProfileSidebar />}
-      sidebarHeader={
-        <div className="flex items-center gap-2 p-3 text-lg font-semibold">
-          <Stars className="size-5" />
-          {t('sidebarTitle')}
-        </div>
-      }
-    >
+    <ContainerWithSideBar hideSidebarToggleButton>
       <NavBar title={t('title')} icon={<ShieldX className="size-5" />} />
 
       <div className="p-4">

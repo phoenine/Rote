@@ -12,7 +12,7 @@ import { findArticleById, findRoteById, getNoteByArticleId } from '../utils/dbMe
 import db from '../utils/drizzle';
 import { postContentHash, requireCommentableText, type PostKind } from './content';
 import { assertReplyMemoryCurrent, retrieveReplyMemory } from './memory';
-import { replySystemPrompt } from './personas';
+import { replyPromptMessages } from './personas';
 import { ownedPost, targetFilter } from './service';
 
 async function visiblePost(kind: PostKind, id: string, viewerId?: string) {
@@ -227,7 +227,7 @@ async function finishTurn(
     );
     const memory = selectPersonaMemory(retrieved, started.thread.personaId!);
     const messages: ChatMessage[] = [
-      { role: 'system', content: replySystemPrompt(started.thread.personaId!) },
+      ...replyPromptMessages(started.thread.personaId!),
       ...(memory.message ? [{ role: 'user' as const, content: memory.message }] : []),
       { role: 'user', content: started.source || '[The author shared an image-only post.]' },
       { role: 'assistant', content: started.thread.content },

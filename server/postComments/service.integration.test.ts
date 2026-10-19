@@ -309,7 +309,7 @@ describe.skipIf(!url)('AI comment persistence and version boundaries', () => {
       true
     );
     expect(messages.some((message) => message.content === 'Tell me more')).toBe(true);
-    expect(messages[0].content).toBe(
+    expect(messages[0].content).toStartWith(
       (await import('./personas')).replySystemPrompt(thread.personaId!)
     );
     saved = (await conversation.listPostReplies('rote', noteId, ownerId)).find(

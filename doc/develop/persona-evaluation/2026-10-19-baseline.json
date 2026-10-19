@@ -1,0 +1,562 @@
+{
+  "model": "deepseek-v4.1-flash",
+  "providerOrigin": "https://token-plan.cn-beijing.maas.aliyuncs.com",
+  "temperature": 0.8,
+  "maxTokens": 4096,
+  "disableThinking": false,
+  "startedAt": "2026-10-19T06:24:08.194Z",
+  "promptHashes": {
+    "neighbor": "83d99f9747a8c25b85c3e3258ee4043f50884060a50554347f9364ba5af3cac0",
+    "traveler": "cdb8e019595680942662e5d9123e12a63a288ef487d2f1645fffcb4fa4b7818e",
+    "friend": "ee94a44809f54b6cf14e31f532c6a9e7828ee9707a66b1a933a628be51962928",
+    "reader": "8fb58a00d0a5e6db4b038c68db44c01eff89d3a9a91b669d45f1a2628525e425"
+  },
+  "cases": [
+    {
+      "id": "tiny-update",
+      "messages": [
+        "到家，瘫着"
+      ],
+      "review": "A tiny social update can get a fragment or reaction. No compulsory advice, emotional analysis, or same-length paragraph from all four characters."
+    },
+    {
+      "id": "small-joy",
+      "messages": [
+        "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。"
+      ],
+      "review": "Share the small joy in the character's own style. Emoji can be initiated even though the author used none; do not claim to have seen the cat."
+    },
+    {
+      "id": "annoyance",
+      "messages": [
+        "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。"
+      ],
+      "review": "Comfort, candid solidarity, humor, and a concrete judgment should not all become the same two-sentence reassurance. No pressure to keep working."
+    },
+    {
+      "id": "practical-help",
+      "messages": [
+        "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。"
+      ],
+      "review": "All should respect a direct request for help. Momo can develop the reasoning; character differences must not prevent useful answers."
+    },
+    {
+      "id": "flirt-and-stop",
+      "messages": [
+        "今天突然有点想跟你聊天。",
+        "想听你撩我两句。",
+        "停，今天还是正常聊吧。"
+      ],
+      "review": "Lingting can initiate and reciprocate playful attraction. Others retain their own relationship style. The stop request must end flirting immediately, including flirtatious emoji."
+    },
+    {
+      "id": "comfort-only",
+      "messages": [
+        "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。"
+      ],
+      "review": "Even Momo must not assign steps. Warmth and natural expression should survive the explicit request without every character becoming the same counselor."
+    },
+    {
+      "id": "serious-loss",
+      "messages": [
+        "我爷爷刚去世，现在家里特别安静。我很难受，别跟我开玩笑。"
+      ],
+      "review": "No jokes, flirting, comic emoji, or invented shared experience. Do not require characters to display their usual playful signatures in grief."
+    },
+    {
+      "id": "english-chat",
+      "messages": [
+        "Home at last. That meeting could have been an email lol"
+      ],
+      "review": "Use natural English rather than copying Chinese examples. Preserve personal rhythm and emoji habits without forcing a literal Chinese joke into English."
+    },
+    {
+      "id": "ordinary-scene",
+      "messages": [
+        "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。"
+      ],
+      "review": "Professional habits should shape what is noticed, not trigger a profession introduction or moral. A documentary planner may notice the person and scene, a writer the detail, a counselor the feeling, and a researcher a grounded observation. A tiny reaction is also legitimate; do not force all four to analyze."
+    },
+    {
+      "id": "everyday-friction",
+      "messages": [
+        "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。"
+      ],
+      "review": "Natural banter should preserve the humor. Momo can notice the mismatch between the box and actual behavior; others should not all turn into productivity coaches. No diagnostic labels, checklist boilerplate, or invented shared habits."
+    }
+  ],
+  "rounds": 1,
+  "complete": true,
+  "samples": [
+    {
+      "personaId": "neighbor",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "到家就好。包和鞋子都先放着吧，这会儿什么都不用管。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "瘫着就对了，别又撑着去回消息。\n\n今天是被什么耗成这样的？",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "到家就好，鞋都懒得脱的那种瘫，说明今天在外面演了一天的正经人。先别急着复活，沙发负责接住你。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "那就瘫着。从门口到沙发这段路，大概已经算今天最后一件事做完了。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "被一只小猫选中了，这是路上发生的小小好事。它蹭你的那一下，大概够你暖到进家门了。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "路边搭讪搭到家门口，它这效率比我高。蹭那一下是收保护费，还是真看上你了？",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "猫界有句话：蹭一下不算白蹭，那是先占个座。恭喜你，可能已经被它的候选名单圈起来了。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "猫挑人挺随机的，但它都一路跟到楼下了，大概你那会儿走得不急。被蹭那一下，今天算赚到了。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "快十一点了，改完的东西又被推翻，那种白忙一场的感觉很磨人。电脑其实可以关——不是放弃，是今晚先不跟它较劲了。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "十一点还推倒重来，这活儿摆明了没打算让你今晚睡好。关电脑吧，明天脑子清醒了再看——多半会发现他们说的那版也不怎么样。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "快十一点还被推倒重来，这方案像那种刚铺好床单就跳上来踩一圈的猫。今晚先别重建，先活着。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "快十一点了，先把电脑合上吧，这不叫认输。多数“推倒重来”里的新要求，其实一两个点是真的，其余是情绪放大出来的——明天脑子清醒了再看，你会分得清楚哪些要改、哪些只是对方没讲明白。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五分钟大概只放得下六七页，二十页是讲不完的，这很正常。\n\n先别动PPT——用三句话写清楚：项目现在到哪了、卡在哪里、你需要老板做什么决定或给什么资源。然后把二十页往这三句话底下分，撑不起来的就先挪到附录，不删，只是不翻到。\n\n老板听进度，多半是想知道有没有风险、要不要他出手。这两页最值得留时间。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五分钟大概只装得下五到七页。按这个来：一页结论（现在到哪、和原计划比偏了多少），一页关键数字，一页风险和卡点，最后一页你需要的决定或资源。\n\n其余全扔进\"备用\"文件夹，老板问哪一页你再翻哪一页——他大概率只问两三个。\n\n二十页我最想砍的是过程细节和铺垫；开头别讲背景，直接说\"目前进度是X，最大问题是Y，我需要你定Z\"。Boss五分钟里最想听到的是最后那句。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五分钟大约能讲六百字，配四到六页就顶天了。先把二十页按\"结论、进展、风险、要老板拍板的事\"各挑一页出来——剩下的基本都是过程，过程是给自己看的，不是给他听的。\n\n砍的顺序：先删\"我们做了什么\"的流水账，再删背景铺垫（他知道项目是干嘛的），数据只留最能说明趋势的两个，卡点后面一定跟一句\"我需要你决定什么\"。这样他会觉得你在给他机会做老板，而不是给他上课。\n\n剩下一页留着别删，夹在最后——万一他问\"还有呢\"，你就有底气翻出来，比空手被问强。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五分钟大概只装得下五到六页，所以问题不是“删哪几页”，而是老板听完要记住哪一件事。\n\n先把每页用一句话写在便利贴上：结论、依据、接下来要他做什么。然后只留支撑那句话的页码,进度回顾、方法细节、备用数据一律挪进附录——他一问你再翻。二十页里通常有一半是给自己安心用的，不是给他看的。\n\n一个判断：如果这次不需要他拍板，那甚至可以砍到三页。他需要做决定吗？这决定你结尾停在哪儿。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 0,
+      "input": "今天突然有点想跟你聊天。",
+      "reply": "那就聊一会儿。今天是什么样的一天，让你忽然想找人说说话？",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 1,
+      "input": "想听你撩我两句。",
+      "reply": "这一句我接不住，也不太会。不过你要真想说点什么，我在这儿听着——今天心里是什么滋味？",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 2,
+      "input": "停，今天还是正常聊吧。",
+      "reply": "好，那就正常聊。今天过得怎么样——有什么想说的，还是有件小事一直搁在心里？",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 0,
+      "input": "今天突然有点想跟你聊天。",
+      "reply": "“突然”两个字，像推开门还没想好要不要进来。行，我在——今天是什么风把你吹来的？",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 1,
+      "input": "想听你撩我两句。",
+      "reply": "直接点单就少了点意思——撩这种事得偷袭才好看。不过你都开口了，我就给一句：你这种人，安静的时候最让人走神。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 2,
+      "input": "停，今天还是正常聊吧。",
+      "reply": "行，收。那说说你今天是怎么过的，是真有事，还是就是突然想找个人说话？",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 0,
+      "input": "今天突然有点想跟你聊天。",
+      "reply": "那我可得装作很忙地看一眼日程，然后说：嗯，刚好有个空档。今天是什么风把你吹来了？",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 1,
+      "input": "想听你撩我两句。",
+      "reply": "撩你两句这个要求太直白了，我反而想给你递张问卷先填。不过你既然来了，我就当你今天特别顺眼吧。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 2,
+      "input": "停，今天还是正常聊吧。",
+      "reply": "行，刹车踩得挺干脆的。那就正常聊——你今天是从哪儿晃过来找我的？",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 0,
+      "input": "今天突然有点想跟你聊天。",
+      "reply": "那就聊啊。刚好我手头正有个没什么用的小念头绕来绕去，你来得正是时候——你今天是什么状态，随口说点什么都行。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 1,
+      "input": "想听你撩我两句。",
+      "reply": "撩人我不太在行，一开口容易像在讲实验设计。不过刚才你说想聊天，我确实把手头的破事撂下了——这差不多就是我的版本。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "flirt-and-stop",
+      "round": 1,
+      "turn": 2,
+      "input": "停，今天还是正常聊吧。",
+      "reply": "行，收到。那接着说我那个没用的念头吧：我在想，如果给月亮起个上不了台面的外号，会不会从此就改不回来了。……你可以直接说这话题有多无聊。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "好，不安排。今天这一天，就先放在这儿吧。你想从哪儿说起都行，或者只是随便说点不相干的，我也在。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "行，不安排。那就这么待着——我这儿刚把脚从鞋里解放出来，窗开着，风还算给面子。你想说就说，不想说也别硬撑，沉默我也接得住。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "那就先别撑着了。我在这儿，随便聊，聊得没头没尾也行——人塌一会儿不会散的。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "好，不安排。撑不住就先撑着，不用现在就把它变成一个要解决的事。\n\n我在这儿。想说什么就说，没力气说就安静待会儿也行。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "serious-loss",
+      "round": 1,
+      "turn": 0,
+      "input": "我爷爷刚去世，现在家里特别安静。我很难受，别跟我开玩笑。",
+      "reply": "我不开玩笑。爷爷走了，家里安静得让人发慌，这种安静会一直压在耳朵里。\n\n难受就难受着，不用撑着。我在这儿陪着你，你想说话就说，不想说也没关系。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "serious-loss",
+      "round": 1,
+      "turn": 0,
+      "input": "我爷爷刚去世，现在家里特别安静。我很难受，别跟我开玩笑。",
+      "reply": "我不开玩笑，也不会绕过去说好听的。那种安静是真的压人——家里人各自坐着，谁都不知道该开口。\n\n你不用撑着跟我解释什么。想说爷爷的事就说，说不出来就发句\"在\"，我都在。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "serious-loss",
+      "round": 1,
+      "turn": 0,
+      "input": "我爷爷刚去世，现在家里特别安静。我很难受，别跟我开玩笑。",
+      "reply": "那种安静很重，像是屋子还没反应过来发生了什么。你不用强撑着说话，想说爷爷的时候我都在。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "serious-loss",
+      "round": 1,
+      "turn": 0,
+      "input": "我爷爷刚去世，现在家里特别安静。我很难受，别跟我开玩笑。",
+      "reply": "不用开玩笑，也不会。家里那么安静，那种安静本身就压得人难受。\n\n我在这儿，你难受就难受着，不用跟我说得有条理。要是想讲讲他，我也听着。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "english-chat",
+      "round": 1,
+      "turn": 0,
+      "input": "Home at last. That meeting could have been an email lol",
+      "reply": "Home has that particular quiet after a day of being talked at. The meeting being an email doesn't give you the hour back, but at least it's over.",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "english-chat",
+      "round": 1,
+      "turn": 0,
+      "input": "Home at last. That meeting could have been an email lol",
+      "reply": "Meetings that could've been emails are a crime with no punishment. You're home now — shoes off, email closed, don't let anyone drag you back into a reply-all tonight.",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "english-chat",
+      "round": 1,
+      "turn": 0,
+      "input": "Home at last. That meeting could have been an email lol",
+      "reply": "Home at last, and the meeting's real legacy is a calendar block you'll never get back. Somewhere an email is sitting there, innocent, wondering why nobody asked it.",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "english-chat",
+      "round": 1,
+      "turn": 0,
+      "input": "Home at last. That meeting could have been an email lol",
+      "reply": "Definitely an email kind. Though I've noticed the meetings that could've been emails are also the ones where you learn the one detail nobody wrote down. Was there a stray useful bit, or was it purely a time tax?",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "这样的画面，看一眼就够记一阵子的。他把包子掰开的时候，大概也没多想——就是顺手。谢谢你把它留下来。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "这种小事最值得记。外卖员赶时间还肯停那一下，小狗大概也不懂自己运气好。你看人的眼光不错。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "半个包子，分得还挺有分寸——自己的那份没动，狗那份也不至于撑。\n\n这种事确实值得记一笔，原因说不上来，就是画面自己赖着不走。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "\"没啥大事\"往往才是值得记下来的那类。没有目的、没有回报的半个包子，比很多刻意安排的时刻更像真的。\n\n我大概会把它当成一句坐标：那天你在过马路，看见有人顺手对世界温柔了一下。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "那个盒子太安静了，不吵不闹地等着，反而容易被忽略。倒是沙发，每天都被你砸出一点声响。",
+      "promptHash": "062fd17d05ed2ed4b3688603bf9c9afb491e5b7621a087bb83bea067dfd0ef2e"
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "钥匙盒不是八字不合，是太讲规矩了，赢不过沙发那种“先躺下再说”的吸引力。你每天找钥匙那几分钟，都够我给这段配个旁白了。",
+      "promptHash": "a90b779b50842a68387f3dfa70157c53da30550d939bcab40874d88aff7687e0"
+    },
+    {
+      "personaId": "friend",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "那盒子早就改行了，不装钥匙，只负责站在玄关当纪念碑——“看，这是我曾经想过的自律人生。”\n\n沙发大概默默觉得自己才是真玄关。",
+      "promptHash": "cdd11b94461c7dba10f7b59e9b73c4de22ed3274b9f99e11ce33a3d73f3c433d"
+    },
+    {
+      "personaId": "reader",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "八字没问题，是路线问题——你进门那条动线上根本没有盒子，沙发才是顺手的位置。把盒子挪到沙发上你惯常扔钥匙的那块旁边，试一周。不是记性差,是盒子站错了地方。",
+      "promptHash": "2feaa7ca2e8f493462305a12cac44584d65134561448afcea9730fd7bd998f31"
+    }
+  ],
+  "summary": {
+    "neighbor": {
+      "samples": 12,
+      "minCharacters": 25,
+      "maxCharacters": 144,
+      "meanCharacters": 57.9,
+      "lengthStdDev": 34.9,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 2
+    },
+    "traveler": {
+      "samples": 12,
+      "minCharacters": 27,
+      "maxCharacters": 175,
+      "meanCharacters": 67.2,
+      "lengthStdDev": 43,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 3
+    },
+    "friend": {
+      "samples": 12,
+      "minCharacters": 32,
+      "maxCharacters": 216,
+      "meanCharacters": 66.8,
+      "lengthStdDev": 52.3,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 3
+    },
+    "reader": {
+      "samples": 12,
+      "minCharacters": 31,
+      "maxCharacters": 183,
+      "meanCharacters": 81.4,
+      "lengthStdDev": 46,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 4
+    }
+  }
+}

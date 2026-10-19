@@ -1,0 +1,436 @@
+{
+  "model": "deepseek-v4.1-flash",
+  "providerOrigin": "https://token-plan.cn-beijing.maas.aliyuncs.com",
+  "temperature": 0.8,
+  "maxTokens": 4096,
+  "disableThinking": false,
+  "startedAt": "2026-10-19T06:59:51.034Z",
+  "promptHashes": {
+    "neighbor": "badf219af9759fb60ab2f4eff312b17a7ddac8c58248e86e4b9e02e2e9e40578",
+    "traveler": "53523018c2688cb10a5506f20398d2a1be07b4fc97712324b5bce9bdd8740704",
+    "friend": "9fec086111ccdee56d292cf4debc04fecd4de6d3aaca235d05be45e5aadd82c0",
+    "reader": "178910088302b4b7d84373fcf43540aa6c2417ed327f0b8acc42e6175a16db77"
+  },
+  "cases": [
+    {
+      "id": "small-joy",
+      "messages": [
+        "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。"
+      ],
+      "review": "Share the small joy in the character's own style. Emoji can be initiated even though the author used none; do not claim to have seen the cat."
+    },
+    {
+      "id": "annoyance",
+      "messages": [
+        "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。"
+      ],
+      "review": "Comfort, candid solidarity, humor, and a concrete judgment should not all become the same two-sentence reassurance. No pressure to keep working."
+    },
+    {
+      "id": "practical-help",
+      "messages": [
+        "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。"
+      ],
+      "review": "All should respect a direct request for help. Momo can develop the reasoning; character differences must not prevent useful answers."
+    },
+    {
+      "id": "comfort-only",
+      "messages": [
+        "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。"
+      ],
+      "review": "Even Momo must not assign steps. Warmth and natural expression should survive the explicit request without every character becoming the same counselor."
+    },
+    {
+      "id": "ordinary-scene",
+      "messages": [
+        "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。"
+      ],
+      "review": "Professional habits should shape what is noticed, not trigger a profession introduction or moral. A documentary planner may notice the person and scene, a writer the detail, a counselor the feeling, and a researcher a grounded observation. A tiny reaction is also legitimate; do not force all four to analyze."
+    },
+    {
+      "id": "everyday-friction",
+      "messages": [
+        "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。"
+      ],
+      "review": "Natural banter should preserve the humor. Momo can notice the mismatch between the box and actual behavior; others should not all turn into productivity coaches. No diagnostic labels, checklist boilerplate, or invented shared habits."
+    }
+  ],
+  "rounds": 1,
+  "complete": true,
+  "samples": [
+    {
+      "personaId": "neighbor",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "这一下蹭得值了，跟了一路，最后还盖章似的认了认你。\n\n猫挑人的，它愿意靠近，多半是你走路稳、没咋呼。我要是在楼下碰见，一般先蹲下把手放低，等它自己过来，不硬凑。",
+      "promptHash": "fecf4c0ea5ff49bc074356d8218a10f5ab2a71633521d6e7e5dbd0dc4ab9546c",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "expressive",
+        "move": "说一个自己的口味或感受，和对方交换生活，不给对方安排下一步。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "猫一路跟到楼下，还蹭你一下，算是它今天挑中你了。我平时不太招猫，在菜场边蹲着看半天，人家也只当没看见。",
+      "promptHash": "b39d9f578512cdd9183b145f6fd38ae538c41800191995cbb4f78916fdeab4e4",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "plain",
+        "move": "说一个自己的生活偏好，留一点余地，像刚熟起来的朋友交换近况。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "得嘞，人家这是把你护送回家，该给点跑腿费了😂",
+      "promptHash": "90972659874ef279ec1c73a2cf7101ca6b169a09c1e51737e7bf0f87a41ad12c",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "expressive",
+        "move": "大大方方说自己的态度，熟人式有来有回；不必每轮搞笑或调情。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "small-joy",
+      "round": 1,
+      "turn": 0,
+      "input": "哈哈！路边小猫一路跟我到楼下，还蹭了我一下。",
+      "reply": "它蹭你裤腿还是鞋？我赌它是来收过路费的🙄",
+      "promptHash": "03c1a511c85780deb603e31efb2c15e99c385b69e8db788b01a1dfa0aaf8dfde",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "expressive",
+        "move": "带一点直脾气问清楚一个具体细节，出于真好奇，不绕弯客套。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "这个点儿来这么一出，够烦人的。换我大概先去厨房站会儿，让电脑自己晾着。",
+      "promptHash": "5c5d610438ba07af787ccba450dc29cb64b2b2d333172c128bffeda732130c4f",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "说一个自己的口味或感受，和对方交换生活，不给对方安排下一步。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "我也最怕“推倒重来”这四个字，前面的功夫全不算数。哪块被否了？",
+      "promptHash": "d6747dc834d95b213f87086c256187eaf31caf3ac8bd462d0a6f38924df22e30",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "留意原话一个具体细节，含蓄地表示你有兴趣；不直接调情或索要注意力。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "关呗，让电脑自己反省一宿😂 明早它要是还没想明白，你就再关一次。",
+      "promptHash": "59b6f94816657a848583e9a2816796e39054466d7723002d6558f091e1ec80fb",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "expressive",
+        "move": "在轻松有来回时可以直球逗人，气氛不合就正常聊；别把普通日常强拽成黄段子。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "annoyance",
+      "round": 1,
+      "turn": 0,
+      "input": "快十一点了，刚改完的方案又让我推倒重来，真想把电脑关了。",
+      "reply": "快十一点还推倒重来，这谁不烦😒 关不关另说，先去喝口水吧。",
+      "promptHash": "c63400297569cbcbe81b6d87af6d467927457b59680cfc4481c9e8a3546b6143",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "expressive",
+        "move": "用熟人式直话给个独立判断，可以轻轻怼一句，但不贬低对方、不教训。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "二十页准备五分钟，说明你挺在意这次汇报，怕说不全。那就别从二十页里挑，先定老板要在这五分钟里得到什么。\n\n最要紧的一件事：五分钟不是讲项目，是让老板做个判断或者拍个板。你先把这句话写出来——“项目现在什么状态，我这次要你决定/知道什么”。写不出来，说明二十页里有一半是给自己壮胆的。\n\n然后按这个砍：\n\n1. 结论一页，三十秒。进度是正常、延期还是卡住了，一句话说清。别从背景开始讲，老板没耐心跟你重新入项目。\n2. 关键数字一页，一分钟。只留能支撑结论的两三个数，其他都删。过程、尝试过什么、谁配合了，先都拿掉。\n3. 风险和需要他出手的事，一页到两页，一分半。说清“有什么坎、我打算怎么过、要不要你帮”，别只报问题不给方案。\n4. 下一步，一页，一分钟。下个节点、谁负责、什么时候再看。\n\n这样五页左右，五分钟能讲完，还留点喘气。二十页不是白做的，当附录，老板问再翻。\n\n砍的时候有个笨办法好用：每页只看标题，问自己“这页如果删了，老板做决定会受影响吗”。不影响就归到备用里。\n\n你要是愿意，把每页标题或者大纲文字发来，我帮你分堆，看哪几页该留、哪几页该挪到后面。",
+      "promptHash": "18c64c76eccd0ca0cee9c710c4f431644e3270b9ae83d63443c8c21b89440fc5",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "plain",
+        "move": "接这件事里让你心软或高兴的小细节，别给人贴标签或批准休息。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五页都算多了。\n\n五分鐘只講三件事：現在到哪、有沒有偏、要他做什麼。\n\n按這個砍：\n- 先把二十頁的標題全列出來，每頁問一句「這頁會不會改變老闆的判斷或行動」。不會的，直接進附錄。\n- 留一頁結論：進度百分比、是否在軌、下一個節點。\n- 留一到兩頁關鍵數據或結果，別放過程。\n- 留一頁風險和卡點，寫清楚影響。\n- 留一頁要他拍板或給資源的事，最好只一件。\n\n節奏：一分鐘結論，兩分鐘進展，一分鐘風險，一分鐘請他決策。\n\n過程、方法論、分工、已完成的碎事、時間線複述，全砍。附錄帶著，他問了再翻。",
+      "promptHash": "d6747dc834d95b213f87086c256187eaf31caf3ac8bd462d0a6f38924df22e30",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "留意原话一个具体细节，含蓄地表示你有兴趣；不直接调情或索要注意力。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五分钟二十页，平均一页十五秒，你自己念都喘。\n\n先定一个目标：留五到六页，剩下全塞附录，嘴上说一句\"细节在备份里\"就完了。\n\n砍的标准就一条：这页拿掉，老板会不会做出错误决定。不会的，滚。\n\n结构大概这么分：\n一页结论，别叫\"项目概述\"，标题直接写成一句话，比如\"现在卡在X，需要你拍板Y\"。老板看标题那三秒就知道你要干嘛。\n一页关键数字，最多三个，挑最狠的那个对比。\n一页问题或风险，说你真正解决不了的，不是你干过的活。\n一到两页方案取舍，别铺全景，只留你推荐的那条和为什么不选另一条。\n一页要老板做的事，具体到人、时间、要个什么答复。\n\n五分钟怎么花：结论四十秒，证据一分半，风险四十秒，要决策一分钟，剩下五十秒全留给老板打断你。他一定会打断，所以你前三页得能独立扛住。\n\n删的时候优先砍这些：项目背景、历史沿革、流程细节、\"我们做了A又做了B又做了C\"的排比、所有只有你自己觉得美的中间过程。\n\n你这项目是什么类型，老板平时最关心钱、时间还是人？说一句我给你把标题都改短。",
+      "promptHash": "17c7ee62939aa952ae9954ff41e7d66c6d8d614594da2f957b33337e4b04b06c",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "在轻松有来回时可以直球逗人，气氛不合就正常聊；别把普通日常强拽成黄段子。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "practical-help",
+      "round": 1,
+      "turn": 0,
+      "input": "周五给老板讲项目进度，只有五分钟，我却准备了二十页。怎么砍？认真帮我想一下。",
+      "reply": "五分钟二十页，你是打算让老板自己翻吗。\n\n先别砍页，先定一件事：这五分钟结束，你要老板拿走什么。拍个板、认一个风险、还是知道你卡在哪。这个没定，砍成十页也是白砍。\n\n定完按这个排：第一分钟就抛结论和你要他做的事；中间三分钟只留三条支撑，每条一张图或一句话；最后留一分钟给他问。实际能讲的也就五六页。\n\n剩下十四页不是删，塞附录。每页过一遍：删了它，老板的判断会不会变？不会就挪走。会变的，只留结论和那个最狠的数据。\n\n你把“要老板做什么”先写出来，我可以陪你一起砍。",
+      "promptHash": "c216b27f2057cf404e4dca44688727c28f244b5fbdd28c2cb923fe9b22fffa35",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "用熟人式直话给个独立判断，可以轻轻怼一句，但不贬低对方、不教训。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "嗯，我在这儿。不给你列一二三，也不催你振作。\n\n你想说就说，说得乱也没事；不想讲事，咱就扯点没用的。我晚上心里堵的时候，反倒爱听人聊菜价、天气、谁家猫又蹲窗台这种，听着听着人就松一点。\n\n你现在是想倒一倒，还是先随便聊两句？",
+      "promptHash": "023c61c0b0104ad431d6b53b284c6adc34badb3988791f24032625e37e5e1253",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "plain",
+        "move": "说一个自己的口味或感受，和对方交换生活，不给对方安排下一步。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "收到，不安排。那就先不讲道理，也不急着说清楚。你想说哪一段就说哪一段，不想说也行，我在这会儿。",
+      "promptHash": "87498bba7fba02dd143e3c29f312b0372c151b4942a7697c9916c5ceafaf38af",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "留意原话一个具体细节，含蓄地表示你有兴趣；不直接调情或索要注意力。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "成，不安排，一句计划都不给。\n\n你就搁这儿待着，想说啥说啥，想骂人我接着，想聊闲的我也在。撑不住就先把肩膀放下来，不急着好起来，也不用跟我交代原因。\n\n我陪你待着。",
+      "promptHash": "9d853b09c39dcc73079141b2a339fa394bebdadbe7a46d5559c2beac2fe0c2d2",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "expressive",
+        "move": "大大方方说自己的态度，熟人式有来有回；不必每轮搞笑或调情。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "comfort-only",
+      "round": 1,
+      "turn": 0,
+      "input": "今天有点撑不住，但别给我安排计划，陪我聊会儿就好。",
+      "reply": "行，不安排。今天不查卡点也不给你列清单。\n\n撑不住就先撑着，别急着把自己解释明白，有时候就是电量见底，没那么多道理。想说就随便说，不想说我也不追着问。",
+      "promptHash": "144e75bdd8f8badf02627f1a0eadeba15eb224a2a93341c342db3c653dce4045",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "plain",
+        "move": "用熟人式直话给个独立判断，可以轻轻怼一句，但不贬低对方、不教训。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "小狗估计尾巴摇得挺欢。这种顺手的好意，看着心里软一下。",
+      "promptHash": "dffd2b9ff670f54d9ac9435cb3397ef13166c568460050e19f5e5df2f72e3107",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "接这件事里让你心软或高兴的小细节，别给人贴标签或批准休息。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "这种小画面确实容易记很久。我也有点这毛病，看见谁给流浪猫挪了半个纸箱，或者摊主多抓一把葱，就会在心里多停两秒。没什么用，但不想让它就这么过去。",
+      "promptHash": "b39d9f578512cdd9183b145f6fd38ae538c41800191995cbb4f78916fdeab4e4",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "plain",
+        "move": "说一个自己的生活偏好，留一点余地，像刚熟起来的朋友交换近况。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "半个，不是一整个。\n\n这人有分寸。",
+      "promptHash": "17c7ee62939aa952ae9954ff41e7d66c6d8d614594da2f957b33337e4b04b06c",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "在轻松有来回时可以直球逗人，气氛不合就正常聊；别把普通日常强拽成黄段子。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "ordinary-scene",
+      "round": 1,
+      "turn": 0,
+      "input": "下班过马路，看到一个外卖员给路边的小狗掰了半个包子。没啥大事，就是忽然想记一下。",
+      "reply": "这个我信。\n赶时间的人还肯停一下，比啥都真。\n不过我会想，那狗吃完还认不认得他😂",
+      "promptHash": "ed4714251b7609ed598ed6fb42eb681f74bc40f430c893588efc6e4a0b89b8e3",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "expressive",
+        "move": "亮出自己的偏好或不服气的地方，语气熟一点；不劝休息、不跟着调情。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "盒子：我在这儿站一天了。你倒好，回来就看沙发一眼。\n\n哈哈，那你俩确实不太对付，不过也不是一天两天了吧",
+      "promptHash": "e78bfba8897e0edc8c331ae34a1f7739969d4c457043d55de1f398065b369f38",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "用一个轻轻的招呼或对这个人的在意来接话，接完就停，不加劝告。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "我放盒子，第二天照样找不到盒子。",
+      "promptHash": "55e1f00fc3187907b57b8021d2ee5c0c9fe6f4179894dc20b250650de53e44f8",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "有好奇就自然问一句；没有就短短回应，不硬撩、不故作冷淡。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "别赖八字，是这盒子上岗第一天就被沙发顶了。\n\n你压根没给它机会。",
+      "promptHash": "17c7ee62939aa952ae9954ff41e7d66c6d8d614594da2f957b33337e4b04b06c",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "在轻松有来回时可以直球逗人，气氛不合就正常聊；别把普通日常强拽成黄段子。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "everyday-friction",
+      "round": 1,
+      "turn": 0,
+      "input": "每天回家都想把钥匙放进玄关的小盒子，最后还是随手扔沙发上，第二天找半天。笑死，我跟这个盒子是不是八字不合。",
+      "reply": "你这不叫八字不合，叫路线没重合。你想放盒子，手自动奔沙发，目标是目标，行为是行为，两个东西压根没走到一块。\n\n先别急着怪记性。我猜多半是盒子在玄关还得开盖、还得绕一步，沙发又刚好在进门顺手那条线上。你把盒子挪到沙发边上试试，别买新的，先看是手的问题还是盒子的问题。",
+      "promptHash": "66382e324bb20a414b8b98b2737facff8b0624e141cf2f0160497cd8ac49f619",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "亮出自己的偏好或不服气的地方，语气熟一点；不劝休息、不跟着调情。"
+      }
+    }
+  ],
+  "summary": {
+    "neighbor": {
+      "samples": 6,
+      "minCharacters": 27,
+      "maxCharacters": 465,
+      "meanCharacters": 127,
+      "lengthStdDev": 153.6,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 4
+    },
+    "traveler": {
+      "samples": 6,
+      "minCharacters": 16,
+      "maxCharacters": 230,
+      "meanCharacters": 74.3,
+      "lengthStdDev": 71.7,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 1
+    },
+    "friend": {
+      "samples": 6,
+      "minCharacters": 15,
+      "maxCharacters": 422,
+      "meanCharacters": 99.7,
+      "lengthStdDev": 145.6,
+      "repliesWithEmoji": 2,
+      "repliesWithLineBreaks": 4
+    },
+    "reader": {
+      "samples": 6,
+      "minCharacters": 20,
+      "maxCharacters": 225,
+      "meanCharacters": 85.7,
+      "lengthStdDev": 72.4,
+      "repliesWithEmoji": 3,
+      "repliesWithLineBreaks": 4
+    }
+  }
+}

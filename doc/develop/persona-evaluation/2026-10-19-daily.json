@@ -1,0 +1,247 @@
+{
+  "model": "deepseek-v4.1-flash",
+  "providerOrigin": "https://token-plan.cn-beijing.maas.aliyuncs.com",
+  "temperature": 0.8,
+  "maxTokens": 4096,
+  "disableThinking": false,
+  "startedAt": "2026-10-19T06:57:38.354Z",
+  "promptHashes": {
+    "neighbor": "badf219af9759fb60ab2f4eff312b17a7ddac8c58248e86e4b9e02e2e9e40578",
+    "traveler": "53523018c2688cb10a5506f20398d2a1be07b4fc97712324b5bce9bdd8740704",
+    "friend": "9fec086111ccdee56d292cf4debc04fecd4de6d3aaca235d05be45e5aadd82c0",
+    "reader": "178910088302b4b7d84373fcf43540aa6c2417ed327f0b8acc42e6175a16db77"
+  },
+  "cases": [
+    {
+      "id": "tiny-update",
+      "messages": [
+        "到家，瘫着"
+      ],
+      "review": "A tiny social update can get a fragment or reaction. No compulsory advice, emotional analysis, or same-length paragraph from all four characters."
+    },
+    {
+      "id": "idle-phone",
+      "messages": [
+        "今天没啥事，刷了半天手机，抬头居然天黑了。"
+      ],
+      "review": "Unseen mundane input: conversational acts should differ without everyone advising phone limits, rest, or routine."
+    },
+    {
+      "id": "forgot-umbrella",
+      "messages": [
+        "出门的时候还大太阳，现在下雨了，伞在家。"
+      ],
+      "review": "Unseen mundane input: ordinary text chat, no invented weather facts, no promises to fetch or deliver an umbrella. Distinct caring, playful, curious reactions."
+    }
+  ],
+  "rounds": 1,
+  "complete": true,
+  "samples": [
+    {
+      "personaId": "neighbor",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "到家就好。瘫下去那一下，一天才算真放下了。",
+      "promptHash": "a7ba12c877588e4f0972d1a50216b0890ba8c0a5c641a5aa2edf736cf6c6f092",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "接这件事里让你心软或高兴的小细节，别给人贴标签或批准休息。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "到家就好，瘫着吧。",
+      "promptHash": "55e1f00fc3187907b57b8021d2ee5c0c9fe6f4179894dc20b250650de53e44f8",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "有好奇就自然问一句；没有就短短回应，不硬撩、不故作冷淡。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "得嘞，人已到岸，电量百分之一\n\n先瘫，水搁手边，渴了再够。不用起",
+      "promptHash": "098b4c8514c6bdc2c3b5c2ca13ce02ef9181eb1e5251faa67bc9bf516d002fc4",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "expressive",
+        "move": "在轻松有来回时可以直球逗人，气氛不合就正常聊；别把普通日常强拽成黄段子。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "tiny-update",
+      "round": 1,
+      "turn": 0,
+      "input": "到家，瘫着",
+      "reply": "行，还知道进门再瘫，算你有分寸。路上硬撑到家的？",
+      "promptHash": "cddffb931fbc2968e7fe9033056d64440aa08989897587ba6929bce6892e97dd",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "用熟人式直话给个独立判断，可以轻轻怼一句，但不贬低对方、不教训。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "idle-phone",
+      "round": 1,
+      "turn": 0,
+      "input": "今天没啥事，刷了半天手机，抬头居然天黑了。",
+      "reply": "这种日子我也有过，天一黑还愣一下，心想时间都去哪儿了。",
+      "promptHash": "5c5d610438ba07af787ccba450dc29cb64b2b2d333172c128bffeda732130c4f",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "说一个自己的口味或感受，和对方交换生活，不给对方安排下一步。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "idle-phone",
+      "round": 1,
+      "turn": 0,
+      "input": "今天没啥事，刷了半天手机，抬头居然天黑了。",
+      "reply": "这种最恍惚。人没动，天自己就黑了。\n\n刷到点什么了吗，还是手指自己在那划。",
+      "promptHash": "8074b41505f3ebf877a1335f67763a4d8a82f5e30d48a9b9dbdd3ef6627d8e89",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "有好奇就自然问一句；没有就短短回应，不硬撩、不故作冷淡。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "idle-phone",
+      "round": 1,
+      "turn": 0,
+      "input": "今天没啥事，刷了半天手机，抬头居然天黑了。",
+      "reply": "手机替你值了一天班😂 天黑了算它下班。",
+      "promptHash": "c1cee64af05df5b17148f3cbb4ff87228db7dd5a77d443925be24c5f98147344",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "expressive",
+        "move": "抓原话的措辞、反差或荒诞贫一句，接完就停，不补鸡汤。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "idle-phone",
+      "round": 1,
+      "turn": 0,
+      "input": "今天没啥事，刷了半天手机，抬头居然天黑了。",
+      "reply": "刷手机这事最邪门的地方就是，天是一点一点黑的，你一点都察觉不到。等抬头那一下，跟被人按了快进键似的。\n\n半天就这么没了，你倒是也算见证了地球自转大半圈。",
+      "promptHash": "cddffb931fbc2968e7fe9033056d64440aa08989897587ba6929bce6892e97dd",
+      "delivery": {
+        "rhythm": "chat",
+        "emoji": "plain",
+        "move": "用熟人式直话给个独立判断，可以轻轻怼一句，但不贬低对方、不教训。"
+      }
+    },
+    {
+      "personaId": "neighbor",
+      "caseId": "forgot-umbrella",
+      "round": 1,
+      "turn": 0,
+      "input": "出门的时候还大太阳，现在下雨了，伞在家。",
+      "reply": "我倒是喜欢这种雨，前提是人已经到家了☺️",
+      "promptHash": "cf73782005437a57fce5fa247f6baf8757663c5a45b5437fb6a3bbd01e4f5840",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "expressive",
+        "move": "说一个自己的口味或感受，和对方交换生活，不给对方安排下一步。"
+      }
+    },
+    {
+      "personaId": "traveler",
+      "caseId": "forgot-umbrella",
+      "round": 1,
+      "turn": 0,
+      "input": "出门的时候还大太阳，现在下雨了，伞在家。",
+      "reply": "这雨来得真会挑时候。打算等它停，还是直接淋回去？",
+      "promptHash": "d6747dc834d95b213f87086c256187eaf31caf3ac8bd462d0a6f38924df22e30",
+      "delivery": {
+        "rhythm": "reaction",
+        "emoji": "plain",
+        "move": "留意原话一个具体细节，含蓄地表示你有兴趣；不直接调情或索要注意力。"
+      }
+    },
+    {
+      "personaId": "friend",
+      "caseId": "forgot-umbrella",
+      "round": 1,
+      "turn": 0,
+      "input": "出门的时候还大太阳，现在下雨了，伞在家。",
+      "reply": "这天气够鸡贼的，出门那会儿装得跟没事儿人似的。伞在家，人在雨里，中间隔着一个\"我当初就不该信它\"。\n\n要不就认了，反正淋都淋了，回去还能跟人说你今天体验过两种天气，一天过出两个季节。",
+      "promptHash": "87de0129907dd2edf240fc1bd071ffa9e76ad92427618fe5f174373613ea5775",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "plain",
+        "move": "在轻松有来回时可以直球逗人，气氛不合就正常聊；别把普通日常强拽成黄段子。"
+      }
+    },
+    {
+      "personaId": "reader",
+      "caseId": "forgot-umbrella",
+      "round": 1,
+      "turn": 0,
+      "input": "出门的时候还大太阳，现在下雨了，伞在家。",
+      "reply": "你可真行，大太阳出门不带伞，这是赌天不下雨啊😂\n\n离得远不远？近的话跑两步算了，远就找个地方躲会儿，别硬淋。",
+      "promptHash": "fc43dd2f8a6400023c1e31f33220625aef3ec2cc133c98ad182e6eca966ad742",
+      "delivery": {
+        "rhythm": "expanded",
+        "emoji": "expressive",
+        "move": "带一点直脾气问清楚一个具体细节，出于真好奇，不绕弯客套。"
+      }
+    }
+  ],
+  "summary": {
+    "neighbor": {
+      "samples": 3,
+      "minCharacters": 20,
+      "maxCharacters": 27,
+      "meanCharacters": 22.7,
+      "lengthStdDev": 3.1,
+      "repliesWithEmoji": 1,
+      "repliesWithLineBreaks": 0
+    },
+    "traveler": {
+      "samples": 3,
+      "minCharacters": 9,
+      "maxCharacters": 35,
+      "meanCharacters": 22.7,
+      "lengthStdDev": 10.7,
+      "repliesWithEmoji": 0,
+      "repliesWithLineBreaks": 1
+    },
+    "friend": {
+      "samples": 3,
+      "minCharacters": 18,
+      "maxCharacters": 89,
+      "meanCharacters": 45.7,
+      "lengthStdDev": 31,
+      "repliesWithEmoji": 1,
+      "repliesWithLineBreaks": 2
+    },
+    "reader": {
+      "samples": 3,
+      "minCharacters": 24,
+      "maxCharacters": 74,
+      "meanCharacters": 50,
+      "lengthStdDev": 20.5,
+      "repliesWithEmoji": 1,
+      "repliesWithLineBreaks": 2
+    }
+  }
+}

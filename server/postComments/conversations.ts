@@ -12,7 +12,7 @@ import { findArticleById, findRoteById, getNoteByArticleId } from '../utils/dbMe
 import db from '../utils/drizzle';
 import { postContentHash, requireCommentableText, type PostKind } from './content';
 import { assertReplyMemoryCurrent, retrieveReplyMemory } from './memory';
-import { replyPromptMessages } from './personas';
+import { getPersonaTemperature, replyPromptMessages } from './personas';
 import { ownedPost, targetFilter } from './service';
 
 async function visiblePost(kind: PostKind, id: string, viewerId?: string) {
@@ -249,7 +249,7 @@ async function finishTurn(
     messages.push({ role: 'user', content: started.turn.userContent });
     const response = await createChatCompletion(config.chat, messages, {
       requestTimeoutMs: 45000,
-      temperature: 0.8,
+      temperature: getPersonaTemperature(started.thread.personaId!),
     });
     const replyContent = response.content.trim();
     if (!replyContent) throw new HTTPException(502, { message: 'post_comment_generation_failed' });

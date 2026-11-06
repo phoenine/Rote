@@ -11,7 +11,7 @@ import { getStoredAiConfig } from '../utils/dbMethods/ai/config';
 import { logAiTokenUsage } from '../utils/dbMethods/aiToken';
 import db from '../utils/drizzle';
 import { assertReplyMemoryCurrent, retrieveReplyMemory, type ReplyMemory } from './memory';
-import { choosePersona, replyPromptMessages } from './personas';
+import { choosePersona, replyPromptMessages, getPersonaTemperature } from './personas';
 import {
   commentMatchesTarget,
   postContentHash,
@@ -178,7 +178,7 @@ export async function generatePostComment(
         ...(memory.message ? [{ role: 'user' as const, content: memory.message }] : []),
         { role: 'user', content: started.source || '[The author shared an image-only post.]' },
       ],
-      { requestTimeoutMs: 45000, temperature: options.conversation ? 0.8 : 0.2 }
+      { requestTimeoutMs: 45000, temperature: options.conversation && started.comment.personaId ? getPersonaTemperature(started.comment.personaId) : 0.2 }
     );
     const content = response.content.trim();
     if (!content) throw new HTTPException(502, { message: 'post_comment_generation_failed' });

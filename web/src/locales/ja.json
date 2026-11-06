@@ -1950,10 +1950,10 @@
       "retryReply": "返信を再試行",
       "deleteRole": "{{name}} との会話を削除",
       "personas": {
-        "neighbor": "小柔",
+        "neighbor": "May",
         "traveler": "孫凌婷",
         "friend": "小晴",
-        "reader": "墨墨"
+        "reader": "桂桂"
       }
     }
   },

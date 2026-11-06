@@ -1950,10 +1950,10 @@
       "retryReply": "Retry reply",
       "deleteRole": "Delete conversation with {{name}}",
       "personas": {
-        "neighbor": "Xiaorou",
+        "neighbor": "May",
         "traveler": "Sun Lingting",
         "friend": "Xiaoqing",
-        "reader": "Momo"
+        "reader": "Guigui"
       }
     }
   },

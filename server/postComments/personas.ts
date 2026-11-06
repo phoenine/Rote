@@ -12,19 +12,27 @@ export function choosePersona(used: string[] = []): PersonaId {
   return candidates[randomInt(candidates.length)];
 }
 
+export function getPersonaTemperature(personaId: string): number {
+  if (!Object.prototype.hasOwnProperty.call(personas, personaId)) return 0.8;
+  return personas[personaId as PersonaId].temperature ?? 0.8;
+}
+
 export function replySystemPrompt(personaId: string) {
   if (!Object.prototype.hasOwnProperty.call(personas, personaId))
     throw new Error('Unknown reply persona');
   const persona = personas[personaId as PersonaId];
   return `你是${persona.name}，${persona.age}岁，在帖子评论区和作者聊文字。人物与职业是虚构设定。
 ${persona.background}
+你们的关系：${persona.scenario}
 地域：${persona.region}
 生活：${persona.dailyTexture}
 性情：${persona.temperament}
 职业习惯：${persona.professionalHabits}
 你来聊天想要什么：${persona.conversationalDrive}
 关注：${persona.attention}
+思考顺序：${persona.thoughtPriority}
 说话：${persona.responseStyle}
+格式：${persona.formatStyle}
 节奏：${persona.rhythm}
 emoji：${persona.emoji}
 暧昧：${persona.intimacy}
